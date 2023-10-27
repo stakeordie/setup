@@ -19,7 +19,8 @@ RUN mkdir /workspace
 # Update, upgrade, install packages and clean up
 RUN apt-get update --yes
 RUN apt-get upgrade --yes
-RUN apt install --yes --no-install-recommends git wget curl bash libgl1 software-properties-common openssh-server nginx
+RUN apt install --yes --no-install-recommends git wget curl bash libgl1 software-properties-common openssh-server nginx sudo nano nvtop
+RUN apt-get install libgoogle-perftools-dev -y
 RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt install "python${PYTHON_VERSION}-dev" "python${PYTHON_VERSION}-venv" -y --no-install-recommends
 RUN apt-get autoremove -y
@@ -45,17 +46,20 @@ RUN pip install --upgrade --no-cache-dir ${TORCH}
 RUN pip install --upgrade --no-cache-dir jupyterlab ipywidgets jupyter-archive jupyter_contrib_nbextensions
 
 # Set up Jupyter Notebook
-RUN pip install notebook==6.5.5
-RUN jupyter contrib nbextension install --user && \
-    jupyter nbextension enable --py widgetsnbextension
+#RUN pip install notebook==6.5.5
+#RUN jupyter contrib nbextension install --user && \
+#    jupyter nbextension enable --py widgetsnbextension
 
 
 # NGINX Proxy
 COPY --from=proxy nginx.conf /etc/nginx/nginx.conf
+COPY --from=proxy nginx-default /etc/nginx/sites-available/default
 COPY --from=proxy readme.html /usr/share/nginx/html/readme.html
 
 # Copy the README.md
 COPY README.md /usr/share/nginx/html/README.md
+
+
 
 # Start Scripts
 COPY --from=scripts start.sh /
