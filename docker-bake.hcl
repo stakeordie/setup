@@ -1,6 +1,6 @@
 target "201-py310-cuda1180-devel" {
     dockerfile = "Dockerfile"
-    tags = ["emprops/pytorch:2.0.1-py3.10-cuda11.8.0-devel"]
+    tags = ["emprops/pytorch:2.0.1-py3.10-cuda11.8.0"]
     contexts = {
         scripts = "."
         proxy = "./proxy"
@@ -8,8 +8,9 @@ target "201-py310-cuda1180-devel" {
     args = {
         BASE_IMAGE = "nvidia/cuda:11.8.0-devel-ubuntu22.04"
         PYTHON_VERSION = "3.10"
-        TORCH = "torch==2.0.1+cu118 torchvision==0.15.2+cu118 torchaudio==2.0.2 --index-url https://download.pytorch.org/whl/cu118  --trusted-host download.pytorch.org"
+        TORCH = "torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118"
     }
+    platforms = ["linux/arm64"]
 }
 
 target "210-py310-cuda1222-devel" {
