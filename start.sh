@@ -41,16 +41,15 @@ export_env_vars() {
 
 install_pm2() {
     echo "Installing pm2..."
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-    source ~/.bashrc
-    nvm install 16
-    nvm use 16
-    nvm alias default 16
+    curl -sL https://deb.nodesource.com/setup_18.x -o nodesource_setup.sh
+    sudo bash nodesource_setup.sh
+    sudo apt install nodejs -y
     npm install -g npm@9.8.0
     npm install pm2@latest -g
 }
 
 install_a1111() {
+    pip install --upgrade pip -y
     echo "Installing a1111..."
     cd ~
     mkdir models

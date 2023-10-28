@@ -1,6 +1,6 @@
-target "201-py310-cuda1180-devel" {
+target "210-py310-cuda1180-devel" {
     dockerfile = "Dockerfile"
-    tags = ["emprops/pytorch:2.0.1-py3.10-cuda11.8.0"]
+    tags = ["emprops/pytorch:2.1.0-py3.10-cuda11.8.0"]
     contexts = {
         scripts = "."
         proxy = "./proxy"
