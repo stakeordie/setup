@@ -48,7 +48,6 @@ add_ubuntu_user() {
 }
 
 install_pm2() {
-    su - ubuntu
     echo "Installing pm2..."
     sudo apt-get install -y ca-certificates curl gnupg
     sudo mkdir -p /etc/apt/keyrings
@@ -58,26 +57,22 @@ install_pm2() {
     sudo apt-get install nodejs -y
     npm install -g npm@9.8.0
     npm install -g pm2@latest
-    exit
 }
 
 install_a1111() {
-    su - ubuntu
     echo "Installing a1111..."
     cd ~
     # wget --user "$HUGGINGFACE_USER" --password "$HUGGINGFACE_PASSWORD" https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
     # wget --user 'sandy@stakeordie.com' --password 'ZUM2drp4vqj3xbn!ezm' https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
     cp -r /workspace/models ./models
-    git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui ~/auto3001
-    cd ~/auto3001
+    git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto3001
+    cd /home/ubuntu/auto3001
     git reset --hard 68f336bd994bed5442ad95bad6b6ad5564a5409a
     cd models/Stable-diffusion
-    ln -s ~/models/checkpoints/sd_xl_base_1.0.safetensors sd_xl_base_1.0.safetensors
-    cd ../..
-    rm -rf webui-user.sh
-    cp ~/webui-user.sh webui-user.sh
-    pm2 start --name auto::::3001 "./webui.sh"
-    exit
+    ln -s /home/ubuntu/models/checkpoints/sd_xl_base_1.0.safetensors sd_xl_base_1.0.safetensors
+    rm -rf /home/ubuntu/auto3001/webui-user.sh
+    cp ~/webui-user.sh /home/ubuntu/auto3001/webui-user.sh
+    pm2 start --name auto::::3001 "./webui.sh"git c
 }
 
 # Start jupyter lab
