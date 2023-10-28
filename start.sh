@@ -70,7 +70,13 @@ install_a1111() {
     cd /home/ubuntu
     # wget --user "$HUGGINGFACE_USER" --password "$HUGGINGFACE_PASSWORD" https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
     # wget --user 'sandy@stakeordie.com' --password 'ZUM2drp4vqj3xbn!ezm' https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
-    cp -r /workspace/models ./models
+    if [ -d "/workspace/models" ]; then 
+        cp -r /workspace/models ./models
+    else 
+        mkdir -p /workspace/models/checkpoints
+        wget --user 'sandy@stakeordie.com' --password 'ZUM2drp4vqj3xbn!ezm' https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
+    fi 
+
     git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto3001
     cd /home/ubuntu/auto3001
     git reset --hard 68f336bd994bed5442ad95bad6b6ad5564a5409a
