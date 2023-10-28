@@ -50,6 +50,27 @@ install_pm2() {
     npm install pm2@latest -g
 }
 
+install_a1111() {
+    echo "Installing a1111..."
+    cd ~
+    mkdir models
+    cd models
+    mkdir checkpoints
+    cd checkpoints
+    # wget --user "$HUGGINGFACE_USER" --password "$HUGGINGFACE_PASSWORD" https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
+    wget --user 'sandy@stakeordie.com' --password 'ZUM2drp4vqj3xbn!ezm' https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
+    cd ~
+    git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui ~/auto3001
+    cd ~/auto3001
+    git reset --hard 68f336bd994bed5442ad95bad6b6ad5564a5409a
+    cd models/Stable-diffusion
+    ln -s ~/models/checkpoints/sd_xl_base_1.0.safetensors sd_xl_base_1.0.safetensors
+    cd ../..
+    rm -rf webui-user.sh
+    cp ~/webui-user.sh webui-user.sh
+    pm2 start --name auto::::3001 "./webui.sh"
+}
+
 # Start jupyter lab
 # start_jupyter() {
 #     if [[ $JUPYTER_PASSWORD ]]; then
@@ -67,8 +88,6 @@ install_pm2() {
 
 start_nginx
 
-install_pm2
-
 execute_script "/pre_start.sh" "Running pre-start script..."
 
 echo "Pod Started"
@@ -76,6 +95,10 @@ echo "Pod Started"
 setup_ssh
 #start_jupyter
 export_env_vars
+
+install_pm2
+
+install_a1111
 
 execute_script "/post_start.sh" "Running post-start script..."
 
