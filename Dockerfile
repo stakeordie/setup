@@ -14,7 +14,7 @@ ENV SHELL=/bin/bash
 WORKDIR /
 
 # Create workspace directory
-RUN mkdir /workspace
+RUN mkdir -p /workspace
 
 # Update, upgrade, install packages and clean up
 RUN apt-get update --yes && \
