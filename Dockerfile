@@ -41,9 +41,9 @@ RUN pip install --upgrade --no-cache-dir ${TORCH}
 RUN pip install --upgrade --no-cache-dir jupyterlab ipywidgets jupyter-archive jupyter_contrib_nbextensions
 
 # Set up Jupyter Notebook
-RUN pip install notebook==6.5.5
-RUN jupyter contrib nbextension install --user && \
-    jupyter nbextension enable --py widgetsnbextension
+# RUN pip install notebook==6.5.5
+# RUN jupyter contrib nbextension install --user && \
+#     jupyter nbextension enable --py widgetsnbextension
 
 
 # NGINX Proxy
