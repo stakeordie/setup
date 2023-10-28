@@ -67,6 +67,7 @@ install_pm2() {
 
 install_a1111() {
     echo "Installing a1111..."
+    pip install -U xformers --index-url https://download.pytorch.org/whl/cu118
     cd /home/ubuntu
     # wget --user "$HUGGINGFACE_USER" --password "$HUGGINGFACE_PASSWORD" https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
     # wget --user 'sandy@stakeordie.com' --password 'ZUM2drp4vqj3xbn!ezm' https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
@@ -79,14 +80,14 @@ install_a1111() {
         cd /home/ubuntu/models/checkpoints/
         wget --user 'sandy@stakeordie.com' --password 'ZUM2drp4vqj3xbn!ezm' https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
     fi 
-    git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto3001
-    cd /home/ubuntu/auto3001
+    git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto3000
+    cd /home/ubuntu/auto3000
     git reset --hard 68f336bd994bed5442ad95bad6b6ad5564a5409a
-    ln -s /home/ubuntu/models/checkpoints/sd_xl_base_1.0.safetensors /home/ubuntu/auto3001/models/Stable-diffusion/sd_xl_base_1.0.safetensors
-    rm -rf /home/ubuntu/auto3001/webui-user.sh
-    cp /root/webui-user.sh /home/ubuntu/auto3001/webui-user.sh
+    ln -s /home/ubuntu/models/checkpoints/sd_xl_base_1.0.safetensors /home/ubuntu/auto3000/models/Stable-diffusion/sd_xl_base_1.0.safetensors
+    rm -rf /home/ubuntu/auto3000/webui-user.sh
+    cp /root/webui-user.sh /home/ubuntu/auto3000/webui-user.sh
     chown -R ubuntu:ubuntu /home/ubuntu
-    runuser -l ubuntu -c 'cd /home/ubuntu/auto3001 && pm2 start --name auto::::3001 "./webui.sh"'
+    runuser -l ubuntu -c 'cd /home/ubuntu/auto3000 && pm2 start --name auto::::3000 "./webui.sh"'
 }
 
 # Start jupyter lab

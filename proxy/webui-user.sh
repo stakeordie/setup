@@ -8,7 +8,7 @@
 
 # Name of the subdirectory
 #clone_dir="stable-diffusion-webui"
-
+#export XFORMERS_PACKAGE="xformers==0.0.22.post7+cu118"
 # Commandline arguments for webui.py, for example: export COMMANDLINE_ARGS="--medvram --opt-split-attention"
 export COMMANDLINE_ARGS="--xformers --api --nowebui --port 3000 --medvram --no-half-vae"
 
@@ -26,13 +26,7 @@ python_cmd="python3.10"
 #export LAUNCH_SCRIPT="launch.py"
 
 # install command for torch A100
-export TORCH_COMMAND="pip install clean-fid ninja numba numpy torch==2.1.0+cu118 torchvision -force-reinstall --extra-index-url https://download.pytorch.org/whl/cu118"
-
-# install command for torch #RTX-4090
-#export TORCH_COMMAND="pip install clean-fid ninja numba numpy torch==2.1.0+cu118 torchvision --force-reinstall --extra-index-url https://download.pytorch.org/whl/cu118 & export TORCH_CUDA_ARCH_LIST=\"8.9\" & pip install --pre -U xformers"
-
-# install command for torch H100
-#export TORCH_COMMAND="pip install clean-fid ninja numba numpy torch==2.1.0+cu118 torchvision --force-reinstall --extra-index-url https://download.pytorch.org/whl/cu118 & export TORCH_CUDA_ARCH_LIST=\"9.0\" & pip install --pre -U xformers"
+export TORCH_COMMAND="pip install clean-fid ninja numba numpy torch==2.0.1+cu118 torchvision -force-reinstall --extra-index-url https://download.pytorch.org/whl/cu118"
 
 
 # Requirements file to use for stable-diffusion-webui
