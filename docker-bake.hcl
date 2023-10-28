@@ -6,7 +6,7 @@ target "210-py310-cuda1180-devel" {
         proxy = "./proxy"
     }
     args = {
-        BASE_IMAGE = "nvidia/cuda:11.8.0-devel-ubuntu22.04"
+        BASE_IMAGE = "runpod/pytorch:2.0.1-py3.10-cuda11.8.0-devel"
         PYTHON_VERSION = "3.10"
         TORCH = "torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118"
     }

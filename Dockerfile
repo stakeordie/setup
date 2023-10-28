@@ -14,7 +14,7 @@ ENV SHELL=/bin/bash
 WORKDIR /
 
 # Create workspace directory
-RUN mkdir /workspace
+RUN mkdir -p /workspace
 
 # Update, upgrade, install packages and clean up
 RUN apt-get update --yes
@@ -22,7 +22,7 @@ RUN apt-get upgrade --yes
 RUN apt install --yes --no-install-recommends git wget curl bash libgl1 software-properties-common openssh-server nginx sudo nano nvtop
 RUN apt-get install libgoogle-perftools-dev -y
 RUN add-apt-repository ppa:deadsnakes/ppa
-RUN apt install "python${PYTHON_VERSION}-dev" "python${PYTHON_VERSION}-venv" -y --no-install-recommends
+RUN apt upgrade "python${PYTHON_VERSION}-dev" "python${PYTHON_VERSION}-venv" -y --no-install-recommends
 RUN apt-get autoremove -y
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/*
@@ -30,17 +30,17 @@ RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 
 
 # Set up Python and pip
-RUN ln -s /usr/bin/python${PYTHON_VERSION} /usr/bin/python && \
-    rm /usr/bin/python3 && \
-    ln -s /usr/bin/python${PYTHON_VERSION} /usr/bin/python3 && \
-    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
-    python get-pip.py
+# RUN ln -s /usr/bin/python${PYTHON_VERSION} /usr/bin/python && \
+#     rm /usr/bin/python3 && \
+#     ln -s /usr/bin/python${PYTHON_VERSION} /usr/bin/python3 && \
+#     curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+#     python get-pip.py
 
 RUN echo $(pip --version)
 
 
 RUN pip install --upgrade --no-cache-dir pip
-RUN pip uninstall torch
+# RUN pip uninstall torch
 RUN pip cache purge
 RUN pip install --upgrade --no-cache-dir ${TORCH}
 # RUN pip install --upgrade --no-cache-dir jupyterlab ipywidgets jupyter-archive jupyter_contrib_nbextensions
