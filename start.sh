@@ -42,7 +42,7 @@ export_env_vars() {
 add_ubuntu_user() {
     id -u "ubuntu"
     if id -u "$1" >/dev/null 2>&1; then
-        #
+        echo "no ubuntu user"
     else
        useradd -m -d /home/ubuntu -s /bin/bash ubuntu
     fi
