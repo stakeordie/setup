@@ -10,5 +10,4 @@ target "201-py310-cuda1180-devel" {
         PYTHON_VERSION = "3.10"
         TORCH = "torch==2.0.1+cu118 torchvision==0.15.2+cu118 torchaudio==2.0.2 --index-url https://download.pytorch.org/whl/cu118"
     }
-    platforms = ["linux/arm64"]
 }

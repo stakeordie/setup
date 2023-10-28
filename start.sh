@@ -40,7 +40,12 @@ export_env_vars() {
 }
 
 add_ubuntu_user() {
-    useradd -m -d /home/ubuntu -s /bin/bash ubuntu
+    id -u "ubuntu"
+    if id -u "$1" >/dev/null 2>&1; then
+        #
+    else
+       useradd -m -d /home/ubuntu -s /bin/bash ubuntu
+    fi
     usermod -aG sudo ubuntu
     mkdir -p /home/ubuntu/.ssh && touch /home/ubuntu/.ssh/authorized_keys
     echo $PUBLIC_KEY >> /home/ubuntu/.ssh/authorized_keys
