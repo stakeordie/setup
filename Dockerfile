@@ -19,7 +19,8 @@ RUN mkdir -p /workspace
 # Update, upgrade, install packages and clean up
 RUN apt-get update --yes && \
     apt-get upgrade --yes && \
-    apt install --yes --no-install-recommends git wget curl bash libgl1 software-properties-common openssh-server nginx && \
+    apt install --yes --no-install-recommends git wget curl bash libgl1 software-properties-common openssh-server nginx sudo nano nvtop && \
+    apt-get install libgoogle-perftools-dev -y && \
     add-apt-repository ppa:deadsnakes/ppa && \
     apt install "python${PYTHON_VERSION}-dev" "python${PYTHON_VERSION}-venv" -y --no-install-recommends && \
     apt-get autoremove -y && \
@@ -38,7 +39,7 @@ RUN ln -s /usr/bin/python${PYTHON_VERSION} /usr/bin/python && \
 
 RUN pip install --upgrade --no-cache-dir pip
 RUN pip install --upgrade --no-cache-dir ${TORCH}
-RUN pip install --upgrade --no-cache-dir jupyterlab ipywidgets jupyter-archive jupyter_contrib_nbextensions
+# RUN pip install --upgrade --no-cache-dir jupyterlab ipywidgets jupyter-archive jupyter_contrib_nbextensions
 
 # Set up Jupyter Notebook
 # RUN pip install notebook==6.5.5
