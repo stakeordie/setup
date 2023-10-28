@@ -41,27 +41,23 @@ export_env_vars() {
 
 install_pm2() {
     echo "Installing pm2..."
-    apt-get install -y ca-certificates curl gnupg
-    mkdir -p /etc/apt/keyrings
-    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
-    sudo apt-get install nodejs -y
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+    export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    source ~/.bashrc
+    nvm install 16
+    nvm use 16
+    nvm alias default 16
     npm install -g npm@9.8.0
     npm install pm2@latest -g
 }
 
 install_a1111() {
-    pip install --upgrade pip
     echo "Installing a1111..."
     cd ~
-    mkdir models
-    cd models
-    mkdir checkpoints
-    cd checkpoints
     # wget --user "$HUGGINGFACE_USER" --password "$HUGGINGFACE_PASSWORD" https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
-    wget --user 'sandy@stakeordie.com' --password 'ZUM2drp4vqj3xbn!ezm' https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
-    apt-get update
-    cd ~
+    # wget --user 'sandy@stakeordie.com' --password 'ZUM2drp4vqj3xbn!ezm' https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
+    cp -r /workspace/models ./models
     git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui ~/auto3001
     cd ~/auto3001
     git reset --hard 68f336bd994bed5442ad95bad6b6ad5564a5409a
