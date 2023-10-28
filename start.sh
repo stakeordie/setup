@@ -39,20 +39,30 @@ export_env_vars() {
     echo 'source /etc/rp_environment' >> ~/.bashrc
 }
 
+add_ubuntu_user() {
+    useradd -m -d /home/username -s /bin/bash ubuntu
+    usermod -aG sudo ubuntu
+    mkdir -p /home/ubuntu/.ssh && touch /home/ubuntu/.ssh/authorized_keys
+    echo $PUBLIC_KEY >> /home/ubuntu/.ssh/authorized_keys
+    chown -R ubuntu:ubuntu /home/ubuntu/.ssh
+}
+
 install_pm2() {
+    su - ubuntu
     echo "Installing pm2..."
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-    export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-    source ~/.bashrc
-    nvm install 16
-    nvm use 16
-    nvm alias default 16
+    sudo apt-get install -y ca-certificates curl gnupg
+    sudo mkdir -p /etc/apt/keyrings
+    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+    sudo apt-get update
+    sudo apt-get install nodejs -y
     npm install -g npm@9.8.0
-    npm install pm2@latest -g
+    npm install -g pm2@latest
+    exit
 }
 
 install_a1111() {
+    su - ubuntu
     echo "Installing a1111..."
     cd ~
     # wget --user "$HUGGINGFACE_USER" --password "$HUGGINGFACE_PASSWORD" https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
@@ -67,6 +77,7 @@ install_a1111() {
     rm -rf webui-user.sh
     cp ~/webui-user.sh webui-user.sh
     pm2 start --name auto::::3001 "./webui.sh"
+    exit
 }
 
 # Start jupyter lab
@@ -93,6 +104,8 @@ echo "Pod Started"
 setup_ssh
 #start_jupyter
 export_env_vars
+
+add_ubuntu_user
 
 install_pm2
 
