@@ -52,6 +52,7 @@ COPY --from=proxy nginx.conf /etc/nginx/nginx.conf
 COPY --from=proxy nginx-default /etc/nginx/sites-available/default
 COPY --from=proxy readme.html /usr/share/nginx/html/readme.html
 COPY --from=proxy webui-user.sh /root/webui-user.sh
+COPY --from=proxy webui-user.sh /root/copy_instances.sh
 
 # Copy the README.md
 COPY README.md /usr/share/nginx/html/README.md

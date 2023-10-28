@@ -90,6 +90,7 @@ install_a1111() {
     git reset --hard 68f336bd994bed5442ad95bad6b6ad5564a5409a
     ln -s /home/ubuntu/models/checkpoints/sd_xl_base_1.0.safetensors /home/ubuntu/auto3000/models/Stable-diffusion/sd_xl_base_1.0.safetensors
     rm -rf /home/ubuntu/auto3000/webui-user.sh
+    cp /root/copy_instances.sh /home/ubuntu/copy_instances.sh
     cp /root/webui-user.sh /home/ubuntu/auto3000/webui-user.sh
     chown -R ubuntu:ubuntu /home/ubuntu
     runuser -l ubuntu -c 'cd /home/ubuntu/auto3000 && pm2 start --name auto::::3000 "./webui.sh"'
