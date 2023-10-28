@@ -41,15 +41,17 @@ export_env_vars() {
 
 install_pm2() {
     echo "Installing pm2..."
-    curl -sL https://deb.nodesource.com/setup_18.x -o nodesource_setup.sh
-    sudo bash nodesource_setup.sh
-    sudo apt install nodejs -y
+    apt-get install -y ca-certificates curl gnupg
+    mkdir -p /etc/apt/keyrings
+    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
+    sudo apt-get install nodejs -y
     npm install -g npm@9.8.0
     npm install pm2@latest -g
 }
 
 install_a1111() {
-    pip install --upgrade pip -y
+    pip install --upgrade pip
     echo "Installing a1111..."
     cd ~
     mkdir models
@@ -58,6 +60,7 @@ install_a1111() {
     cd checkpoints
     # wget --user "$HUGGINGFACE_USER" --password "$HUGGINGFACE_PASSWORD" https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
     wget --user 'sandy@stakeordie.com' --password 'ZUM2drp4vqj3xbn!ezm' https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
+    apt-get update
     cd ~
     git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui ~/auto3001
     cd ~/auto3001
