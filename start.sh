@@ -40,39 +40,45 @@ export_env_vars() {
 }
 
 add_ubuntu_user() {
-    useradd -m -d /home/username -s /bin/bash ubuntu
+    useradd -m -d /home/ubuntu -s /bin/bash ubuntu
     usermod -aG sudo ubuntu
     mkdir -p /home/ubuntu/.ssh && touch /home/ubuntu/.ssh/authorized_keys
     echo $PUBLIC_KEY >> /home/ubuntu/.ssh/authorized_keys
     chown -R ubuntu:ubuntu /home/ubuntu/.ssh
+    touch /etc/ssh/sshd_config.d/ubuntu.conf \
+    && echo "PubkeyAuthentication yes" >> /etc/ssh/sshd_config.d/ubuntu.conf \
+    && echo "PasswordAuthentication no" >> /etc/ssh/sshd_config.d/ubuntu.conf
+    service ssh restart
+    sudo cp /etc/sudoers /etc/sudoers.bak
+    echo 'ubuntu ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
 }
 
 install_pm2() {
     echo "Installing pm2..."
-    sudo apt-get install -y ca-certificates curl gnupg
-    sudo mkdir -p /etc/apt/keyrings
-    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
-    sudo apt-get update
-    sudo apt-get install nodejs -y
+    apt-get install -y ca-certificates curl gnupg
+    mkdir -p /etc/apt/keyrings
+    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
+    apt-get update
+    apt-get install nodejs -y
     npm install -g npm@9.8.0
     npm install -g pm2@latest
 }
 
 install_a1111() {
     echo "Installing a1111..."
-    cd ~
+    cd /home/ubuntu
     # wget --user "$HUGGINGFACE_USER" --password "$HUGGINGFACE_PASSWORD" https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
     # wget --user 'sandy@stakeordie.com' --password 'ZUM2drp4vqj3xbn!ezm' https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
     cp -r /workspace/models ./models
     git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto3001
     cd /home/ubuntu/auto3001
     git reset --hard 68f336bd994bed5442ad95bad6b6ad5564a5409a
-    cd models/Stable-diffusion
-    ln -s /home/ubuntu/models/checkpoints/sd_xl_base_1.0.safetensors sd_xl_base_1.0.safetensors
+    ln -s /home/ubuntu/models/checkpoints/sd_xl_base_1.0.safetensors /home/ubuntu/auto3001/models/Stable-diffusion/sd_xl_base_1.0.safetensors
     rm -rf /home/ubuntu/auto3001/webui-user.sh
-    cp ~/webui-user.sh /home/ubuntu/auto3001/webui-user.sh
-    pm2 start --name auto::::3001 "./webui.sh"git c
+    cp /root/webui-user.sh /home/ubuntu/auto3001/webui-user.sh
+    chown -R ubuntu:ubuntu /home/ubuntu
+    runuser -l ubuntu -c 'cd /home/ubuntu/auto3001 && pm2 start --name auto::::3001 "./webui.sh"'
 }
 
 # Start jupyter lab
