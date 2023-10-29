@@ -94,8 +94,10 @@ install_a1111() {
     cp /root/copy_instances.sh /home/ubuntu/copy_instances.sh && chmod 755 /home/ubuntu/copy_instances.sh
     chown -R ubuntu:ubuntu /home/ubuntu
     runuser -l ubuntu -c 'cd /home/ubuntu/auto3000 && pm2 start --name auto::::3000 "./webui.sh"'
+    echo "sleeping 3m..."
     sleep 3m
-    curl "127.0.0.1:3000" -o /home/ubuntu/auto3000/junk.html
+    echo "awake"
+    runuser -l ubuntu -c 'curl 127.0.0.1:3000 >> /home/ubuntu/auto3000/junk.html'
     runuser -l ubuntu -c 'cd /home/ubuntu && ./copy_instances.sh'
 }
 
