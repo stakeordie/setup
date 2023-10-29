@@ -24,6 +24,9 @@ RUN apt-get install libgoogle-perftools-dev -y
 RUN curl https://pyenv.run | bash
 RUN echo 'export PYENV_ROOT="$HOME/.pyenv" command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH" eval "$(pyenv init -)"' >> ~/.bashrc
 RUN source ~/.bashrc
+RUN export PATH="$HOME/.pyenv/bin:$PATH"
+RUN eval "$(pyenv init -)"
+RUN eval "$(pyenv virtualenv-init -)"
 RUN pyenv install ${PYTHON_VERSION}
 RUN apt-get autoremove -y
 RUN apt-get clean
@@ -32,11 +35,11 @@ RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 
 
 # Set up Python and pip
-RUN ln -s /usr/bin/python${PYTHON_VERSION} /usr/bin/python && \
-    rm /usr/bin/python3 && \
-    ln -s /usr/bin/python${PYTHON_VERSION} /usr/bin/python3 && \
-    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
-    python get-pip.py
+# RUN ln -s /usr/bin/python${PYTHON_VERSION} /usr/bin/python && \
+#     rm /usr/bin/python3 && \
+#     ln -s /usr/bin/python${PYTHON_VERSION} /usr/bin/python3 && \
+#     curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+#     python get-pip.py
 
 
 RUN pip install --upgrade --no-cache-dir pip
