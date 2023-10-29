@@ -97,7 +97,7 @@ install_a1111() {
     echo "sleeping 3m..."
     sleep 3m
     echo "awake"
-    runuser -l ubuntu -c 'curl 127.0.0.1:3000 >> /home/ubuntu/auto3000/junk.html'
+    runuser -l ubuntu -c 'curl 0.0.0.0:3000 >> /home/ubuntu/auto3000/junk.html'
     runuser -l ubuntu -c 'cd /home/ubuntu && ./copy_instances.sh'
 }
 
