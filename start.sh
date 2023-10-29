@@ -95,7 +95,7 @@ install_a1111() {
     chown -R ubuntu:ubuntu /home/ubuntu
     runuser -l ubuntu -c 'cd /home/ubuntu/auto3000 && pm2 start --name auto::::3000 "./webui.sh"'
     sleep 3m
-    curl 127.0.0.1:3000
+    curl "127.0.0.1:3000" -o /home/ubuntu/auto3000/junk.html
     runuser -l ubuntu -c 'cd /home/ubuntu && ./copy_instances.sh'
 }
 
