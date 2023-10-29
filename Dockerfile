@@ -21,6 +21,8 @@ RUN apt-get update --yes
 RUN apt-get upgrade --yes
 RUN apt install --yes --no-install-recommends git wget curl bash libgl1 software-properties-common openssh-server nginx sudo nano nvtop
 RUN apt-get install libgoogle-perftools-dev -y
+RUN add-apt-repository ppa:deadsnakes/ppa
+RUN apt install "python${PYTHON_VERSION}" "python${PYTHON_VERSION}-venv" -y --no-install-recommends
 RUN apt-get autoremove -y
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/*
