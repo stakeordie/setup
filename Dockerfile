@@ -17,16 +17,18 @@ WORKDIR /
 RUN mkdir -p /workspace
 
 # Update, upgrade, install packages and clean up
-RUN apt-get update --yes && \
-    apt-get upgrade --yes && \
-    apt install --yes --no-install-recommends git wget curl bash libgl1 software-properties-common openssh-server nginx sudo nano nvtop && \
-    apt-get install libgoogle-perftools-dev -y && \
-    add-apt-repository ppa:deadsnakes/ppa && \
-    apt install "python${PYTHON_VERSION}-dev" "python${PYTHON_VERSION}-venv" -y --no-install-recommends && \
-    apt-get autoremove -y && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+RUN apt-get update --yes
+RUN apt-get upgrade --yes
+RUN apt install --yes --no-install-recommends git wget curl bash libgl1 software-properties-common openssh-server nginx sudo nano nvtop
+RUN apt-get install libgoogle-perftools-dev -y
+RUN curl https://pyenv.run | bash
+RUN echo 'export PYENV_ROOT="$HOME/.pyenv" command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH" eval "$(pyenv init -)"' >> ~/.bashrc
+RUN source ~/.bashrc
+RUN pyenv install ${PYTHON_VERSION}
+RUN apt-get autoremove -y
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/*
+RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 
 
 # Set up Python and pip
