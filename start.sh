@@ -39,15 +39,12 @@ export_env_vars() {
     echo 'source /etc/rp_environment' >> ~/.bashrc
 }
 
-<<<<<<< HEAD
-=======
 initialize() {
     apt update
     apt install sudo nano nvtop git-lfs
     apt-get install libgoogle-perftools-dev -y
 }
 
->>>>>>> 7938105 (re-init)
 add_ubuntu_user() {
     if [ -d "/home/ubuntu" ]; then
         ### Take action if $DIR exists ###
@@ -67,18 +64,15 @@ add_ubuntu_user() {
     fi
 }
 
-<<<<<<< HEAD
-=======
 configure_nginx() {
     echo "Configuring Nginx..."
-    rm /etc/nginx/ngix.conf
+    rm -rf /etc/nginx/ngix.conf
     cp ./proxy/nginx.conf /etc/nginx/nginx.conf
-    rm /etc/nginx/sites-enabled/default
-    cp ./proxy/nginx.conf /etc/nginx/sites-enabled/default
+    rm -rf /etc/nginx/sites-enabled/default
+    cp ./proxy/nginx-default /etc/nginx/sites-enabled/default
     service nginx restart
 }
 
->>>>>>> 7938105 (re-init)
 install_pm2() {
     echo "Installing pm2..."
     apt-get install -y ca-certificates curl gnupg
@@ -93,30 +87,6 @@ install_pm2() {
 
 install_a1111() {
     echo "Installing a1111..."
-<<<<<<< HEAD
-    pip install -U xformers --index-url https://download.pytorch.org/whl/cu118
-    cd /home/ubuntu
-    # wget --user "$HUGGINGFACE_USER" --password "$HUGGINGFACE_PASSWORD" https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
-    # wget --user 'sandy@stakeordie.com' --password 'ZUM2drp4vqj3xbn!ezm' https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
-    if [ -d "/workspace/models" ]; then
-        echo "Models Found"
-        cp -r /workspace/models ./models
-    else 
-        echo "Downloading Models"
-        mkdir -p /home/ubuntu/models/checkpoints/
-        cd /home/ubuntu/models/checkpoints/
-        wget --user 'sandy@stakeordie.com' --password 'ZUM2drp4vqj3xbn!ezm' https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
-    fi 
-    git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto3000
-    cd /home/ubuntu/auto3000
-    git reset --hard 68f336bd994bed5442ad95bad6b6ad5564a5409a
-    ln -s /home/ubuntu/models/checkpoints/sd_xl_base_1.0.safetensors /home/ubuntu/auto3000/models/Stable-diffusion/sd_xl_base_1.0.safetensors
-    rm -rf /home/ubuntu/auto3000/webui-user.sh
-    cp /root/webui-user.sh /home/ubuntu/auto3000/webui-user.sh
-    cp /root/copy_instances.sh /home/ubuntu/copy_instances.sh && chmod 755 /home/ubuntu/copy_instances.sh
-    chown -R ubuntu:ubuntu /home/ubuntu
-    runuser -l ubuntu -c 'cd /home/ubuntu/auto3000 && pm2 start --name auto::::3000 "./webui.sh"'
-=======
     if [ -d "/workspace/checkpoints" ]; then
         echo "Models Found"
         cp -r /workspace/checkpoints /home/ubuntu/checkpoints/
@@ -132,18 +102,17 @@ install_a1111() {
     cd /home/ubuntu/auto3.0
     git reset --hard 68f336bd994bed5442ad95bad6b6ad5564a5409a
     rm -rf /home/ubuntu/auto3.0/models
-    ln -s /home/ubuntu/models /home/ubuntu/auto3.0/models
+    cp -r /home/ubuntu/models /home/ubuntu/auto3.0/models
     rm -rf /home/ubuntu/auto3.0/webui-user.sh
     cp ./proxy/webui-user.sh /home/ubuntu/auto3.0/webui-user.sh
     rm -rf /home/ubuntu/auto3.0/webui.sh
     cp ./proxy/webui.sh /home/ubuntu/auto3.0/webui.sh && chmod 755 /home/ubuntu/auto3.0/webui.sh
     chown -R ubuntu:ubuntu /home/ubuntu
     runuser -l ubuntu -c 'cd /home/ubuntu/auto3.0 && pm2 start --name auto::::3000 "./webui.sh -p 3000"'
->>>>>>> 7938105 (re-init)
     echo "sleeping 3m..."
     sleep 3m
     echo "awake"
-    runuser -l ubuntu -c 'curl 0.0.0.0:3000 >> /home/ubuntu/auto3000/junk.html'
+    runuser -l ubuntu -c 'curl 0.0.0.0:3000 >> /home/ubuntu/auto3.0/junk.html'
     runuser -l ubuntu -c 'cd /home/ubuntu && ./copy_instances.sh'
 }
 
@@ -172,17 +141,12 @@ setup_ssh
 #start_jupyter
 export_env_vars
 
-<<<<<<< HEAD
-add_ubuntu_user
-
-=======
 initialize
 
 add_ubuntu_user
 
 configure_nginx
 
->>>>>>> 7938105 (re-init)
 install_pm2
 
 install_a1111
