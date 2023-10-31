@@ -14,12 +14,12 @@ done
 
 if [ -z "$port" ]
 then
-      port=3000
+      port="3000"
 fi
 
 if [ -z "$gpu" ]
 then
-      gpu=0
+      gpu="0"
 fi
 
 # Install directory without trailing slash
@@ -29,7 +29,7 @@ fi
 #clone_dir="stable-diffusion-webui"
 
 # Commandline arguments for webui.py, for example: export COMMANDLINE_ARGS="--medvram>
-unset COMMANDLINE_ARGS
+
 export COMMANDLINE_ARGS="--xformers --api --port ${port} --medvram --no-half-vae"
 
 export CUDA_VISIBLE_DEVICES=$gpu
