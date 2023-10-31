@@ -3,8 +3,6 @@
 # Uncomment and change the variables below to your need:#
 #########################################################
 
-<<<<<<< HEAD
-=======
 while getopts 'p:g:' flag; do
   case "${flag}" in
     p) port="${OPTARG}" ;;
@@ -24,17 +22,11 @@ then
       gpu=0
 fi
 
->>>>>>> 7938105 (re-init)
 # Install directory without trailing slash
 #install_dir="/home/$(whoami)"
 
 # Name of the subdirectory
 #clone_dir="stable-diffusion-webui"
-<<<<<<< HEAD
-#export XFORMERS_PACKAGE="xformers==0.0.22.post7+cu118"
-# Commandline arguments for webui.py, for example: export COMMANDLINE_ARGS="--medvram --opt-split-attention"
-export COMMANDLINE_ARGS="--xformers --api --port 3000 --medvram --no-half-vae"
-=======
 
 # Commandline arguments for webui.py, for example: export COMMANDLINE_ARGS="--medvram>
 unset COMMANDLINE_ARGS
@@ -44,7 +36,6 @@ export CUDA_VISIBLE_DEVICES=$gpu
 
 # git executable
 #export GIT="git"
->>>>>>> 7938105 (re-init)
 
 # python3 executable
 python_cmd="python3.10"
