@@ -28,12 +28,12 @@ done
 
 if [ -z "$port" ]
 then
-      port=3000
+      port="3000"
 fi
 
 if [ -z "$gpu" ]
 then
-      gpu=0
+      gpu="0"
 fi
 
 # If run from macOS, load defaults from webui-macos-env.sh

@@ -41,7 +41,7 @@ export_env_vars() {
 
 initialize() {
     apt update
-    apt install sudo nano nvtop git-lfs
+    apt install sudo nano nvtop
     apt-get install libgoogle-perftools-dev -y
 }
 
@@ -96,6 +96,9 @@ install_a1111() {
         cd /home/ubuntu/checkpoints/
         wget --user 'sandy@stakeordie.com' --password 'ZUM2drp4vqj3xbn!ezm' https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
     fi
+    apt-get install git-lfs
+    git lfs install
+    runuser -l ubuntu -c 'git lfs install'
     git clone https://github.com/stakeordie/sd_models.git /home/ubuntu/models/
     ln -s /home/ubuntu/checkpoints /home/ubuntu/models/Stable-diffusion
     git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto3.0
