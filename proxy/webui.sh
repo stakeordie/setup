@@ -22,7 +22,7 @@ do
         f) can_run_as_root=1;;
         p) port="${OPTARG}" ;;
         g) gpu="${OPTARG}" ;;
-        *) break;;
+        *) break;; 
     esac
 done
 
