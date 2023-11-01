@@ -108,6 +108,7 @@ install_a1111() {
     git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto3.0
     cd /home/ubuntu/auto3.0
     git reset --hard 68f336bd994bed5442ad95bad6b6ad5564a5409a
+    cd ~
     rm -rf /home/ubuntu/auto3.0/models
     cp -r /home/ubuntu/models /home/ubuntu/auto3.0/models
     rm -rf /home/ubuntu/auto3.0/webui-user.sh
@@ -120,7 +121,6 @@ install_a1111() {
     sleep 3m
     echo "awake"
     runuser -l ubuntu -c 'curl 0.0.0.0:3000 >> /home/ubuntu/auto3.0/junk.html'
-    runuser -l ubuntu -c 'cd /home/ubuntu && ./copy_instances.sh'
 }
 
 install_controlnet() {
@@ -159,11 +159,11 @@ install_controlnet() {
 
 initialize
 
-# add_ubuntu_user
+add_ubuntu_user
 
-# configure_nginx
+configure_nginx
 
-# install_pm2
+install_pm2
 
 # install_a1111
 
