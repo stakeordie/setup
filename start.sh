@@ -39,6 +39,10 @@ export_env_vars() {
     echo 'source /etc/rp_environment' >> ~/.bashrc
 }
 
+clone_setup(){
+    git clone https://github.com/stakeordie/setup.git
+}
+
 initialize() {
     apt update
     apt install sudo nano nvtop
@@ -94,7 +98,7 @@ install_a1111() {
         echo "Downloading Models"
         mkdir -p /home/ubuntu/checkpoints/
         cd /home/ubuntu/checkpoints/
-        wget --user 'sandy@stakeordie.com' --password 'ZUM2drp4vqj3xbn!ezm' https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
+        wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
     fi
     apt-get install git-lfs
     git lfs install
@@ -107,9 +111,9 @@ install_a1111() {
     rm -rf /home/ubuntu/auto3.0/models
     cp -r /home/ubuntu/models /home/ubuntu/auto3.0/models
     rm -rf /home/ubuntu/auto3.0/webui-user.sh
-    cp ./proxy/webui-user.sh /home/ubuntu/auto3.0/webui-user.sh
+    cp /home/ubuntu/setup/proxy/webui-user.sh /home/ubuntu/auto3.0/webui-user.sh
     rm -rf /home/ubuntu/auto3.0/webui.sh
-    cp ./proxy/webui.sh /home/ubuntu/auto3.0/webui.sh && chmod 755 /home/ubuntu/auto3.0/webui.sh
+    cp /home/ubuntu/setup/proxy/webui.sh /home/ubuntu/auto3.0/webui.sh && chmod 755 /home/ubuntu/auto3.0/webui.sh
     chown -R ubuntu:ubuntu /home/ubuntu
     runuser -l ubuntu -c 'cd /home/ubuntu/auto3.0 && pm2 start --name auto::::3000 "./webui.sh -p 3000"'
     echo "sleeping 3m..."
@@ -119,6 +123,13 @@ install_a1111() {
     runuser -l ubuntu -c 'cd /home/ubuntu && ./copy_instances.sh'
 }
 
+install_controlnet() {
+    echo "Installing controlnet..."
+    apt-get install git-lfs
+    git lfs install
+    runuser -l ubuntu -c 'git lfs install'
+    git clone https://huggingface.co/lllyasviel/ControlNet
+}
 # Start jupyter lab
 # start_jupyter() {
 #     if [[ $JUPYTER_PASSWORD ]]; then
@@ -134,28 +145,28 @@ install_a1111() {
 #                               Main Program                                   #
 # ---------------------------------------------------------------------------- #
 
-start_nginx
+#start_nginx
 
-execute_script "/pre_start.sh" "Running pre-start script..."
+#execute_script "/pre_start.sh" "Running pre-start script..."
 
-echo "Pod Started"
+#echo "Pod Started"
 
-setup_ssh
+#setup_ssh
 #start_jupyter
-export_env_vars
+#export_env_vars
 
-initialize
+clone_setup
 
-add_ubuntu_user
+# initialize
 
-configure_nginx
+# add_ubuntu_user
 
-install_pm2
+# configure_nginx
 
-install_a1111
+# install_pm2
 
-execute_script "/post_start.sh" "Running post-start script..."
+# install_a1111
 
-echo "Start script(s) finished, pod is ready to use."
+# install_controlnet
 
 sleep infinity
