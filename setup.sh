@@ -169,4 +169,4 @@ initialize
 
 # install_controlnet
 
-sleep infinity
+# sleep infinity
