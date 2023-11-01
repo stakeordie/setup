@@ -47,6 +47,7 @@ initialize() {
     apt update
     apt install sudo nano nvtop
     apt-get install libgoogle-perftools-dev -y
+    apt install libcairo2-dev pkg-config python3-dev -y
 }
 
 add_ubuntu_user() {
@@ -131,7 +132,11 @@ install_controlnet() {
     apt-get install git-lfs
     git lfs install
     runuser -l ubuntu -c 'git lfs install'
-    git clone https://huggingface.co/lllyasviel/ControlNet
+    git clone https://huggingface.co/lllyasviel/ControlNet /home/ubuntu/controlnet_models/
+    git clone https://github.com/Mikubill/sd-webui-controlnet.git /home/ubuntu/controlnet
+    rm -rf /home/ubuntu/controlnet/models && ln -s /home/ubuntu/controlnet_models/models /home/ubuntu/controlnet/models
+    cp -r /home/ubuntu/controlnet /home/ubuntu/auto3.0/extensions/sd_webui_controlnet
+    chown -R ubuntu:ubuntu /home/ubuntu
 }
 # Start jupyter lab
 # start_jupyter() {
@@ -168,7 +173,7 @@ configure_nginx
 
 install_pm2
 
-# install_a1111
+install_a1111
 
 # install_controlnet
 
