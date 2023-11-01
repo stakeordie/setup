@@ -40,7 +40,8 @@ export_env_vars() {
 }
 
 clone_setup(){
-    git clone https://github.com/stakeordie/setup.git
+    git clone https://github.com/stakeordie/setup.git /root/setup
+    chmod 755 /root/setup/setup.sh
 }
 
 initialize() {
@@ -157,7 +158,7 @@ install_controlnet() {
 
 clone_setup
 
-# initialize
+initialize
 
 # add_ubuntu_user
 
