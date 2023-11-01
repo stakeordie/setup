@@ -18,7 +18,7 @@ can_run_as_root=0
 # read any command line flags to the webui.sh script
 port="3000"
 gpu="0"
-accelerator="--opt-sdp-attention"
+added_flag=""
 
 while getopts "fp:g:" flag > /dev/null 2>&1
 do
@@ -26,7 +26,7 @@ do
         f) can_run_as_root=1;;
         p) port="${OPTARG}" ;;
         g) gpu="${OPTARG}" ;;
-        a) accelerator="${OPTARG}" ;;
+        xformers) added_flag="-xformers" ;;
         *) break;; 
     esac
 done
@@ -43,7 +43,7 @@ fi
 # shellcheck source=/dev/null
 if [[ -f "$SCRIPT_DIR"/webui-user.sh ]]
 then
-    source "$SCRIPT_DIR"/webui-user.sh -p "$port" -g "$gpu" -a "$accelerator"
+    source "$SCRIPT_DIR"/webui-user.sh "$added_flag" -p "$port" -g "$gpu"
 fi
 
 # Set defaults

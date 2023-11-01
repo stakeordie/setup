@@ -113,12 +113,9 @@ install_a1111() {
     cd /home/ubuntu/auto3.0
     git reset --hard 68f336bd994bed5442ad95bad6b6ad5564a5409a
     cd ~
-    rm -rf /home/ubuntu/auto3.0/models
-    cp -r /home/ubuntu/models /home/ubuntu/auto3.0/models
-    rm -rf /home/ubuntu/auto3.0/webui-user.sh
-    cp ./proxy/webui-user.sh /home/ubuntu/auto3.0/webui-user.sh
-    rm -rf /home/ubuntu/auto3.0/webui.sh
-    cp ./proxy/webui.sh /home/ubuntu/auto3.0/webui.sh && chmod 755 /home/ubuntu/auto3.0/webui.sh
+    rm -rf /home/ubuntu/auto3.0/models && cp -r /home/ubuntu/models /home/ubuntu/auto3.0/models
+    rm -rf /home/ubuntu/auto3.0/webui-user.sh && cp ./proxy/webui-user.sh /home/ubuntu/auto3.0/webui-user.sh
+    rm -rf /home/ubuntu/auto3.0/webui.sh && cp ./proxy/webui.sh /home/ubuntu/auto3.0/webui.sh && chmod 755 /home/ubuntu/auto3.0/webui.sh
     chown -R ubuntu:ubuntu /home/ubuntu
     runuser -l ubuntu -c 'cd /home/ubuntu/.pm2/logs && pm2 start --name error_catch_all "./error_catch_all.sh"'
     runuser -l ubuntu -c 'cd /home/ubuntu/auto3.0 && pm2 start --name auto::::3000 "./webui.sh -p 3000"'

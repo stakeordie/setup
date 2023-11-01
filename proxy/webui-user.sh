@@ -11,7 +11,7 @@ while getopts 'p:g:' flag; do
   case "${flag}" in
     p) port="${OPTARG}" ;;
     g) gpu="${OPTARG}" ;;
-    a) accelerator="${OPTARG}" ;;
+    xformers) accelerator="--xformers" ;;
     *) error "Unexpected option ${flag}" ;;
   esac
 done
