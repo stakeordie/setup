@@ -108,6 +108,7 @@ install_a1111() {
     runuser -l ubuntu -c 'git lfs install'
     git clone https://github.com/stakeordie/sd_models.git /home/ubuntu/models/
     ln -s /home/ubuntu/checkpoints /home/ubuntu/models/Stable-diffusion
+    touch Put Stable Diffusion checkpoints here.txt
     git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto3.0
     cd /home/ubuntu/auto3.0
     git reset --hard 68f336bd994bed5442ad95bad6b6ad5564a5409a
@@ -133,6 +134,7 @@ install_controlnet() {
     git lfs install
     runuser -l ubuntu -c 'git lfs install'
     git clone https://huggingface.co/lllyasviel/ControlNet /home/ubuntu/controlnet_models/
+    git clone https://huggingface.co/lllyasviel/sd_control_collection /home/ubuntu/controlnet_models_2/
     git clone https://github.com/Mikubill/sd-webui-controlnet.git /home/ubuntu/controlnet
     rm -rf /home/ubuntu/controlnet/models && ln -s /home/ubuntu/controlnet_models/models /home/ubuntu/controlnet/models
     cp -r /home/ubuntu/controlnet /home/ubuntu/auto3.0/extensions/sd_webui_controlnet
