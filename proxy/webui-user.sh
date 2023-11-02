@@ -3,18 +3,29 @@
 # Uncomment and change the variables below to your need:#
 #########################################################
 
-port="3000"
-gpu="0"
-accelerator="--opt-sdp-attention"
-
-while getopts 'p:g:' flag; do
+while getopts 'xp:g:' flag; do
   case "${flag}" in
+    x) acc="--xformers" ;;
     p) port="${OPTARG}" ;;
     g) gpu="${OPTARG}" ;;
-    xformers) accelerator="--xformers" ;;
     *) error "Unexpected option ${flag}" ;;
   esac
 done
+
+if [ -z "$acc"]
+then
+      acc="--opt-sdp-attention"
+fi
+
+if [ -z "$port" ]
+then
+      port="3000"
+fi
+
+if [ -z "$gpu" ]
+then
+      gpu="0"
+fi
 
 # Install directory without trailing slash
 #install_dir="/home/$(whoami)"
@@ -24,7 +35,7 @@ done
 
 # Commandline arguments for webui.py, for example: export COMMANDLINE_ARGS="--medvram>
 
-export COMMANDLINE_ARGS="${accelerator} --api --port ${port} --medvram --no-half-vae"
+export COMMANDLINE_ARGS="${acc} --api --port ${port} --medvram --no-half-vae"
 
 export CUDA_VISIBLE_DEVICES=$gpu
 

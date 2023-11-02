@@ -16,20 +16,32 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 can_run_as_root=0
 
 # read any command line flags to the webui.sh script
-port="3000"
-gpu="0"
-added_flag=""
-
-while getopts "fp:g:" flag > /dev/null 2>&1
+while getopts "xfp:g:" flag > /dev/null 2>&1
 do
     case ${flag} in
+        x) acc="-x" ;;
         f) can_run_as_root=1;;
         p) port="${OPTARG}" ;;
         g) gpu="${OPTARG}" ;;
-        xformers) added_flag="-xformers" ;;
         *) break;; 
     esac
 done
+
+if [ -z "$x" ]
+then
+      acc=""
+fi
+
+if [ -z "$port" ]
+then
+      port="3000"
+fi
+
+if [ -z "$gpu" ]
+then
+      gpu="0"
+fi
+
 
 # If run from macOS, load defaults from webui-macos-env.sh
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -43,7 +55,7 @@ fi
 # shellcheck source=/dev/null
 if [[ -f "$SCRIPT_DIR"/webui-user.sh ]]
 then
-    source "$SCRIPT_DIR"/webui-user.sh "$added_flag" -p "$port" -g "$gpu"
+    source "$SCRIPT_DIR"/webui-user.sh "$acc" -p "$port" -g "$gpu"
 fi
 
 # Set defaults
