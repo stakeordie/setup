@@ -18,7 +18,7 @@ payload = {
         "cfg": 10,
         "sampler_index": "DPM++ 2S a Karras",
         "alwayson_scripts": {
-            "controlnet": {
+            "ControlNet": {
                 "args": [
                     {
                         "input_image": load_input_image('/root/setup/output.png'),
