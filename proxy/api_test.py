@@ -6,7 +6,7 @@ import cv2
 from PIL import Image
 
 url = "http://127.0.0.1:3000"
-img = cv2.imread('canny.png')
+img = cv2.imread('../output.png')
 png_img = cv2.imencode('.png', img)
 preproc_64 = base64.b64encode(png_img[1]).decode('utf-8')
 payload = {
