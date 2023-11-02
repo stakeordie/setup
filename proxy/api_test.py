@@ -20,7 +20,7 @@ payload = {
         "controlnet_units": [
             {
                 "enable": True,
-                "input_image": load_input_image('../output.png'),
+                "input_image": load_input_image('/root/setup/output.png'),
                 "mask": '',
                 "module": "none",
                 "model": "diffusers_xl_canny_full [2b69fca4]",
