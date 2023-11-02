@@ -46,6 +46,5 @@ payload = {
 response = requests.post(url=f'{url}/sdapi/v1/txt2img', json=payload)
 
 r = response.json()
-print(r)
 image = Image.open(io.BytesIO(base64.b64decode(r['images'][0])))
 image.save('cnet_output.png')
