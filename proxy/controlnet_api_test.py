@@ -18,12 +18,13 @@ payload = {
         "cfg": 10,
         "sampler_index": "DPM++ 2S a Karras",
         "controlnet_input_images": [load_input_image('/root/setup/output.png')],
+        "controlnet_processor_res:": 1024,
         "controlnet_module": 'canny',
         "controlnet_model": 'diffusers_xl_canny_full [2b69fca4]',
         "controlnet_guidance": 1.0,
     }
 
-response = requests.post(url=f'{url}/sdapi/v1/txt2img', json=payload)
+response = requests.post(url=f'{url}/sdapi/v1/img2img', json=payload)
 
 r = response.json()
 
