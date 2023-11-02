@@ -11,6 +11,7 @@ def load_input_image(path):
 url = "http://127.0.0.1:3000"
 payload = {
         "prompt": "A PURPLE VEST",
+        "init_images": [load_input_image('/root/setup/output.png')],
         "negative_prompt": "",
         "width": 1024,
         "height": 1024,
@@ -22,7 +23,6 @@ payload = {
                 "args": [
                     {
                         "enable": True,
-                        "input_image": load_input_image('/root/setup/output.png'),
                         "mask": '',
                         "module": "canny",
                         "model": "diffusers_xl_canny_full [2b69fca4]",
