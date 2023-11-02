@@ -19,6 +19,7 @@ payload = {
         "sampler_index": "DPM++ 2S a Karras",
         "controlnet_units": [
             {
+                "enable": True,
                 "input_image": load_input_image('../output.png'),
                 "mask": '',
                 "module": "none",
