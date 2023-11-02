@@ -71,10 +71,8 @@ add_ubuntu_user() {
 
 configure_nginx() {
     echo "Configuring Nginx..."
-    rm -rf /etc/nginx/ngix.conf
-    cp ./proxy/nginx.conf /etc/nginx/nginx.conf
-    rm -rf /etc/nginx/sites-enabled/default
-    cp ./proxy/nginx-default /etc/nginx/sites-enabled/default
+    rm -rf /etc/nginx/ngix.conf && cp ./proxy/nginx.conf /etc/nginx/nginx.conf
+    rm -rf /etc/nginx/sites-enabled/default && cp ./proxy/nginx-default /etc/nginx/sites-enabled/default
     service nginx restart
 }
 
