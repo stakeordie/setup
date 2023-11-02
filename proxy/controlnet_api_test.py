@@ -16,6 +16,7 @@ payload = {
         "height": 1024,
         "steps": 20,
         "cfg": 10,
+        "seed": 500000000,
         "sampler_index": "DPM++ 2S a Karras",
         "alwayson_scripts": {
             "controlnet": {
@@ -25,8 +26,8 @@ payload = {
                         "enable": True,
                         "input_image": load_input_image('/root/setup/output.png'),
                         "mask": '',
-                        "module": "canny",
-                        "model": "diffusers_xl_canny_full [2b69fca4]",
+                        "module": "openpose",
+                        "model": "thibaud_xl_openpose [c7b9cadd]",
                         "weight": 1.6,
                         "resize_mode": "Scale to Fit (Inner Fit)",
                         "lowvram": False,
