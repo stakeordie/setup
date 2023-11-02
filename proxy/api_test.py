@@ -2,13 +2,13 @@ import json
 import requests
 import io
 import base64
-import cv2
 from PIL import Image
 
+def load_input_image(path):
+    with open(path, 'rb') as file:
+        return base64.b64encode(file.read()).decode()
+
 url = "http://127.0.0.1:3000"
-img = cv2.imread('../output.png')
-png_img = cv2.imencode('.png', img)
-preproc_64 = base64.b64encode(png_img[1]).decode('utf-8')
 payload = {
         "prompt": "A PURPLE VEST",
         "negative_prompt": "",
@@ -19,7 +19,7 @@ payload = {
         "sampler_index": "DPM++ 2S a Karras",
         "controlnet_units": [
             {
-                "input_image": preproc_64,
+                "input_image": load_input_image('../output.png'),
                 "mask": '',
                 "module": "none",
                 "model": "diffusers_xl_canny_full [2b69fca4]",
