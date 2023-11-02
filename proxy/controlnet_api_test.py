@@ -11,14 +11,13 @@ def load_input_image(path):
 url = "http://127.0.0.1:3000"
 payload = {
         "prompt": "A PURPLE VEST",
-        "init_images": [load_input_image('/root/setup/output.png')],
         "negative_prompt": "",
         "width": 1024,
         "height": 1024,
         "steps": 20,
         "cfg": 10,
         "sampler_index": "DPM++ 2S a Karras",
-        "controlnet_input_images": [],
+        "controlnet_input_images": [load_input_image('/root/setup/output.png')],
         "controlnet_module": 'canny',
         "controlnet_model": 'diffusers_xl_canny_full [2b69fca4]',
         "controlnet_guidance": 1.0,
