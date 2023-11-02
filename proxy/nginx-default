@@ -6,119 +6,152 @@ map $http_upgrade $connection_upgrade {
 }
 
 ## SD Load Balancing
-# upstream lb {
-#   least_conn; 
-#   server 127.0.0.1:3000;
-#   server 127.0.0.1:3001;
-#   server 127.0.0.1:3002;
-# }
-# server {
-#       listen 8100;
-#       listen [::]:8100;
+upstream lb {
+   least_conn;
+   server 127.0.0.1:3000;
+   server 127.0.0.1:3001;
+   server 127.0.0.1:3002;
+}
 
-#       client_max_body_size 500M;
+ server {
+       listen 8100;
+       listen [::]:8100;
 
-#       location / {
+       client_max_body_size 500M;
 
-#               proxy_pass http://lb;
-#               proxy_http_version 1.1;
-#               proxy_set_header Upgrade $http_upgrade;
-#               proxy_set_header Connection $connection_upgrade;
-#               proxy_set_header Host $host;
+       location / {
 
-#               add_header 'Access-Control-Allow-Origin' '*';
-#               add_header 'Access-Control-Allow-Credentials' 'true';
-#               add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
-#               add_header 'Access-Control-Allow-Headers' '*';
-#               if ($request_method = 'OPTIONS') {
-#                       return 204;
-#               }
-#       }
-# }
+               proxy_pass http://lb;
+               proxy_http_version 1.1;
+               proxy_set_header Upgrade $http_upgrade;
+               proxy_set_header Connection $connection_upgrade;
+               proxy_set_header Host $host;
+               add_header 'Access-Control-Allow-Origin' '*';
+               add_header 'Access-Control-Allow-Credentials' 'true';
+               add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
+               add_header 'Access-Control-Allow-Headers' '*';
+               if ($request_method = 'OPTIONS') {
+                       return 204;
+               }
+       }
+ }
 
-## SD 1.5
-# upstream 1.5 {
-#   least_conn; 
-#   server 127.0.0.1:3000    
-# }
-# server {
-#       listen 8115;
-#       listen [::]:8115;
+upstream 15 {
+   least_conn;
+   server 127.0.0.1:3000;
+   #server 127.0.0.1:3001;
+   #server 127.0.0.1:3002;
+}
 
-#       client_max_body_size 500M;
+ server {
+       listen 8196;
+       listen [::]:8196;
 
-#       location / {
+       client_max_body_size 500M;
 
-#               proxy_pass http://1.5;
-#               proxy_http_version 1.1;
-#               proxy_set_header Upgrade $http_upgrade;
-#               proxy_set_header Connection $connection_upgrade;
-#               proxy_set_header Host $host;
+       location / {
 
-#               add_header 'Access-Control-Allow-Origin' '*';
-#               add_header 'Access-Control-Allow-Credentials' 'true';
-#               add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
-#               add_header 'Access-Control-Allow-Headers' '*';
-#               if ($request_method = 'OPTIONS') {
-#                       return 204;
-#               }
-#       }
-# }
+               proxy_pass http://15;
+               proxy_http_version 1.1;
+               proxy_set_header Upgrade $http_upgrade;
+               proxy_set_header Connection $connection_upgrade;
+               proxy_set_header Host $host;
+               add_header 'Access-Control-Allow-Origin' '*';
+               add_header 'Access-Control-Allow-Credentials' 'true';
+               add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
+               add_header 'Access-Control-Allow-Headers' '*';
+               if ($request_method = 'OPTIONS') {
+                       return 204;
+               }
+       }
+ }
 
-## SD 2.1
-# upstream 2.1 {
-#   least_conn; 
-#   server 127.0.0.1:3001
-# }
-# server {
-#       listen 8121;
-#       listen [::]:8121;
+ upstream 21 {
+   least_conn;
+   #server 127.0.0.1:3000;
+   server 127.0.0.1:3001;
+   #server 127.0.0.1:3002;
+}
 
-#       client_max_body_size 500M;
+ server {
+       listen 8197;
+       listen [::]:8197;
 
-#       location / {
+       client_max_body_size 500M;
 
-#               proxy_pass http://2.1;
-#               proxy_http_version 1.1;
-#               proxy_set_header Upgrade $http_upgrade;
-#               proxy_set_header Connection $connection_upgrade;
-#               proxy_set_header Host $host;
+       location / {
 
-#               add_header 'Access-Control-Allow-Origin' '*';
-#               add_header 'Access-Control-Allow-Credentials' 'true';
-#               add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
-#               add_header 'Access-Control-Allow-Headers' '*';
-#               if ($request_method = 'OPTIONS') {
-#                       return 204;
-#               }
-#       }
-# }
+               proxy_pass http://21;
+               proxy_http_version 1.1;
+               proxy_set_header Upgrade $http_upgrade;
+               proxy_set_header Connection $connection_upgrade;
+               proxy_set_header Host $host;
+               add_header 'Access-Control-Allow-Origin' '*';
+               add_header 'Access-Control-Allow-Credentials' 'true';
+               add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
+               add_header 'Access-Control-Allow-Headers' '*';
+               if ($request_method = 'OPTIONS') {
+                       return 204;
+               }
+       }
+ }
 
-## SDXL 1.0
-# upstream 3.0 {
-#   least_conn; 
-#   server 127.0.0.1:3002
-# }
-# server {
-#       listen 8130;
-#       listen [::]:8130;
+upstream 30 {
+   least_conn;
+   #server 127.0.0.1:3000;
+   #server 127.0.0.1:3001;
+   server 127.0.0.1:3002;
+}
 
-#       client_max_body_size 500M;
+server {
+       listen 8198;
+       listen [::]:8198;
 
-#       location / {
+       client_max_body_size 500M;
 
-#               proxy_pass http://3.0;
-#               proxy_http_version 1.1;
-#               proxy_set_header Upgrade $http_upgrade;
-#               proxy_set_header Connection $connection_upgrade;
-#               proxy_set_header Host $host;
+       location / {
 
-#               add_header 'Access-Control-Allow-Origin' '*';
-#               add_header 'Access-Control-Allow-Credentials' 'true';
-#               add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
-#               add_header 'Access-Control-Allow-Headers' '*';
-#               if ($request_method = 'OPTIONS') {
-#                       return 204;
-#               }
-#       }
-# }
+               proxy_pass http://30;
+               proxy_http_version 1.1;
+               proxy_set_header Upgrade $http_upgrade;
+               proxy_set_header Connection $connection_upgrade;
+               proxy_set_header Host $host;
+               add_header 'Access-Control-Allow-Origin' '*';
+               add_header 'Access-Control-Allow-Credentials' 'true';
+               add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
+               add_header 'Access-Control-Allow-Headers' '*';
+               if ($request_method = 'OPTIONS') {
+                       return 204;
+               }
+       }
+ }
+
+ upstream api-docs {
+   least_conn;
+   server 127.0.0.1:3000;
+   #server 127.0.0.1:3001;
+   #server 127.0.0.1:3002;
+}
+
+server {
+       listen 8199;
+       listen [::]:8199;
+
+       client_max_body_size 500M;
+
+       location / {
+
+               proxy_pass http://api-docs;
+               proxy_http_version 1.1;
+               proxy_set_header Upgrade $http_upgrade;
+               proxy_set_header Connection $connection_upgrade;
+               proxy_set_header Host $host;
+               add_header 'Access-Control-Allow-Origin' '*';
+               add_header 'Access-Control-Allow-Credentials' 'true';
+               add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
+               add_header 'Access-Control-Allow-Headers' '*';
+               if ($request_method = 'OPTIONS') {
+                       return 204;
+               }
+       }
+ }
