@@ -32,7 +32,7 @@ payload = {
         }
     }
 
-response = requests.post(url=f'{url}/sdapi/v1/img2img', json=payload)
+response = requests.post(url=f'{url}/sdapi/v1/text2img', json=payload)
 
 r = response.json()
 
