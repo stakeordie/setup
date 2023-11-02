@@ -17,25 +17,29 @@ payload = {
         "steps": 20,
         "cfg": 10,
         "sampler_index": "DPM++ 2S a Karras",
-        "controlnet_units": [
-            {
-                "enable": True,
-                "input_image": load_input_image('/root/setup/output.png'),
-                "mask": '',
-                "module": "none",
-                "model": "diffusers_xl_canny_full [2b69fca4]",
-                "weight": 1.6,
-                "resize_mode": "Scale to Fit (Inner Fit)",
-                "lowvram": False,
-                "processor_res": 1024,
-                "threshold_a": 64,
-                "threshold_b": 64,
-                "guidance": 1,
-                "guidance_start": 0,
-                "guidance_end": 1,
-                "guessmode": True
+        "alwayson_scripts": {
+            "ControlNet": {
+                "args":[
+                    True,
+                    False,
+                    True,
+                    "canny",
+                    "diffusers_xl_canny_full [2b69fca4]",
+                    1.0,
+                    {"image": load_input_image('../output.png')},
+                    False,
+                    "Scale to Fit (Inner Fit)",
+                    False,
+                    False,
+                    64,
+                    64,
+                    64,
+                    0.0,
+                    1.0,
+                    False
+                ]
             }
-        ]
+        }
     }
 
 response = requests.post(url=f'{url}/sdapi/v1/txt2img', json=payload)
