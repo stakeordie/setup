@@ -10,7 +10,7 @@ def load_input_image(path):
 
 url = "http://127.0.0.1:3000"
 payload = {
-        "prompt": "A PURPLE VEST",
+        "prompt": "An astronaut in front of a futuristic hyper realistic space port on the moon",
         "negative_prompt": "",
         "width": 1024,
         "height": 1024,
@@ -22,7 +22,6 @@ payload = {
             "controlnet": {
                 "args": [
                     {
-                        
                         "enable": True,
                         "input_image": load_input_image('/root/setup/output.png'),
                         "mask": '',
