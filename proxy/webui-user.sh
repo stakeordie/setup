@@ -12,7 +12,7 @@ while getopts 'xp:g:' flag; do
   esac
 done
 
-if [ -z "$acc"]
+if [ -z "$acc" ]
 then
       acc="--opt-sdp-attention"
 fi

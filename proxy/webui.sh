@@ -19,7 +19,7 @@ can_run_as_root=0
 while getopts "xfp:g:" flag > /dev/null 2>&1
 do
     case ${flag} in
-        x) acc="-x" ;;
+        x) acc="--xformers" ;;
         f) can_run_as_root=1;;
         p) port="${OPTARG}" ;;
         g) gpu="${OPTARG}" ;;
@@ -27,9 +27,9 @@ do
     esac
 done
 
-if [ -z "$x" ]
+if [ -z "$acc" ]
 then
-      acc=""
+      acc="--opt-sdp-attention"
 fi
 
 if [ -z "$port" ]
@@ -55,7 +55,7 @@ fi
 # shellcheck source=/dev/null
 if [[ -f "$SCRIPT_DIR"/webui-user.sh ]]
 then
-    source "$SCRIPT_DIR"/webui-user.sh "$acc" -p "$port" -g "$gpu"
+    source "$SCRIPT_DIR"/webui-user.sh
 fi
 
 # Set defaults
