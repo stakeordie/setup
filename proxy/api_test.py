@@ -26,7 +26,7 @@ payload = {
                     "canny",
                     "diffusers_xl_canny_full [2b69fca4]",
                     1.0,
-                    {"image": load_input_image('../output.png')},
+                    {"image": load_input_image('/root/setup/output.png')},
                     False,
                     "Scale to Fit (Inner Fit)",
                     False,
