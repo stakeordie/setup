@@ -11,7 +11,7 @@ def load_input_image(path):
 url = "http://127.0.0.1:3000"
 payload = {
         "prompt": "An astronaut in front of a futuristic hyper realistic space port on the moon",
-        "input_image": load_input_image('/root/setup/cnet_output.png'),
+        "init_images": [ load_input_image('/root/setup/cnet_output.png') ],
         "denoising_strength": 0.75,
         "negative_prompt": "",
         "width": 1024,
