@@ -3,18 +3,9 @@
 # Uncomment and change the variables below to your need:#
 #########################################################
 
-while getopts 'xp:g:' flag; do
-  case "${flag}" in
-    x) acc="--xformers" ;;
-    p) port="${OPTARG}" ;;
-    g) gpu="${OPTARG}" ;;
-    *) error "Unexpected option ${flag}" ;;
-  esac
-done
-
 if [ -z "$acc" ]
 then
-      acc="--opt-sdp-attention"
+      acc="--xformers"
 fi
 
 if [ -z "$port" ]
