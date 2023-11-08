@@ -53,6 +53,7 @@ initialize() {
 }
 
 add_ubuntu_user() {
+    echo $MY_PUBLIC_KEY
     if [ -d "/home/ubuntu" ]; then
         ### Take action if $DIR exists ###
         echo "User Exists"
