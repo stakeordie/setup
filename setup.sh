@@ -38,11 +38,10 @@ export_env_vars() {
     printenv | grep -E '^RUNPOD_|^PATH=|^_=' | awk -F = '{ print "export " $1 "=\"" $2 "\"" }' >> /etc/rp_environment
     echo 'source /etc/rp_environment' >> ~/.bashrc
 }
-
-
+# scp -P {{IP}} ~/code/auto1111/doker/proxy/.env root@{{IP}}:/root/.env
 init_setup(){
-    scp -P {{IP}} ~/code/auto1111/doker/proxy/.env root@{{IP}}:/root/.env
     echo 'source /root/.env' >> /root/.bashrc
+    source .bashrc
     git clone https://github.com/stakeordie/setup.git /root/setup && chmod 755 /root/setup/setup.sh
 }
 
@@ -61,7 +60,7 @@ add_ubuntu_user() {
         useradd -m -d /home/ubuntu -s /bin/bash ubuntu
         usermod -aG sudo ubuntu
         mkdir -p /home/ubuntu/.ssh && touch /home/ubuntu/.ssh/authorized_keys
-        cp /root/.ssh/authorized_keys /home/ubuntu/.ssh/authorized_keys
+        echo $MY_PUBLIC_KEY >> /home/ubuntu/.ssh/authorized_keys
         chown -R ubuntu:ubuntu /home/ubuntu/.ssh
         touch /etc/ssh/sshd_config.d/ubuntu.conf \
         && echo "PubkeyAuthentication yes" >> /etc/ssh/sshd_config.d/ubuntu.conf \
