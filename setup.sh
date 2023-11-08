@@ -175,8 +175,10 @@ do
 done
 
 if [[ -z $METHOD ]]; then
-    echo -n "Enter the S for Single Function or M for multiple: "
-    read METHOD
+    METHOD_DEFAULT="S"
+    read -p "Enter s for Single Function or m for multiple [$METHOD_DEFAULT/m]: " METHOD
+    METHOD="${METHOD:-$METHOD_DEFAULT}"
+    echo $METHOD
 fi
 
 if [[ -z $FUNCTION ]]; then
@@ -185,7 +187,7 @@ if [[ -z $FUNCTION ]]; then
 fi
 
 
-if [$METHOD = "single_function"]; then
+if [[ $METHOD = "s" || $METHOD = "S" ]]; then
 
     case $FUNCTION in
     1)
