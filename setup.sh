@@ -89,8 +89,8 @@ install_pm2() {
     apt-get install nodejs -y
     npm install -g npm@9.8.0
     npm install -g pm2@latest
-    pm2 status
-    cp ./proxy/error_catch_all.sh /home/ubuntu/.pm2/logs/error_catch_all.sh
+    runuser -l ubuntu -c 'pm2 status'
+    cp /root/setup/proxy/error_catch_all.sh /home/ubuntu/.pm2/logs/error_catch_all.sh
 }
 
 install_a1111() {
@@ -209,7 +209,7 @@ if [[ $METHOD = "s" || $METHOD = "S" ]]; then
         ;;
     5)
         echo "exec: install_auto1111"
-        install_auto1111
+        install_a1111
         ;;
     *)
         echo "exec: nothing"
@@ -246,7 +246,7 @@ else
         add_ubuntu_user
         configure_nginx
         install_pm2
-        install_auto1111
+        install_a1111
         ;;
     *)
         echo "nothing"
