@@ -8,20 +8,16 @@ def load_input_image(path):
     with open(path, 'rb') as file:
         return base64.b64encode(file.read()).decode()
 
-url = "http://127.0.0.1:3000"
+url = "https://api.runpod.ai/v2/t98gxpnnkg8dqy/run"
 payload = {
-        "prompt": "A PURPLE VEST",
-        "negative_prompt": "",
-        "width": 1024,
-        "height": 1024,
-        "steps": 20,
-        "cfg": 10,
-        "sampler_index": "DPM++ 2S a Karras",
-    }
+  "input": {
+    "prompt": "Hello World"
+  }
+}
 
-response = requests.post(url=f'{url}/sdapi/v1/txt2img', json=payload)
+response = requests.post(url=f'{url}', json=payload)
 
 r = response.json()
 
 image = Image.open(io.BytesIO(base64.b64decode(r['images'][0])))
-image.save('output.png')
+image.save('~/Downloads/output4.png')

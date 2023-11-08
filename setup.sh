@@ -39,13 +39,16 @@ export_env_vars() {
     echo 'source /etc/rp_environment' >> ~/.bashrc
 }
 
-clone_setup(){
+
+init_setup(){
+    scp -P {{IP}} ~/code/auto1111/doker/proxy/.env root@{{IP}}:/root/.env
+    echo 'source /root/.env' >> /root/.bashrc
     git clone https://github.com/stakeordie/setup.git /root/setup && chmod 755 /root/setup/setup.sh
 }
 
 initialize() {
     apt update
-    apt install sudo nano nvtop
+    apt install sudo nano nvtop -y
     apt-get install libgoogle-perftools-dev -y
     apt install libcairo2-dev pkg-config python3-dev -y
 }
@@ -58,7 +61,7 @@ add_ubuntu_user() {
         useradd -m -d /home/ubuntu -s /bin/bash ubuntu
         usermod -aG sudo ubuntu
         mkdir -p /home/ubuntu/.ssh && touch /home/ubuntu/.ssh/authorized_keys
-        echo $PUBLIC_KEY >> /home/ubuntu/.ssh/authorized_keys
+        cp /root/.ssh/authorized_keys /home/ubuntu/.ssh/authorized_keys
         chown -R ubuntu:ubuntu /home/ubuntu/.ssh
         touch /etc/ssh/sshd_config.d/ubuntu.conf \
         && echo "PubkeyAuthentication yes" >> /etc/ssh/sshd_config.d/ubuntu.conf \
