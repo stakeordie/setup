@@ -177,8 +177,10 @@ install_controlnet() {
 case functions in
   initialize)
     echo "initialize"
+    ;;
   *)
     echo "nothing"
+    ;;
 esac
 #initialize
 
