@@ -8,7 +8,7 @@ def load_input_image(path):
     with open(path, 'rb') as file:
         return base64.b64encode(file.read()).decode()
 
-url = "https://api.runpod.ai/v2/t98gxpnnkg8dqy/run"
+url = "https://0.0.0.0:3000"
 payload = {
   "input": {
     "prompt": "Hello World"
@@ -20,4 +20,4 @@ response = requests.post(url=f'{url}', json=payload)
 r = response.json()
 
 image = Image.open(io.BytesIO(base64.b64decode(r['images'][0])))
-image.save('~/Downloads/output4.png')
+image.save('/root/setup/output.png')
