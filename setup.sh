@@ -117,14 +117,16 @@ install_a1111() {
     rm -rf /home/ubuntu/auto3.0/models && cp -r /home/ubuntu/models /home/ubuntu/auto3.0/models
     rm -rf /home/ubuntu/auto3.0/webui-user.sh && cp /root/setup/proxy/webui-user.sh /home/ubuntu/auto3.0/webui-user.sh
     rm -rf /home/ubuntu/auto3.0/webui.sh && cp /root/setup/proxy/webui.sh /home/ubuntu/auto3.0/webui.sh && chmod 755 /home/ubuntu/auto3.0/webui.sh
+    echo "httpx==0.24.1" >> /home/ubuntu/auto3.0/requirements.txt
+    echo "httpx==0.24.1" >> /home/ubuntu/auto3.0/requirements_versions.txt
     chown -R ubuntu:ubuntu /home/ubuntu
     runuser -l ubuntu -c 'cd /home/ubuntu/.pm2/logs && pm2 start --name error_catch_all "./error_catch_all.sh"'
-    runuser -l ubuntu -c 'cd /home/ubuntu/auto3.0 && pm2 start --name auto::::3000 "./webui.sh -p 3000"'
+    runuser -l ubuntu -c 'cd /home/ubuntu/auto3.0 && pm2 start --name auto::::3000 "./webui.sh -p 3000 -x"'
     echo "sleeping 3m..."
     sleep 3m
     echo "awake"
-    runuser -l ubuntu -c 'cd /home/ubuntu/auto3.0 && pm2 start --name auto::::3000 "./webui.sh -p 3001"'
-    runuser -l ubuntu -c 'cd /home/ubuntu/auto3.0 && pm2 start --name auto::::3000 "./webui.sh -p 3002"'
+    runuser -l ubuntu -c 'cd /home/ubuntu/auto3.0 && pm2 start --name auto::::3000 "./webui.sh -p 3001 -x"'
+    runuser -l ubuntu -c 'cd /home/ubuntu/auto3.0 && pm2 start --name auto::::3000 "./webui.sh -p 3002 -x"'
     runuser -l ubuntu -c 'curl 0.0.0.0:3000 >> /home/ubuntu/auto3.0/junk.html'
 }
 
