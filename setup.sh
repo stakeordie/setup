@@ -5,6 +5,14 @@ set -e  # Exit the script if any statement returns a non-true return value
 #                          Function Definitions                                #
 # ---------------------------------------------------------------------------- #
 
+while getopts "f:" flag > /dev/null 2>&1
+do
+    case ${flag} in
+        f) functions="${OPTARG}" ;;
+        *) break;; 
+    esac
+done
+
 # Start nginx service
 start_nginx() {
     echo "Starting Nginx service..."
@@ -42,7 +50,7 @@ export_env_vars() {
 init_setup(){
     echo 'source /root/.env' >> /root/.bashrc
     source .bashrc
-    git clone https://github.com/stakeordie/setup.git /root/setup && chmod 755 /root/setup/setup.sh
+    git clone https://github.com/stakeordie/setup.git /root/setup
 }
 
 initialize() {
@@ -165,16 +173,17 @@ install_controlnet() {
 #export_env_vars
 
 #clone_setup
+echo $functions
 
-initialize
+#initialize
 
-add_ubuntu_user
+#add_ubuntu_user
 
-configure_nginx
+#configure_nginx
 
-install_pm2
+#install_pm2
 
-install_a1111
+#install_a1111
 
 # install_controlnet
 
