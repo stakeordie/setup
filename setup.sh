@@ -173,8 +173,13 @@ install_controlnet() {
 #export_env_vars
 
 #clone_setup
-echo $functions
 
+case functions in
+  initialize)
+    echo "initialize"
+  *)
+    echo "nothing"
+esac
 #initialize
 
 #add_ubuntu_user
