@@ -40,7 +40,7 @@ export_env_vars() {
 }
 # scp -P $PORT ~/code/docker/auto1111/proxy/.env root@$IP:/root/.env
 init_setup(){
-    echo "set -o allexport\nsource /root/.env\nset +o allexport" >> /root/.bashrc
+    echo -e "set -o allexport\nsource /root/.env\nset +o allexport" >> /root/.bashrc
     source .bashrc
     git clone https://github.com/stakeordie/setup.git /root/setup
 }
