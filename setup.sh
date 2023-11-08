@@ -127,7 +127,7 @@ install_a1111() {
     runuser -l ubuntu -c 'curl 0.0.0.0:3000 >> /home/ubuntu/auto3.0/junk.html'
 }
 
-install_controlnet() {pm2
+install_controlnet() {
     echo "Installing controlnet..."
     apt-get install git-lfs
     git lfs install
