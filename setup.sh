@@ -5,14 +5,6 @@ set -e  # Exit the script if any statement returns a non-true return value
 #                          Function Definitions                                #
 # ---------------------------------------------------------------------------- #
 
-while getopts "f:" flag > /dev/null 2>&1
-do
-    case ${flag} in
-        f) functions="${OPTARG}" ;;
-        *) break;; 
-    esac
-done
-
 # Start nginx service
 start_nginx() {
     echo "Starting Nginx service..."
@@ -173,16 +165,92 @@ install_controlnet() {
 #export_env_vars
 
 #clone_setup
+while getopts "f:m:" flag > /dev/null 2>&1
+do
+    case ${flag} in
+        m) METHOD="${OPTARG}" ;;
+        f) FUNCTION="${OPTARG}" ;;
+        *) break;; 
+    esac
+done
 
-case functions in
-  initialize)
-    echo "initialize"
-    ;;
-  *)
-    echo "nothing"
-    ;;
-esac
-#initialize
+if [[ -z $METHOD ]]; then
+    echo -n "Enter the S for Single Function or M for multiple: "
+    read METHOD
+fi
+
+if [[ -z $FUNCTION ]]; then
+    echo -n "choose function by number (1 - initialize, 2 - add_ubuntu_user, 3 - configure_nginx, 4 - install_pm2, 5 - install_a1111): "
+    read FUNCTION
+fi
+
+
+if [$METHOD = "single_function"]; then
+
+    case $FUNCTION in
+    1)
+        echo "exec: initialize"
+        initialize
+        ;;
+    2)
+        echo "exec: add_ubuntu_user"
+        add_ubuntu_user
+        ;;
+    3)
+        echo "exec: configure_nginx"
+        configure_nginx
+        ;;
+    4)
+        echo "exec: install_pm2"
+        install_pm2
+        ;;
+    5)
+        echo "exec: install_auto1111"
+        install_auto1111
+        ;;
+    *)
+        echo "exec: nothing"
+        ;;
+    esac
+
+else
+    case $FUNCTION in
+    1)
+        echo "exec: initialize"
+        initialize
+        ;;
+    2)
+        echo "exec: initialize and add_ubuntu_user"
+        initialize
+        add_ubuntu_user
+        ;;
+    3)
+        echo "exec: initialize, add_ubuntu_user, and configure_nginx"
+        initialize
+        add_ubuntu_user
+        configure_nginx
+        ;;
+    4)
+        echo "exec: initialize, add_ubuntu_user, configure_nginx, and install_pm2"
+        initialize
+        add_ubuntu_user
+        configure_nginx
+        install_pm2
+        ;;
+    5)
+        echo "exec: initialize, add_ubuntu_user, configure_nginx, install_pm2, and install_auto1111"
+        initialize
+        add_ubuntu_user
+        configure_nginx
+        install_pm2
+        install_auto1111
+        ;;
+    *)
+        echo "nothing"
+        ;;
+    esac
+fi
+
 
 #add_ubuntu_user
 
