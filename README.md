@@ -1,5 +1,9 @@
 ## Build Options
 
-To build with default options, run `docker buildx bake`, to build a specific target, run `docker buildx bake <target>`.
+Set IP and PORT locally
 
-Clone setup: git clone https://github.com/stakeordie/setup.git
+Run scp -P $PORT ~/code/docker/auto1111/proxy/.env root@$IP:/root/.env
+
+Connect to Server
+
+ssh root@$IP -p $PORT

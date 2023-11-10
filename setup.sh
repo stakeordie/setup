@@ -38,7 +38,7 @@ export_env_vars() {
     printenv | grep -E '^RUNPOD_|^PATH=|^_=' | awk -F = '{ print "export " $1 "=\"" $2 "\"" }' >> /etc/rp_environment
     echo 'source /etc/rp_environment' >> ~/.bashrc
 }
-# scp -P $PORT ~/code/docker/auto1111/proxy/.env root@$IP:/root/.env
+
 init_setup(){
     echo -e "set -o allexport\nsource /root/.env\nset +o allexport" >> /root/.bashrc
     source .bashrc
