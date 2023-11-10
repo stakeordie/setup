@@ -121,10 +121,10 @@ install_a1111() {
     echo "httpx==0.24.1" >> /home/ubuntu/auto1111/requirements.txt
     echo "httpx==0.24.1" >> /home/ubuntu/auto1111/requirements_versions.txt
     chown -R ubuntu:ubuntu /home/ubuntu
+    runuser -l ubuntu -c 'cd /home/ubuntu/.pm2/logs && pm2 start --name error_catch_all "./error_catch_all.sh"'
 }
 
 start_a1111() {
-    runuser -l ubuntu -c 'cd /home/ubuntu/.pm2/logs && pm2 start --name error_catch_all "./error_catch_all.sh"'
     cd /home/ubuntu/auto1111
     for i in ${MODELS//,/ }
     do
