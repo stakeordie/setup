@@ -39,12 +39,6 @@ export_env_vars() {
     echo 'source /etc/rp_environment' >> ~/.bashrc
 }
 
-init_setup(){
-    echo -e "set -o allexport\nsource /root/.env\nset +o allexport" >> /root/.bashrc
-    source .bashrc
-    git clone https://github.com/stakeordie/setup.git /root/setup
-}
-
 initialize() {
     apt update
     apt install sudo nano nvtop -y
@@ -127,17 +121,29 @@ install_a1111() {
     echo "httpx==0.24.1" >> /home/ubuntu/auto1111/requirements.txt
     echo "httpx==0.24.1" >> /home/ubuntu/auto1111/requirements_versions.txt
     chown -R ubuntu:ubuntu /home/ubuntu
+}
+
+start_a1111() {
     runuser -l ubuntu -c 'cd /home/ubuntu/.pm2/logs && pm2 start --name error_catch_all "./error_catch_all.sh"'
+    cd /home/ubuntu/auto1111
     for i in ${MODELS//,/ }
     do
-        case $FUNCTION in
-            1.5) runuser -l ubuntu -c 'cd /home/ubuntu/auto1111 && pm2 start --name auto1111_1.5 "./webui.sh -p 3115"';;
-            2.1) runuser -l ubuntu -c 'cd /home/ubuntu/auto1111 && pm2 start --name auto1111_2.1 "./webui.sh -p 3121"';;
-            3.0) runuser -l ubuntu -c 'cd /home/ubuntu/auto1111 && pm2 start --name auto1111_3.0 "./webui.sh -p 3130"';;
-            SDXL) runuser -l ubuntu -c 'cd /home/ubuntu/auto1111 && pm2 start --name auto1111_3.0 "./webui.sh -p 3130"';;
-            *) echo "Invalid option";;
+        case $i in
+            1.5) 
+                echo "Starting Auto1111 for 1.5"
+                runuser -l ubuntu -c 'pm2 start --name auto1111_1.5 "./webui.sh -p 3115"';;
+            2.1)
+                echo "Starting Auto1111 for 2.1"
+                runuser -l ubuntu -c 'pm2 start --name auto1111_2.1 "./webui.sh -p 3121"';;
+            3.0)
+                echo "Starting Auto1111 for 3.0"
+                runuser -l ubuntu -c 'pm2 start --name auto1111_3.0 "./webui.sh -p 3130"';;
+            SDXL)
+                echo "Starting Auto1111 for SDXL"
+                runuser -l ubuntu -c 'pm2 start --name auto1111_3.0 "./webui.sh -p 3130"';;
+            *)
+                echo "$i is an Invalid option";;
         esac
-        
     done
 }
 
@@ -229,6 +235,10 @@ if [[ $METHOD = "s" || $METHOD = "S" ]]; then
         echo "exec: install_auto1111"
         install_a1111
         ;;
+    7)
+        echo "exec: install_auto1111"
+        start_a1111
+        ;;
     *)
         echo "exec: nothing"
         ;;
@@ -268,12 +278,22 @@ else
         ;;
     6)
         echo "exec: initialize, add_ubuntu_user, configure_nginx, install_pm2, and install_auto1111"
+        a1111_options
         initialize
         add_ubuntu_user
         configure_nginx
         install_pm2
-        a1111_options
         install_a1111
+        ;;
+    7)
+        echo "exec: initialize, add_ubuntu_user, configure_nginx, install_pm2, and install_auto1111"
+        a1111_options
+        initialize
+        add_ubuntu_user
+        configure_nginx
+        install_pm2
+        install_a1111
+        start_a1111
         ;;
     *)
         echo "nothing"
