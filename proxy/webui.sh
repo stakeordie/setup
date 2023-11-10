@@ -23,6 +23,7 @@ do
         f) can_run_as_root=1;;
         p) port="${OPTARG}" ;;
         g) gpu="${OPTARG}" ;;
+        v) venv_num="${OPTARG}" ;;
         *) break;; 
     esac
 done
@@ -40,6 +41,11 @@ fi
 if [ -z "$gpu" ]
 then
       gpu="0"
+fi
+
+if [ -z "$venv_num" ]
+then
+      venv_num="0"
 fi
 
 

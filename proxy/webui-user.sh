@@ -18,6 +18,11 @@ then
       gpu="0"
 fi
 
+if [ -z "$venv_num" ]
+then
+      venv_num="0"
+fi
+
 # Install directory without trailing slash
 #install_dir="/home/$(whoami)"
 
@@ -40,7 +45,7 @@ python_cmd="python3.10"
 #export GIT="git"
 
 # python3 venv without trailing slash (defaults to ${install_dir}/${clone_dir}/venv)
-#venv_dir="venv"
+venv_dir="venv$venv_num"
 
 
 # script to launch to start the app

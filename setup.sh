@@ -131,19 +131,19 @@ start_a1111() {
         case $i in
             1.5) 
                 echo "Starting Auto1111 for 1.5"
-                runuser -l ubuntu -c 'cd /home/ubuntu/auto1111 && pm2 start --name auto1111_1.5 "./webui.sh -p 3115"'
+                runuser -l ubuntu -c 'cd /home/ubuntu/auto1111 && pm2 start --name auto1111_1.5 "./webui.sh -p 3115 -v $COUNT"'
                 ;;
             2.1)
                 echo "Starting Auto1111 for 2.1"
-                runuser -l ubuntu -c 'cd /home/ubuntu/auto1111 && pm2 start --name auto1111_2.1 "./webui.sh -p 3121"'
+                runuser -l ubuntu -c 'cd /home/ubuntu/auto1111 && pm2 start --name auto1111_2.1 "./webui.sh -p 3121 -v $COUNT"'
                 ;;
             3.0)
                 echo "Starting Auto1111 for 3.0"
-                runuser -l ubuntu -c 'cd /home/ubuntu/auto1111 && pm2 start --name auto1111_3.0 "./webui.sh -p 3130"'
+                runuser -l ubuntu -c 'cd /home/ubuntu/auto1111 && pm2 start --name auto1111_3.0 "./webui.sh -p 3130 -v $COUNT"'
                 ;;
             SDXL)
                 echo "Starting Auto1111 for SDXL"
-                runuser -l ubuntu -c 'cd /home/ubuntu/auto1111 && pm2 start --name auto1111_3.0 "./webui.sh -p 3130"'
+                runuser -l ubuntu -c 'cd /home/ubuntu/auto1111 && pm2 start --name auto1111_3.0 "./webui.sh -p 3130 -v $COUNT"'
                 ;;
             *)
                 echo "$i is an Invalid option"
