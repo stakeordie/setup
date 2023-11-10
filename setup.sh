@@ -203,7 +203,7 @@ if [[ -z $METHOD ]]; then
 fi
 
 if [[ -z $FUNCTION ]]; then
-    echo -n "choose function by number (1 - initialize, 2 - add_ubuntu_user, 3 - configure_nginx, 4 - install_pm2, 5 - a1111_options, 6 - install_a1111): "
+    echo -n "choose function by number (1 - initialize, 2 - add_ubuntu_user, 3 - configure_nginx, 4 - install_pm2, 5 - a1111_options, 6 - install_a1111, 7 - start_a1111): "
     read FUNCTION
 fi
 
@@ -237,6 +237,7 @@ if [[ $METHOD = "s" || $METHOD = "S" ]]; then
         ;;
     7)
         echo "exec: install_auto1111"
+        a1111_options
         start_a1111
         ;;
     *)
@@ -270,11 +271,11 @@ else
         ;;
     5)
         echo "exec: initialize, add_ubuntu_user, configure_nginx, install_pm2, and install_auto1111"
+        a1111_options
         initialize
         add_ubuntu_user
         configure_nginx
         install_pm2
-        a1111_options
         ;;
     6)
         echo "exec: initialize, add_ubuntu_user, configure_nginx, install_pm2, and install_auto1111"
