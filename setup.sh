@@ -149,11 +149,11 @@ start_a1111() {
                 echo "$i is an Invalid option"
                 ;;
         esac
-        if [ $COUNT == 0 ]
-        then 
-            echo "Sleeping for 180 seconds"
-            sleep 180
-        fi
+        # if [ $COUNT == 0 ]
+        # then 
+        #     echo "Sleeping for 180 seconds"
+        #     sleep 180
+        # fi
         COUNT=$((COUNT+1))
     done
 }
