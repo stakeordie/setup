@@ -16,7 +16,7 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 can_run_as_root=0
 
 # read any command line flags to the webui.sh script
-while getopts "xfp:g:" flag > /dev/null 2>&1
+while getopts "xfp:g:v:" flag > /dev/null 2>&1
 do
     case ${flag} in
         x) acc="--xformers" ;;
