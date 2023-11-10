@@ -116,6 +116,7 @@ install_a1111() {
     git reset --hard 68f336bd994bed5442ad95bad6b6ad5564a5409a
     cd ~
     rm -rf /home/ubuntu/auto1111/models && cp -r /home/ubuntu/models /home/ubuntu/auto1111/models
+    mkdir /home/ubuntu/auto1111/models/Stable-diffusion
     rm -rf /home/ubuntu/auto1111/webui-user.sh && cp /root/setup/proxy/webui-user.sh /home/ubuntu/auto1111/webui-user.sh
     rm -rf /home/ubuntu/auto1111/webui.sh && cp /root/setup/proxy/webui.sh /home/ubuntu/auto1111/webui.sh && chmod 755 /home/ubuntu/auto1111/webui.sh
     echo "httpx==0.24.1" >> /home/ubuntu/auto1111/requirements.txt

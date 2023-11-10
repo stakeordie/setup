@@ -16,14 +16,13 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 can_run_as_root=0
 
 # read any command line flags to the webui.sh script
-while getopts "xfp:g:v:" flag > /dev/null 2>&1
+while getopts "xfp:g:" flag > /dev/null 2>&1
 do
     case ${flag} in
         x) acc="--xformers" ;;
         f) can_run_as_root=1;;
         p) port="${OPTARG}" ;;
         g) gpu="${OPTARG}" ;;
-        v) venv_num="${OPTARG}" ;;
         *) break;; 
     esac
 done
@@ -41,11 +40,6 @@ fi
 if [ -z "$gpu" ]
 then
       gpu="0"
-fi
-
-if [ -z "$venv_num" ]
-then
-      venv_num="0"
 fi
 
 
