@@ -104,13 +104,13 @@ install_a1111() {
         mkdir -p /home/ubuntu/checkpoints/
         cd /home/ubuntu/checkpoints/
         wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
+        wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.ckpt
+        wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.ckpt
     fi
     apt-get install git-lfs
     git lfs install
     runuser -l ubuntu -c 'git lfs install'
     git clone https://github.com/stakeordie/sd_models.git /home/ubuntu/models/
-    ln -s /home/ubuntu/checkpoints /home/ubuntu/models/Stable-diffusion
-    touch Put Stable Diffusion checkpoints here.txt
     git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
     cd /home/ubuntu/auto1111
     git reset --hard 68f336bd994bed5442ad95bad6b6ad5564a5409a
@@ -125,37 +125,33 @@ install_a1111() {
 }
 
 start_a1111() {
-    COUNT=0
     for i in ${MODELS//,/ }
     do
         case $i in
             1.5) 
                 echo "Starting Auto1111 for 1.5"
-                runuser -l ubuntu -c "cd /home/ubuntu/auto1111 && pm2 start --name auto1111_1.5 \"./webui.sh -p 3115 -v $COUNT\""
+                runuser -l ubuntu -c "cp -r /home/ubuntu/auto1111 /home/ubuntu/auto1111_1.5"
+                runuser -l ubuntu -c "ln -s /home/ubuntu/checkpoints/v1-5-pruned.ckpt /home/ubuntu/auto1111_1.5/models/Stable-diffusion/v1-5-pruned.ckpt"
+                runuser -l ubuntu -c "cd /home/ubuntu/auto1111_1.5 && pm2 start --name auto1111_1.5 \"./webui.sh -p 3115\""
                 ;;
             2.1)
                 echo "Starting Auto1111 for 2.1"
-                runuser -l ubuntu -c "cd /home/ubuntu/auto1111 && pm2 start --name auto1111_2.1 \"./webui.sh -p 3121 -v $COUNT\""
+                runuser -l ubuntu -c "cp -r /home/ubuntu/auto1111 /home/ubuntu/auto1111_2.1"
+                runuser -l ubuntu -c "ln -s /home/ubuntu/checkpoints/v2-1_768-ema-pruned.ckpt /home/ubuntu/auto1111_2.1/models/Stable-diffusion/v2-1_768-ema-pruned.ckpt"
+                runuser -l ubuntu -c "cd /home/ubuntu/auto1111_2.1 && pm2 start --name auto1111_2.1 \"./webui.sh -p 3121\""
                 ;;
             3.0)
                 echo "Starting Auto1111 for 3.0"
-                runuser -l ubuntu -c "cd /home/ubuntu/auto1111 && pm2 start --name auto1111_3.0 \"./webui.sh -p 3130 -v $COUNT\""
-                ;;
-            SDXL)
-                echo "Starting Auto1111 for SDXL"
-                runuser -l ubuntu -c "cd /home/ubuntu/auto1111 && pm2 start --name auto1111_3.0 \"./webui.sh -p 3130 -v $COUNT\""
+                runuser -l ubuntu -c "cp -r /home/ubuntu/auto1111 /home/ubuntu/auto1111_3.0"
+                runuser -l ubuntu -c "ln -s /home/ubuntu/checkpoints/sd_xl_base_1.0.safetensors /home/ubuntu/auto1111_3.0/models/Stable-diffusion/sd_xl_base_1.0.safetensors"
+                runuser -l ubuntu -c "cd /home/ubuntu/auto1111_3.0 && pm2 start --name auto1111_3.0 \"./webui.sh -p 3130\""
                 ;;
             *)
                 echo "$i is an Invalid option"
                 ;;
         esac
-        # if [ $COUNT == 0 ]
-        # then 
-        #     echo "Sleeping for 180 seconds"
-        #     sleep 180
-        # fi
-        COUNT=$((COUNT+1))
     done
+    rm -rf /home/ubuntu/auto1111
 }
 
 install_controlnet() {
