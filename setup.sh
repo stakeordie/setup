@@ -93,6 +93,13 @@ install_pm2() {
     cp /root/setup/proxy/error_catch_all.sh /home/ubuntu/.pm2/logs/error_catch_all.sh
 }
 
+a1111_options() {
+    MODELS_DEFAULT="3.0"
+    cr=`echo $'\n>'`
+    read -p "Enter list of models:$cr  Options: 1.5, 2.1, 3.0 or SDXL$cr  $MODELS_DEFAULT is selected by default$cr (model_1, model_2, ...): " MODELS
+    MODELS="${MODELS:-$MODELS_DEFAULT}"
+}
+
 install_a1111() {
     echo "Installing a1111..."
     if [ -d "/workspace/checkpoints" ]; then
@@ -110,24 +117,28 @@ install_a1111() {
     git clone https://github.com/stakeordie/sd_models.git /home/ubuntu/models/
     ln -s /home/ubuntu/checkpoints /home/ubuntu/models/Stable-diffusion
     touch Put Stable Diffusion checkpoints here.txt
-    git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto3.0
-    cd /home/ubuntu/auto3.0
+    git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
+    cd /home/ubuntu/auto1111
     git reset --hard 68f336bd994bed5442ad95bad6b6ad5564a5409a
     cd ~
-    rm -rf /home/ubuntu/auto3.0/models && cp -r /home/ubuntu/models /home/ubuntu/auto3.0/models
-    rm -rf /home/ubuntu/auto3.0/webui-user.sh && cp /root/setup/proxy/webui-user.sh /home/ubuntu/auto3.0/webui-user.sh
-    rm -rf /home/ubuntu/auto3.0/webui.sh && cp /root/setup/proxy/webui.sh /home/ubuntu/auto3.0/webui.sh && chmod 755 /home/ubuntu/auto3.0/webui.sh
-    echo "httpx==0.24.1" >> /home/ubuntu/auto3.0/requirements.txt
-    echo "httpx==0.24.1" >> /home/ubuntu/auto3.0/requirements_versions.txt
+    rm -rf /home/ubuntu/auto1111/models && cp -r /home/ubuntu/models /home/ubuntu/auto1111/models
+    rm -rf /home/ubuntu/auto1111/webui-user.sh && cp /root/setup/proxy/webui-user.sh /home/ubuntu/auto1111/webui-user.sh
+    rm -rf /home/ubuntu/auto1111/webui.sh && cp /root/setup/proxy/webui.sh /home/ubuntu/auto1111/webui.sh && chmod 755 /home/ubuntu/auto1111/webui.sh
+    echo "httpx==0.24.1" >> /home/ubuntu/auto1111/requirements.txt
+    echo "httpx==0.24.1" >> /home/ubuntu/auto1111/requirements_versions.txt
     chown -R ubuntu:ubuntu /home/ubuntu
     runuser -l ubuntu -c 'cd /home/ubuntu/.pm2/logs && pm2 start --name error_catch_all "./error_catch_all.sh"'
-    runuser -l ubuntu -c 'cd /home/ubuntu/auto3.0 && pm2 start --name auto::::3000 "./webui.sh -p 3000 -x"'
-    echo "sleeping 3m..."
-    sleep 3m
-    echo "awake"
-    runuser -l ubuntu -c 'cd /home/ubuntu/auto3.0 && pm2 start --name auto::::3000 "./webui.sh -p 3001 -x"'
-    runuser -l ubuntu -c 'cd /home/ubuntu/auto3.0 && pm2 start --name auto::::3000 "./webui.sh -p 3002 -x"'
-    runuser -l ubuntu -c 'curl 0.0.0.0:3000 >> /home/ubuntu/auto3.0/junk.html'
+    for i in ${MODELS//,/ }
+    do
+        case $FUNCTION in
+            1.5) runuser -l ubuntu -c 'cd /home/ubuntu/auto1111 && pm2 start --name auto1111_1.5 "./webui.sh -p 3115"';;
+            2.1) runuser -l ubuntu -c 'cd /home/ubuntu/auto1111 && pm2 start --name auto1111_2.1 "./webui.sh -p 3121"';;
+            3.0) runuser -l ubuntu -c 'cd /home/ubuntu/auto1111 && pm2 start --name auto1111_3.0 "./webui.sh -p 3130"';;
+            SDXL) runuser -l ubuntu -c 'cd /home/ubuntu/auto1111 && pm2 start --name auto1111_3.0 "./webui.sh -p 3130"';;
+            *) echo "Invalid option";;
+        esac
+        
+    done
 }
 
 install_controlnet() {
@@ -139,7 +150,7 @@ install_controlnet() {
     git clone https://huggingface.co/lllyasviel/sd_control_collection /home/ubuntu/controlnet_models_2/
     git clone https://github.com/Mikubill/sd-webui-controlnet.git /home/ubuntu/controlnet
     rm -rf /home/ubuntu/controlnet/models && ln -s /home/ubuntu/controlnet_models/models /home/ubuntu/controlnet/models
-    cp -r /home/ubuntu/controlnet /home/ubuntu/auto3.0/extensions/sd_webui_controlnet
+    cp -r /home/ubuntu/controlnet /home/ubuntu/auto1111/extensions/sd_webui_controlnet
     chown -R ubuntu:ubuntu /home/ubuntu
 }
 # Start jupyter lab
@@ -168,6 +179,7 @@ install_controlnet() {
 #export_env_vars
 
 #clone_setup
+
 while getopts "f:m:" flag > /dev/null 2>&1
 do
     case ${flag} in
@@ -185,7 +197,7 @@ if [[ -z $METHOD ]]; then
 fi
 
 if [[ -z $FUNCTION ]]; then
-    echo -n "choose function by number (1 - initialize, 2 - add_ubuntu_user, 3 - configure_nginx, 4 - install_pm2, 5 - install_a1111): "
+    echo -n "choose function by number (1 - initialize, 2 - add_ubuntu_user, 3 - configure_nginx, 4 - install_pm2, 5 - a1111_options, 6 - install_a1111): "
     read FUNCTION
 fi
 
@@ -210,6 +222,10 @@ if [[ $METHOD = "s" || $METHOD = "S" ]]; then
         install_pm2
         ;;
     5)
+        echo "exec: a1111_options"
+        a1111_options
+        ;;
+    6)
         echo "exec: install_auto1111"
         install_a1111
         ;;
@@ -248,6 +264,15 @@ else
         add_ubuntu_user
         configure_nginx
         install_pm2
+        a1111_options
+        ;;
+    6)
+        echo "exec: initialize, add_ubuntu_user, configure_nginx, install_pm2, and install_auto1111"
+        initialize
+        add_ubuntu_user
+        configure_nginx
+        install_pm2
+        a1111_options
         install_a1111
         ;;
     *)
