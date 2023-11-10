@@ -151,8 +151,8 @@ start_a1111() {
         esac
         if [ $COUNT == 0 ]
         then 
-            echo "Sleeping for 60 seconds"
-            sleep 60
+            echo "Sleeping for 180 seconds"
+            sleep 180
         fi
         COUNT=$((COUNT+1))
     done
