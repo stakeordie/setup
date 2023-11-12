@@ -16,7 +16,8 @@ payload = {
     "negative_prompt": "((photo)), ((photograph)), trees, nature, text, lines of text, frame, frames, border, title, words, print",
     "prompt": "Cut Paper Oragami Sculpture. Perspective from above, godlike, tilt shift, the city is a toy. Looking down through clouds. Blimps fly below. A (broken down) ((crumbling)) empty high-rise city like New York. in winter, snow storm, cold, ice, deep freeze. it is the middle of the day, bright, sunshine. the sky is an electric rainbow of colors. A massive ((explosion)) in the foreground on a section of the seawall that towers over everything. Water pours into the city beginning the flood that will be its certain demise.",
     "sampler_name": "DPM++ 2M",
-    "steps": 20
+    "steps": 20,
+    "randn_source": "CPU"
 }
 
 response = requests.post(url=f'{url}', json=payload)
