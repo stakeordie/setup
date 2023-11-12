@@ -166,13 +166,13 @@ test_instances() {
     do
         case $i in
             1.5) 
-                python /root/setup/proxy/api_test.py -p 3115 --output=output15.png
+                python /root/setup/proxy/api_test.py -p 3115 --output=output15.png --height=512 --width=512
                 ;;
             2.1)
-                python /root/setup/proxy/api_test.py -p 3121 --output=output21.png
+                python /root/setup/proxy/api_test.py -p 3121 --output=output21.png --height=768 --width=768
                 ;;
             3.0)
-                python /root/setup/proxy/api_test.py -p 3000 --output=output30.png
+                python /root/setup/proxy/api_test.py -p 3000 --output=output30.png --height=1024 --width=1024
                 ;;
             *)
                 echo "$i is an Invalid option"
