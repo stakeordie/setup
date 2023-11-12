@@ -7,8 +7,8 @@ from PIL import Image
 parser = argparse.ArgumentParser()
 
 parser.add_argument("-cfg", "--cfg-scale", help="CFG Scale (0 - Unlimited, 7.5 standard)", default="7.5")
-parser.add_argument("-h", "--height", help="Height in Pixels", default="1024")
-parser.add_argument("-w", "--width", help="Width in Pixels", default="1024")
+parser.add_argument("--height", help="Height in Pixels", default="1024")
+parser.add_argument("--width", help="Width in Pixels", default="1024")
 parser.add_argument("-p", "--prompt", help="Prompt", default="an SNES Video Game Scene. Perspective from above, godlike, tilt shift, the city is a toy. Looking down through clouds. Blimps fly below. A (broken down) ((crumbling)) empty high-rise city like New York. in winter, snow storm, cold, ice, deep freeze. it is the middle of the day, bright, sunshine. . A massive ((explosion)) in the foreground on a section of the seawall that towers over everything. Water pours into the city beginning the flood that will be its certain demise.")
 parser.add_argument("-np", "--negative-prompt", help="Negative Prompt", default="((photo)), ((photograph)), trees, nature, text, lines of text, frame, frames, border, title, words, print")
 parser.add_argument("-s", "--steps", help="Steps (0 - 50)", default="20")
