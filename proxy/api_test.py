@@ -7,6 +7,7 @@ from PIL import Image
 parser = argparse.ArgumentParser()
 
 parser.add_argument("-p", "--port", help="Instance Port", default="3100")
+parser.add_argument("--output-file-name", help="Name of output file. Example: my_output.png", default="output.png")
 parser.add_argument("--cfg-scale", help="CFG Scale (0 - Unlimited, 7.5 standard)", default="7.5")
 parser.add_argument("--height", help="Height in Pixels", default="1024")
 parser.add_argument("--width", help="Width in Pixels", default="1024")
@@ -45,4 +46,4 @@ response = requests.post(url=f'{url}', json=payload)
 r = response.json()
 
 image = Image.open(io.BytesIO(base64.b64decode(r['images'][0])))
-image.save('/root/setup/proxy/test/output4.png')
+image.save(f'/root/setup/proxy/test/{args.output_file_name}')

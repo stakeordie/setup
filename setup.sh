@@ -166,28 +166,13 @@ test_instances() {
     do
         case $i in
             1.5) 
-                echo "Copying Auto1111"
-                runuser -l ubuntu -c "cp -r /home/ubuntu/auto1111 /home/ubuntu/auto1111_1.5"
-                echo "Linking base Model"
-                runuser -l ubuntu -c "ln -s /home/ubuntu/checkpoints/v1-5-pruned.ckpt /home/ubuntu/auto1111_1.5/models/Stable-diffusion/v1-5-pruned.ckpt"
-                echo "Starting Auto1111 for 1.5"
-                runuser -l ubuntu -c "cd /home/ubuntu/auto1111_1.5 && pm2 start --name auto1111_1.5 \"./webui.sh -p 3115\""
+                python /root/setup/proxy/api_test.py -p 3115 --output=output15.png
                 ;;
             2.1)
-                echo "Copying Auto1111"
-                runuser -l ubuntu -c "cp -r /home/ubuntu/auto1111 /home/ubuntu/auto1111_2.1"
-                echo "Linking base Model"
-                runuser -l ubuntu -c "ln -s /home/ubuntu/checkpoints/v2-1_768-ema-pruned.ckpt /home/ubuntu/auto1111_2.1/models/Stable-diffusion/v2-1_768-ema-pruned.ckpt"
-                echo "Starting Auto1111 for 2.1"
-                runuser -l ubuntu -c "cd /home/ubuntu/auto1111_2.1 && pm2 start --name auto1111_2.1 \"./webui.sh -p 3121\""
+                python /root/setup/proxy/api_test.py -p 3121 --output=output21.png
                 ;;
             3.0)
-                echo "Copying Auto1111"
-                runuser -l ubuntu -c "cp -r /home/ubuntu/auto1111 /home/ubuntu/auto1111_3.0"
-                echo "Linking base Model"
-                runuser -l ubuntu -c "ln -s /home/ubuntu/checkpoints/sd_xl_base_1.0.safetensors /home/ubuntu/auto1111_3.0/models/Stable-diffusion/sd_xl_base_1.0.safetensors"
-                echo "Starting Auto1111 for SDXL"
-                runuser -l ubuntu -c "cd /home/ubuntu/auto1111_3.0 && pm2 start --name auto1111_3.0 \"./webui.sh -p 3130\""
+                python /root/setup/proxy/api_test.py -p 3130 --output=output30.png
                 ;;
             *)
                 echo "$i is an Invalid option"
