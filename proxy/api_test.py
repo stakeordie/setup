@@ -16,7 +16,7 @@ payload = {
   }
 }
 
-response = requests.post(url=f'{url}', json=payload, headers=headers)
+response = requests.get(url=f'{url}')
 
 print(response)
 
