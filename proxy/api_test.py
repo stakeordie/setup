@@ -9,14 +9,14 @@ def load_input_image(path):
         return base64.b64encode(file.read()).decode()
 
 headers = {'Content-Type': 'application/json'}
-url = "http://127.0.0.1:3000"
+url = "http://127.0.0.1:3000/sdapi/v1/txt2img"
 payload = {
   "input": {
     "prompt": "Hello World"
   }
 }
 
-response = requests.get(url=f'{url}')
+response = requests.post(url=f'{url}', json=payload, headers=headers)
 
 print(response)
 
