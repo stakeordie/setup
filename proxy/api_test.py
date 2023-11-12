@@ -17,6 +17,8 @@ payload = {
 
 response = requests.post(url=f'{url}', json=payload)
 
+print(response)
+
 r = response.json()
 
 image = Image.open(io.BytesIO(base64.b64decode(r['images'][0])))
