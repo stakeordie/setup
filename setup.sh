@@ -237,7 +237,7 @@ if [[ -z $METHOD ]]; then
 fi
 
 if [[ -z $FUNCTION ]]; then
-    echo -n "choose function by number (1 - initialize, 2 - add_ubuntu_user, 3 - configure_nginx, 4 - install_pm2, 5 - a1111_options, 6 - install_a1111, 7 - start_a1111): "
+    echo -n "choose function by number (1 - initialize, 2 - add_ubuntu_user, 3 - configure_nginx, 4 - install_pm2, 5 - a1111_options, 6 - install_a1111, 7 - start_a1111, 8 - test_instances): "
     read FUNCTION
 fi
 
@@ -276,6 +276,7 @@ if [[ $METHOD = "s" || $METHOD = "S" ]]; then
         ;;
     8)
         echo "exec: testing instances"
+        a1111_options
         test_instances
         ;;
     *)
