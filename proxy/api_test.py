@@ -22,7 +22,7 @@ payload = {
   }
 }
 
-response = requests.post(url=f'{url}', json=payload, headers=headers)
+response = requests.post(url=f'{url}', json=payload)
 
 print(response)
 
