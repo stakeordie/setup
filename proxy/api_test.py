@@ -8,7 +8,7 @@ def load_input_image(path):
     with open(path, 'rb') as file:
         return base64.b64encode(file.read()).decode()
 
-url = "tcp://0.0.0.0:8100"
+url = "http://0.0.0.0:8100"
 payload = {
   "input": {
     "prompt": "Hello World"
