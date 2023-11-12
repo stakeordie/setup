@@ -32,7 +32,7 @@ payload = {
     "steps": args.steps,
     "seed": args.seed,
     "override_settings": {
-      "randn_source": args.nmethod,
+      "randn_source": args.random_noise_method,
     },
     "override_settings_restore_afterwards": "true"
 }
