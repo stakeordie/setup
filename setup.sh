@@ -274,6 +274,10 @@ if [[ $METHOD = "s" || $METHOD = "S" ]]; then
         a1111_options
         start_a1111
         ;;
+    8)
+        echo "exec: testing instances"
+        test_instances
+        ;;
     *)
         echo "exec: nothing"
         ;;
@@ -321,7 +325,7 @@ else
         install_a1111
         ;;
     7)
-        echo "exec: initialize, add_ubuntu_user, configure_nginx, install_pm2, and install_auto1111"
+        echo "exec: initialize, add_ubuntu_user, configure_nginx, install_pm2, install_auto1111, and start_auto1111"
         a1111_options
         initialize
         add_ubuntu_user
@@ -329,6 +333,18 @@ else
         install_pm2
         install_a1111
         start_a1111
+        ;;
+    8)
+        echo "exec: initialize, add_ubuntu_user, configure_nginx, install_pm2, install_auto1111, start_auto1111, and testing_instances"
+        a1111_options
+        initialize
+        add_ubuntu_user
+        configure_nginx
+        install_pm2
+        install_a1111
+        start_a1111
+        sleep 180
+        test_instances
         ;;
     *)
         echo "nothing"
