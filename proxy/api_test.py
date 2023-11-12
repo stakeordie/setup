@@ -8,6 +8,7 @@ def load_input_image(path):
     with open(path, 'rb') as file:
         return base64.b64encode(file.read()).decode()
 
+headers = {'Content-Type': 'application/json'}
 url = "http://127.0.0.1:3000"
 payload = {
   "input": {
@@ -15,7 +16,7 @@ payload = {
   }
 }
 
-response = requests.post(url=f'{url}', json=payload)
+response = requests.post(url=f'{url}', json=payload, headers=headers)
 
 print(response)
 
