@@ -22,7 +22,7 @@ def load_input_image(path):
     with open(path, 'rb') as file:
         return base64.b64encode(file.read()).decode()
 
-url = f'http://127.0.0.1:${port}/sdapi/v1/txt2img'
+url = f'http://127.0.0.1:{port}/sdapi/v1/txt2img'
 payload = {
     "cfg_scale": args.cfg_scale,
     "height": args.height,
