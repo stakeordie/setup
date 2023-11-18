@@ -29,7 +29,7 @@ done
 
 if [ -z "$acc" ]
 then
-      acc="--opt-sdp-attention"
+      acc="--opt-sdp-no-mem-attention"
 fi
 
 if [ -z "$port" ]

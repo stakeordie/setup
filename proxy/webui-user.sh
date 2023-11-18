@@ -26,7 +26,7 @@ fi
 
 # Commandline arguments for webui.py, for example: export COMMANDLINE_ARGS="--medvram>
 
-export COMMANDLINE_ARGS="${acc} --api --port ${port} --medvram --no-half-vae"
+export COMMANDLINE_ARGS="${acc} --api --nowebui --port ${port} --medvram --no-half-vae"
 
 export CUDA_VISIBLE_DEVICES=$gpu
 
