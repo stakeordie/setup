@@ -103,10 +103,24 @@ install_a1111() {
         echo "Downloading Models"
         mkdir -p /home/ubuntu/checkpoints/
         cd /home/ubuntu/checkpoints/
-        wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
-        wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors
-        wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.ckpt
-        wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.ckpt
+        for i in ${MODELS//,/ }
+        do
+            case $i in
+                1.5) 
+                    wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.ckpt
+                    ;;
+                2.1)
+                    wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.ckpt
+                    ;;
+                3.0)
+                    wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
+                    wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors
+                    ;;
+                *)
+                    echo "$i is an Invalid option"
+                    ;;
+            esac
+        done
     fi
     apt-get install git-lfs
     git lfs install
@@ -344,7 +358,7 @@ else
         install_pm2
         install_a1111
         start_a1111
-        sleep 180
+        sleep 240
         test_instances
         ;;
     *)
