@@ -193,6 +193,8 @@ test_instances() {
                 ;;
         esac
     done
+    var=$(ls /root/setup/proxy/test)
+    echo $var
 }
 
 install_controlnet() {
