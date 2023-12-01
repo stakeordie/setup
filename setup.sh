@@ -41,7 +41,7 @@ export_env_vars() {
 
 initialize() {
     apt update
-    apt install sudo nano nvtop -y
+    apt install sudo nano nvtop nginx -y
     apt-get install libgoogle-perftools-dev -y
     apt install libcairo2-dev pkg-config python3-dev -y
 }
