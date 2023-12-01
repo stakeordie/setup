@@ -172,7 +172,7 @@ test_instances() {
                 python /root/setup/proxy/api_test.py -p 3121 --output=output21.png --height=768 --width=768
                 ;;
             3.0)
-                python /root/setup/proxy/api_test.py -p 3000 --output=output30.png --height=1024 --width=1024
+                python /root/setup/proxy/api_test.py -p 3130 --output=output30.png --height=1024 --width=1024
                 ;;
             *)
                 echo "$i is an Invalid option"
