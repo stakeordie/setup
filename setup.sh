@@ -126,7 +126,9 @@ install_a1111() {
     git clone https://github.com/stakeordie/sd_models.git /home/ubuntu/models/
     git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
     cd /home/ubuntu/auto1111
-    git reset --hard 68f336bd994bed5442ad95bad6b6ad5564a5409a
+    if [ $1 = "legacy" ]; then
+        git reset --hard 68f336bd994bed5442ad95bad6b6ad5564a5409a
+    fi
     cd ~
     rm -rf /home/ubuntu/auto1111/models && cp -r /home/ubuntu/models /home/ubuntu/auto1111/models
     mkdir /home/ubuntu/auto1111/models/Stable-diffusion
@@ -245,6 +247,7 @@ do
     case ${flag} in
         m) METHOD="${OPTARG}" ;;
         f) FUNCTION="${OPTARG}" ;;
+        v) VERSION="${OPTARG}" ;;
         *) break;; 
     esac
 done
@@ -254,6 +257,13 @@ if [[ -z $METHOD ]]; then
     read -p "Enter s for Single Function or m for multiple [$METHOD_DEFAULT/m]: " METHOD
     METHOD="${METHOD:-$METHOD_DEFAULT}"
     echo $METHOD
+fi
+
+if [[ -z $VERSION ]]; then
+    VERSION_DEFAULT="LATEST"
+    read -p "Enter s for Single Function or m for multiple [$VERSION_DEFAULT/Legacy]: " VERSION
+    VERSION="${VERSION:-$VERSION_DEFAULT}"
+    echo $VERSION
 fi
 
 if [[ -z $FUNCTION ]]; then
