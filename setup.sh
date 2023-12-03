@@ -94,30 +94,6 @@ a1111_options() {
     MODELS="${MODELS:-$MODELS_DEFAULT}"
 }
 
-download_models() {
-    echo "Downloading Models"
-    mkdir -p /home/ubuntu/checkpoints/
-    cd /home/ubuntu/checkpoints/
-    for i in ${MODELS//,/ }
-    do
-        case $i in
-            1.5) 
-                wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.ckpt
-                ;;
-            2.1)
-                wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.ckpt
-                ;;
-            3.0)
-                wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
-                wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors
-                ;;
-            *)
-                echo "$i is an Invalid option"
-                ;;
-        esac
-    done
-}
-
 install_a1111() {
     echo "Installing a1111..."
     apt-get install git-lfs
@@ -138,6 +114,33 @@ install_a1111() {
     echo "httpx==0.24.1" >> /home/ubuntu/auto1111/requirements_versions.txt
     chown -R ubuntu:ubuntu /home/ubuntu
     runuser -l ubuntu -c 'cd /home/ubuntu/.pm2/logs && pm2 start --name error_catch_all "./error_catch_all.sh"'
+}
+
+download_models() {
+    echo "Downloading Models"
+    mkdir -p /home/ubuntu/checkpoints/
+    cd /home/ubuntu/checkpoints/
+    for i in ${MODELS//,/ }
+    do
+        case $i in
+            1.5) 
+                wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.ckpt
+                ;;
+            2.1)
+                wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.ckpt
+                ;;
+            3.0)
+                wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
+                wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors
+                ;;
+            4.0)
+                wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/sdxl-turbo/resolve/main/sd_xl_turbo_1.0_fp16.safetensors
+                ;;
+            *)
+                echo "$i is an Invalid option"
+                ;;
+        esac
+    done
 }
 
 start_a1111() {
@@ -174,6 +177,14 @@ start_a1111() {
                 echo "Starting Auto1111 for SDXL"
                 runuser -l ubuntu -c "cd /home/ubuntu/auto1111_3.0 && pm2 start --name auto1111_3.0 \"./webui.sh -p 3130\""
                 ;;
+            4.0)
+                echo "Copying Auto1111"
+                runuser -l ubuntu -c "cp -r /home/ubuntu/auto1111 /home/ubuntu/auto1111_4.0"
+                echo "Linking base Model"
+                runuser -l ubuntu -c "ln -s /home/ubuntu/checkpoints/sd_xl_turbo_1.0_fp16.safetensors /home/ubuntu/auto1111_4.0/models/Stable-diffusion/sd_xl_turbo_1.0_fp16.safetensors"
+                echo "Starting Auto1111 for SDXL TURBO"
+                runuser -l ubuntu -c "cd /home/ubuntu/auto1111_4.0 && pm2 start --name auto1111_4.0 \"./webui.sh -p 3140\""
+                ;;
             *)
                 echo "$i is an Invalid option"
                 ;;
@@ -193,6 +204,9 @@ test_instances() {
                 ;;
             3.0)
                 python /root/setup/proxy/api_test.py -p 3130 --output=output30.png --height=1024 --width=1024
+                ;;
+            4.0)
+                python /root/setup/proxy/api_test.py -p 3140 --output=output30.png --height=1024 --width=1024
                 ;;
             *)
                 echo "$i is an Invalid option"
