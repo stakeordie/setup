@@ -5,7 +5,12 @@
 
 if [ -z "$acc" ]
 then
-      acc="--xformers"
+      acc="--opt-sdp-no-mem-attention"
+fi
+
+if [ -z "$webui" ]
+then
+      webui="--nowebui"
 fi
 
 if [ -z "$port" ]
@@ -26,7 +31,7 @@ fi
 
 # Commandline arguments for webui.py, for example: export COMMANDLINE_ARGS="--medvram>
 
-export COMMANDLINE_ARGS="${acc} --api --nowebui --port ${port} --medvram --no-half-vae"
+export COMMANDLINE_ARGS="${acc} --api ${webui} --port ${port} --medvram --no-half-vae"
 
 export CUDA_VISIBLE_DEVICES=$gpu
 

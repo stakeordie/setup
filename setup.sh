@@ -206,7 +206,7 @@ test_instances() {
                 python /root/setup/proxy/api_test.py -p 3130 --output=output30.png --height=1024 --width=1024
                 ;;
             4.0)
-                python /root/setup/proxy/api_test.py -p 3140 --output=output30.png --height=1024 --width=1024
+                python /root/setup/proxy/api_test.py -p 3140 --output=output40.png --height=1024 --width=1024
                 ;;
             *)
                 echo "$i is an Invalid option"
@@ -218,27 +218,39 @@ test_instances() {
 }
 
 install_controlnet() {
-    echo "Installing controlnet..."
-    apt-get install git-lfs
-    git lfs install
-    runuser -l ubuntu -c 'git lfs install'
     git clone https://huggingface.co/lllyasviel/ControlNet /home/ubuntu/controlnet_models/
     git clone https://huggingface.co/lllyasviel/sd_control_collection /home/ubuntu/controlnet_models_2/
     git clone https://github.com/Mikubill/sd-webui-controlnet.git /home/ubuntu/controlnet
     rm -rf /home/ubuntu/controlnet/models && ln -s /home/ubuntu/controlnet_models/models /home/ubuntu/controlnet/models
-    cp -r /home/ubuntu/controlnet /home/ubuntu/auto1111/extensions/sd_webui_controlnet
-    chown -R ubuntu:ubuntu /home/ubuntu
+    chown -R ubuntu:ubuntu /home/ubuntu/controlnet/models
+    for i in ${MODELS//,/ }
+    do
+        case $i in
+            1.5) 
+                runuser -l ubuntu -c "cp -r /home/ubuntu/controlnet /home/ubuntu/auto1111_1.5/extensions/sd_webui_controlnet"
+                runuser -l ubuntu -c "cd /home/ubuntu/auto1111_1.5 && pm2 delete auto1111_1.5 && pm2 start --name auto1111_1.5 \"./webui.sh -w -p 3151\""
+                ;;
+            2.1)
+                runuser -l ubuntu -c "cp -r /home/ubuntu/controlnet /home/ubuntu/auto1111_2.1/extensions/sd_webui_controlnet"
+                runuser -l ubuntu -c "cd /home/ubuntu/auto1111_2.1 && pm2 delete auto1111_2.1 && pm2 start --name auto1111_2.1 \"./webui.sh -w -p 3121\""
+                ;;
+            3.0)
+                runuser -l ubuntu -c "cp -r /home/ubuntu/controlnet /home/ubuntu/auto1111_3.0/extensions/sd_webui_controlnet"
+                runuser -l ubuntu -c "cd /home/ubuntu/auto1111_3.0 && pm2 delete auto1111_3.0 && pm2 start --name auto1111_3.0 \"./webui.sh -w -p 3130\""
+                ;;
+            4.0)
+                runuser -l ubuntu -c "cp -r /home/ubuntu/controlnet /home/ubuntu/auto1111_4.0/extensions/sd_webui_controlnet"
+                runuser -l ubuntu -c "cd /home/ubuntu/auto1111_4.0 && pm2 delete auto1111_4.0 && pm2 start --name auto1111_4.0 \"./webui.sh -w -p 3140\""
+                ;;
+            *)
+                echo "$i is an Invalid option"
+                ;;
+        esac
+    done
+    for i in ${MODELS//,/ }
+        
+    done
 }
-# Start jupyter lab
-# start_jupyter() {
-#     if [[ $JUPYTER_PASSWORD ]]; then
-#         echo "Starting Jupyter Lab..."
-#         mkdir -p /workspace && \
-#         cd / && \
-#         nohup jupyter lab --allow-root --no-browser --port=8888 --ip=* --FileContentsManager.delete_to_trash=False --ServerApp.terminado_settings='{"shell_command":["/bin/bash"]}' --ServerApp.token=$JUPYTER_PASSWORD --ServerApp.allow_origin=* --ServerApp.preferred_dir=/workspace &> /jupyter.log &
-#         echo "Jupyter Lab started"
-#     fi
-# }
 
 # ---------------------------------------------------------------------------- #
 #                               Main Program                                   #
@@ -321,7 +333,7 @@ if [[ $METHOD = "s" || $METHOD = "S" ]]; then
     8)
         echo "exec: testing instances"
         a1111_options
-        test_instances
+        install_controlnet
         ;;
     *)
         echo "exec: nothing"
@@ -380,7 +392,7 @@ else
         start_a1111
         ;;
     8)
-        echo "exec: initialize, add_ubuntu_user, configure_nginx, install_pm2, install_auto1111, start_auto1111, and testing_instances"
+        echo "exec: initialize, add_ubuntu_user, configure_nginx, install_pm2, install_auto1111, start_auto1111, and install_controlnet"
         a1111_options
         initialize
         add_ubuntu_user
@@ -388,8 +400,7 @@ else
         install_pm2
         install_a1111
         start_a1111
-        sleep 240
-        test_instances
+        install_controlnet
         ;;
     *)
         echo "nothing"
