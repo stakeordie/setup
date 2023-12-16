@@ -38,6 +38,15 @@ server {
        client_max_body_size 500M;
 
        location / {
+                if ($http_x_sd_model = "v1.5") {
+                        proxy_pass http://1.5;
+                }
+                if ($http_x_sd_model = "v2.1") {
+                        proxy_pass http://2.1;
+                }
+                if ($http_x_sd_model = "vxl1.0") {
+                        proxy_pass http://3.0;
+                }
 
                proxy_pass http://lb;
                proxy_http_version 1.1;
@@ -53,96 +62,3 @@ server {
                }
        }
  }
-
- server {
-       listen 8115;
-       listen [::]:8115;
-
-       client_max_body_size 500M;
-
-       location / {
-
-               proxy_pass http://1.5;
-               proxy_http_version 1.1;
-               proxy_set_header Upgrade $http_upgrade;
-               proxy_set_header Connection $connection_upgrade;
-               proxy_set_header Host $host;
-               add_header 'Access-Control-Allow-Origin' '*';
-               add_header 'Access-Control-Allow-Credentials' 'true';
-               add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
-               add_header 'Access-Control-Allow-Headers' '*';
-               if ($request_method = 'OPTIONS') {
-                       return 204;
-               }
-       }
- }
-
-
-server {
-       listen 8121;
-       listen [::]:8121;
-
-       client_max_body_size 500M;
-
-       location / {
-
-               proxy_pass http://2.1;
-               proxy_http_version 1.1;
-               proxy_set_header Upgrade $http_upgrade;
-               proxy_set_header Connection $connection_upgrade;
-               proxy_set_header Host $host;
-               add_header 'Access-Control-Allow-Origin' '*';
-               add_header 'Access-Control-Allow-Credentials' 'true';
-               add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
-               add_header 'Access-Control-Allow-Headers' '*';
-               if ($request_method = 'OPTIONS') {
-                       return 204;
-               }
-       }
- }
-
-server {
-       listen 8130;
-       listen [::]:8130;
-
-       client_max_body_size 500M;
-
-       location / {
-
-               proxy_pass http://3.0;
-               proxy_http_version 1.1;
-               proxy_set_header Upgrade $http_upgrade;
-               proxy_set_header Connection $connection_upgrade;
-               proxy_set_header Host $host;
-               add_header 'Access-Control-Allow-Origin' '*';
-               add_header 'Access-Control-Allow-Credentials' 'true';
-               add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
-               add_header 'Access-Control-Allow-Headers' '*';
-               if ($request_method = 'OPTIONS') {
-                       return 204;
-               }
-       }
-}
-
-server {
-       listen 8140;
-       listen [::]:8140;
-
-       client_max_body_size 500M;
-
-       location / {
-
-               proxy_pass http://4.0;
-               proxy_http_version 1.1;
-               proxy_set_header Upgrade $http_upgrade;
-               proxy_set_header Connection $connection_upgrade;
-               proxy_set_header Host $host;
-               add_header 'Access-Control-Allow-Origin' '*';
-               add_header 'Access-Control-Allow-Credentials' 'true';
-               add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
-               add_header 'Access-Control-Allow-Headers' '*';
-               if ($request_method = 'OPTIONS') {
-                       return 204;
-               }
-       }
-}
