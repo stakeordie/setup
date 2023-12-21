@@ -345,18 +345,18 @@ else
     2)
         echo "exec: initialize and add_ubuntu_user"
         initialize
-        add_ubuntu_user
+        # add_ubuntu_user
         ;;
     3)
         echo "exec: initialize, add_ubuntu_user, and configure_nginx"
         initialize
-        add_ubuntu_user
+        a# add_ubuntu_user
         configure_nginx
         ;;
     4)
         echo "exec: initialize, add_ubuntu_user, configure_nginx, and install_pm2"
         initialize
-        add_ubuntu_user
+        # add_ubuntu_user
         configure_nginx
         install_pm2
         ;;
@@ -364,7 +364,7 @@ else
         echo "exec: initialize, add_ubuntu_user, configure_nginx, install_pm2, and install_auto1111"
         a1111_options
         initialize
-        add_ubuntu_user
+        # add_ubuntu_user
         configure_nginx
         install_pm2
         ;;
@@ -372,7 +372,7 @@ else
         echo "exec: initialize, add_ubuntu_user, configure_nginx, install_pm2, and install_auto1111"
         a1111_options
         initialize
-        add_ubuntu_user
+        # add_ubuntu_user
         configure_nginx
         install_pm2
         install_a1111
@@ -381,7 +381,7 @@ else
         echo "exec: initialize, add_ubuntu_user, configure_nginx, install_pm2, install_auto1111, and start_auto1111"
         a1111_options
         initialize
-        add_ubuntu_user
+        # add_ubuntu_user
         configure_nginx
         install_pm2
         install_a1111
@@ -391,7 +391,7 @@ else
         echo "exec: initialize, add_ubuntu_user, configure_nginx, install_pm2, install_auto1111, start_auto1111, and install_controlnet"
         a1111_options
         initialize
-        add_ubuntu_user
+        # add_ubuntu_user
         configure_nginx
         install_pm2
         install_a1111
