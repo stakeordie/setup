@@ -12,6 +12,10 @@ Setup and clone setup repo
 
 `echo -e "set -o allexport\nsource /root/.env\nset +o allexport" >> /root/.bashrc && source .bashrc && git clone https://github.com/stakeordie/setup.git /root/setup && cd setup`
 
+OR
+
+`echo -e "set -o allexport\nsource ~/.env\nset +o allexport" >> ~/.bashrc && source .bashrc && git clone https://github.com/stakeordie/setup.git ~/setup && cd setup`
+
 Run Setup
 `./setup.sh`
 
