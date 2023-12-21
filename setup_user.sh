@@ -43,7 +43,7 @@ initialize() {
     sudo apt update
     sudo apt install nano nvtop nginx -y
     sudo apt-get install libgoogle-perftools-dev -y
-    sudo apt install libcairo2-dev pkg-config python3-dev gcc python3.10-venv -y
+    sudo apt install libcairo2-dev pkg-config python3-dev -y
 }
 
 add_ubuntu_user() {
