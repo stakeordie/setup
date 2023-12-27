@@ -22,6 +22,7 @@ parser.add_argument("--sampler-name", help="Sampler Name", default="DPM++ 2M")
 parser.add_argument("--random-noise-method", help="GPU or CPU", default="GPU")
 parser.add_argument("--denoising-strength", help="Denoising Strength (0 - 1)", default="0.75")
 parser.add_argument("--image", help="Image URL", default="https://cdn.emprops.ai/flat-files/994aa763-d9bb-42e4-b08e-553a27d67326/9e3ae556-27a7-4245-b452-8bf543238b19.png")
+parser.add_argument("--inference_type", help="Inference Type (txt2img, img2img, upscale)", default="img2img")
 
 args = parser.parse_args()
 # def load_input_image(path):
@@ -38,10 +39,10 @@ def get_as_base64(url):
 
     return base64_bytes.decode('utf-8')
 
-
-#type = "txt2img"
-#type = "img2img"
-type = "extra-single-image"
+if(args.inference_type == 'upscale'):
+  type = "extra-single-image"
+else:
+  type = args.inference_type  
 
 payload_upscale = {
   "enabled": "true",
@@ -113,35 +114,3 @@ else:
 image = Image.open(io.BytesIO(base64.b64decode(base64_encoded_image)))
 
 image.save(f'/Users/the_dusky/Downloads/{file_name}')
-
-
-
-#   {
-#    "override_settings":{
-#       "sd_model_checkpoint":"sd_xl_base_1.0.safetensors [31e35c80fc]",
-#       "enable_pnginfo":true
-#    },
-#    "prompt":"{{art_type}}. Perspective from above, godlike, tilt shift, the city is a toy. Looking down through clouds. Blimps fly below. A (broken down) ((crumbling)) empty high-rise city like New York. {{season}}. {{time_of_day}}. {{sky_color}}. A massive {{event}} in the foreground on a section of the seawall that towers over everything. Water pours into the city beginning the flood that will be its certain demise.",
-#    "negative_prompt":"((photo)), ((photograph)), trees, nature, text, lines of text, frame, frames, border, title, words, print, ",
-#    "sampler_name":"DPM++ 2M",
-#    "steps":20,
-#    "cfg_scale":7,
-#    "width":1024,
-#    "height":1024,
-#    "img2img_enabled":true,
-#    "img2img_source":"fixed",
-#    "denoising_strength":0.75,
-#    "image":"https://cdn.emprops.ai/flat-files/994aa763-d9bb-42e4-b08e-553a27d67326/9e3ae556-27a7-4245-b452-8bf543238b19.png"
-# }
-# ///
-# {
-# "enabled": true,
-# "upscaling_resize": 2,
-# "upscaler_1": "ESRGAN_4x",
-# "upscaler_2": "Nearest",
-# "extras_upscaler_2_visibility": 0,
-# "gfpgan_visibility": 0,
-# "codeformer_visibility": 0,
-# "codeformer_weight": 0
-# }
-# ///
