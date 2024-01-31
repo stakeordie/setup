@@ -110,7 +110,6 @@ install_a1111() {
     mkdir /home/ubuntu/auto1111/models/Stable-diffusion
     rm -rf /home/ubuntu/auto1111/webui-user.sh && cp /root/setup/proxy/webui-user.sh /home/ubuntu/auto1111/webui-user.sh
     rm -rf /home/ubuntu/auto1111/webui.sh && cp /root/setup/proxy/webui.sh /home/ubuntu/auto1111/webui.sh && chmod 755 /home/ubuntu/auto1111/webui.sh
-    rm -rf /home/ubuntu/auto1111/config.json && cp /root/setup/proxy/config.json /home/ubuntu/auto1111/config.json
     echo "httpx==0.24.1" >> /home/ubuntu/auto1111/requirements.txt
     echo "httpx==0.24.1" >> /home/ubuntu/auto1111/requirements_versions.txt
     chown -R ubuntu:ubuntu /home/ubuntu
@@ -177,7 +176,7 @@ start_a1111() {
                 runuser -l ubuntu -c "ln -s /home/ubuntu/checkpoints/sd_xl_base_1.0.safetensors /home/ubuntu/auto1111_3.0/models/Stable-diffusion/sd_xl_base_1.0.safetensors"
                 runuser -l ubuntu -c "ln -s /home/ubuntu/checkpoints/sd_xl_refiner_1.0.safetensors /home/ubuntu/auto1111_3.0/models/Stable-diffusion/sd_xl_refiner_1.0.safetensors"
                 echo "Starting Auto1111 for SDXL"
-                runuser -l ubuntu -c "cd /home/ubuntu/auto1111_3.0 && pm2 start --name auto1111_3.0 \"./webui.sh -w -p 3130\""
+                runuser -l ubuntu -c "cd /home/ubuntu/auto1111_3.0 && pm2 start --name auto1111_3.0_web \"./webui.sh -w -p 3130\""
                 ;;
             4.0)
                 echo "Copying Auto1111"
