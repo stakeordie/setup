@@ -6,7 +6,7 @@ import argparse
 import runpod
 from PIL import Image
 
-runpod.api_key = "PO4DSUZ45QLDVTEAFXAC2NN4CQJK747FZ7D44YMT"
+runpod.api_key = "V940W3PSL877P9OIL9W76EIL0P1G8O7NO6HGD0JK"
 
 parser = argparse.ArgumentParser()
 
@@ -29,7 +29,7 @@ args = parser.parse_args()
 #     with open(path, 'rb') as file:
 #         return base64.b64encode(file.read()).decode()
     
-endpoint = runpod.Endpoint("ohiqabd970tfi5")
+endpoint = runpod.Endpoint("q2016dk562ijwf")
 
 
 def get_as_base64(url):
@@ -90,13 +90,13 @@ payload_gen_txt = {
 
 if(type == "txt2img"):
   payload = payload_gen_txt
-  file_name = "text2img_output.png"
+  file_name = "t2i_output.png"
 elif (type == "img2img"):
   payload = payload_gen_img
-  file_name = "img2img_output.png"
+  file_name = "i2i_output.png"
 else:
   payload = payload_upscale
-  file_name = "upscale_output.png"
+  file_name = "us_upscale_output.png"
 
 print (payload)
 
