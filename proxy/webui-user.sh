@@ -11,6 +11,8 @@ fi
 if [ -z "$webui" ]
 then
       webui="--nowebui"
+else
+      webui=""
 fi
 
 if [ -z "$port" ]

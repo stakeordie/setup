@@ -32,8 +32,8 @@ upstream 4.0 {
 }
 
 server {
-       listen 8100;
-       listen [::]:8100;
+       listen 3100;
+       listen [::]:3100;
 
        client_max_body_size 500M;
 
@@ -47,7 +47,6 @@ server {
                 if ($http_x_sd_model = "vxl1.0") {
                         proxy_pass http://3.0;
                 }
-
                proxy_pass http://lb;
                proxy_http_version 1.1;
                proxy_set_header Upgrade $http_upgrade;

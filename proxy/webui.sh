@@ -20,7 +20,7 @@ while getopts "xwfp:g:" flag > /dev/null 2>&1
 do
     case ${flag} in
         x) acc="--xformers" ;;
-        w) webui="";;
+        w) webui="--";;
         f) can_run_as_root=1;;
         p) port="${OPTARG}" ;;
         g) gpu="${OPTARG}" ;;

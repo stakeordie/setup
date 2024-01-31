@@ -174,8 +174,9 @@ start_a1111() {
                 runuser -l ubuntu -c "cp -r /home/ubuntu/auto1111 /home/ubuntu/auto1111_3.0"
                 echo "Linking base Model"
                 runuser -l ubuntu -c "ln -s /home/ubuntu/checkpoints/sd_xl_base_1.0.safetensors /home/ubuntu/auto1111_3.0/models/Stable-diffusion/sd_xl_base_1.0.safetensors"
+                runuser -l ubuntu -c "ln -s /home/ubuntu/checkpoints/sd_xl_refiner_1.0.safetensors /home/ubuntu/auto1111_3.0/models/Stable-diffusion/sd_xl_refiner_1.0.safetensors"
                 echo "Starting Auto1111 for SDXL"
-                runuser -l ubuntu -c "cd /home/ubuntu/auto1111_3.0 && pm2 start --name auto1111_3.0 \"./webui.sh -p 3130\""
+                runuser -l ubuntu -c "cd /home/ubuntu/auto1111_3.0 && pm2 start --name auto1111_3.0 \"./webui.sh -w -p 3130\""
                 ;;
             4.0)
                 echo "Copying Auto1111"
