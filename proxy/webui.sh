@@ -28,11 +28,6 @@ do
     esac
 done
 
-if [ -z "$webui" ]
-then
-      webui="--nowebui"
-fi
-
 if [ -z "$acc" ]
 then
       acc="--opt-sdp-no-mem-attention"

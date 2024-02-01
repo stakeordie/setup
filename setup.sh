@@ -133,6 +133,12 @@ download_models() {
                 wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
                 wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors
                 ;;
+            ALL)
+                wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.ckpt
+                wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.ckpt
+                wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
+                wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors
+                ;;
             4.0)
                 wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/sdxl-turbo/resolve/main/sd_xl_turbo_1.0_fp16.safetensors
                 ;;
@@ -178,6 +184,17 @@ start_a1111() {
                 echo "Starting Auto1111 for SDXL"
                 runuser -l ubuntu -c "cd /home/ubuntu/auto1111_3.0 && pm2 start --name auto1111_3.0_web \"./webui.sh -w -p 3130\""
                 ;;
+            ALL)
+                echo "Copying Auto1111"
+                runuser -l ubuntu -c "cp -r /home/ubuntu/auto1111 /home/ubuntu/auto1111_3.0"
+                echo "Linking base Model"
+                runuser -l ubuntu -c "ln -s /home/ubuntu/checkpoints/v1-5-pruned.ckpt /home/ubuntu/auto1111_1.5/models/Stable-diffusion/v1-5-pruned.ckpt"
+                runuser -l ubuntu -c "ln -s /home/ubuntu/checkpoints/v2-1_768-ema-pruned.ckpt /home/ubuntu/auto1111_2.1/models/Stable-diffusion/v2-1_768-ema-pruned.ckpt"
+                runuser -l ubuntu -c "ln -s /home/ubuntu/checkpoints/sd_xl_base_1.0.safetensors /home/ubuntu/auto1111_3.0/models/Stable-diffusion/sd_xl_base_1.0.safetensors"
+                runuser -l ubuntu -c "ln -s /home/ubuntu/checkpoints/sd_xl_refiner_1.0.safetensors /home/ubuntu/auto1111_3.0/models/Stable-diffusion/sd_xl_refiner_1.0.safetensors"
+                echo "Starting Auto1111 for SDXL"
+                runuser -l ubuntu -c "cd /home/ubuntu/auto1111_3.0 && pm2 start --name auto1111_3.0_web \"./webui.sh -w -p 3130\""
+                ;;
             4.0)
                 echo "Copying Auto1111"
                 runuser -l ubuntu -c "cp -r /home/ubuntu/auto1111 /home/ubuntu/auto1111_4.0"
@@ -190,6 +207,9 @@ start_a1111() {
                 echo "$i is an Invalid option"
                 ;;
         esac
+
+        chown -R ubuntu:ubuntu /home/ubuntu/
+
     done
 }
 
