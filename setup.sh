@@ -90,7 +90,7 @@ install_pm2() {
 a1111_options() {
     MODELS_DEFAULT="3.0"
     cr=`echo $'\n>'`
-    read -p "Enter list of models:$cr  Options: 1.5, 2.1, 3.0 or SDXL$cr  $MODELS_DEFAULT is selected by default$cr (model_1, model_2, ...): " MODELS
+    read -p "Enter list of models:$cr  Options: 1.5, 2.1, 3.0 or ALL$cr  $MODELS_DEFAULT is selected by default$cr (model_1, model_2, ...): " MODELS
     MODELS="${MODELS:-$MODELS_DEFAULT}"
 }
 
@@ -224,6 +224,9 @@ test_instances() {
                 python /root/setup/proxy/api_test.py -p 3121 --output=output21.png --height=768 --width=768
                 ;;
             3.0)
+                python /root/setup/proxy/api_test.py -p 3130 --output=output30.png --height=1024 --width=1024
+                ;;
+            ALL)
                 python /root/setup/proxy/api_test.py -p 3130 --output=output30.png --height=1024 --width=1024
                 ;;
             4.0)
