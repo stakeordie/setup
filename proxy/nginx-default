@@ -13,12 +13,12 @@ upstream lb {
 
 upstream 1.5 {
    least_conn;
-   server 127.0.0.1:3115;
+   server 127.0.0.1:3130;
 }
 
 upstream 2.1 {
    least_conn;
-   server 127.0.0.1:3121;
+   server 127.0.0.1:3130;
 }
 
 upstream 3.0 {
@@ -28,7 +28,7 @@ upstream 3.0 {
 
 upstream 4.0 {
    least_conn;
-   server 127.0.0.1:3140;
+   server 127.0.0.1:3130;
 }
 
 server {

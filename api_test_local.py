@@ -74,18 +74,25 @@ payload_gen_img = {
 }
 
 payload_gen_txt = {
-    "cfg_scale": args.cfg_scale,
-    "height": args.height,
-    "width": args.width,
-    "negative_prompt": args.negative_prompt,
-    "prompt": args.prompt,
-    "sampler_name": args.sampler_name,
-    "steps": args.steps,
-    "seed": args.seed,
-    "override_settings": {
-      "randn_source": args.random_noise_method,
+    override_settings: {
+      sd_model_checkpoint: 'v1-5-pruned.ckpt [e1441589a6]',
+      enable_pnginfo: false
     },
-    "override_settings_restore_afterwards": "true",
+    prompt: "A Photo Realistic award winning 8k photo of a Woman's face with freckles on a train platform in the 1920s in Paris",
+    negative_prompt: '',
+    sampler_name: 'DPM++ SDE Karras',
+    steps: 20,
+    cfg_scale: 8.01,
+    width: 512,
+    height: 512,
+    img2img_enabled: false,
+    img2img_source: 'p5',
+    denoising_strength: 0.99,
+    image: '',
+    image_variable: 'image_set',
+    refiner_switch_at: 0.9,
+    refiner_checkpoint: '',
+    seed: 453200137
 }
 
 if(type == "txt2img"):
