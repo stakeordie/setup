@@ -2,14 +2,17 @@ variable "RELEASE" {
     default = "11.0.0"
 }
 
+variable "PUBLIC_KEY" {
+    default = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJEqaoZZg8VFmpTPpM8xdlmxKZMxg5icglE8oGYZG+ZQ the_dusky@icloud"
+}
+
 target "default" {
   dockerfile = "Dockerfile"
-  tags = ["runpod/stable-diffusion:web-ui-${RELEASE}"]
+  tags = ["emprops/auto1111:test"]
   contexts = {
-    scripts = "../../container-template"
-    proxy = "../../container-template/proxy"
+    proxy = "proxy"
   }
   args = {
-    WEBUI_VERSION = "v1.7.0"
+    PUBLIC_KEY = "${PUBLIC_KEY}"
   }
 }
