@@ -9,7 +9,7 @@ variable "PUBLIC_KEY" {
 target "default" {
   platforms = ["linux/amd64"]
   dockerfile = "Dockerfile"
-  tags = ["emprops/auto1111:image"]
+  tags = ["emprops/auto1111:image5"]
   contexts = {
     proxy = "proxy"
   }
