@@ -18,6 +18,7 @@ apt-get install git-lfs \
   && mv /webui-user.sh /home/ubuntu/auto1111/webui-user.sh \
   && mv /webui.sh /home/ubuntu/auto1111/webui.sh
 
+runuser -l ubuntu -c 'pm2 status'
 mv /error_catch_all.sh /home/ubuntu/.pm2/logs/error_catch_all.sh
 
 chmod 755 /home/ubuntu/auto1111/webui.sh \
@@ -38,5 +39,5 @@ mkdir /home/ubuntu/auto1111/models/Stable-diffusion \
 
 chown -R ubuntu:ubuntu /home/ubuntu
 
-runuser -l ubuntu -c 'pm2 status && cd /home/ubuntu/.pm2/logs && pm2 start --name error_catch_all "./error_catch_all.sh"'
+runuser -l ubuntu -c 'cd /home/ubuntu/.pm2/logs && pm2 start --name error_catch_all "./error_catch_all.sh"'
 runuser -l ubuntu -c 'cd /home/ubuntu/auto1111 && pm2 start --name auto1111_web "./webui.sh -w -p 3130"'
