@@ -12,7 +12,7 @@ def relaunch_process(launch_counter=0):
             print(f'\tRelaunch count: {launch_counter}')
 
         try:
-            launch_string = "/workspace/stable-diffusion-webui/webui.sh -f"
+            launch_string = "/workspace/stable-diffusion-webui/webui.sh -f -p 3130 -w"
             os.system(launch_string)
         except Exception as err:
             print(f"An error occurred: {err}")
