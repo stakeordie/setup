@@ -26,7 +26,7 @@ then
 fi
 
 # Install directory without trailing slash
-install_dir="/workspace"
+#install_dir="/home/$(whoami)"
 
 # Name of the subdirectory
 #clone_dir="stable-diffusion-webui"
@@ -47,14 +47,14 @@ python_cmd="python3.10"
 #export GIT="git"
 
 # python3 venv without trailing slash (defaults to ${install_dir}/${clone_dir}/venv)
-venv_dir="/workspace/venv"
+# venv_dir="venv"
 
 
 # script to launch to start the app
 #export LAUNCH_SCRIPT="launch.py"
 
 # install command for torch A100
-export TORCH_COMMAND="pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118"
+export TORCH_COMMAND="pip install clean-fid ninja numba numpy rlpycairo reportlab torch==2.1.0+cu118 torchvision --force-reinstall --extra-index-url https://download.pytorch.org/whl/cu118"
 
 
 # Requirements file to use for stable-diffusion-webui

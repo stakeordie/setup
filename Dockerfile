@@ -41,9 +41,6 @@ RUN wget https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve
 RUN wget https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors -O /sd-models/sd_xl_refiner_1.0.safetensors
 RUN wget https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_canny.pth -O /cn-models/control_v11p_sd15_canny.pth
 
-# Create a virtual environment
-RUN python -m venv /workspace/venv && \
-    pip install -U --no-cache-dir jupyterlab jupyterlab_widgets ipykernel ipywidgets
 
 # Install Automatic1111's WebUI
 RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git && \
@@ -66,8 +63,7 @@ COPY --from=proxy cache-sd-model.py /workspace/stable-diffusion-webui/
  #   pip install torch torchvision torchaudio --force-reinstall --index-url https://download.pytorch.org/whl/cu118 && \
   #  pip install xformers==0.0.22
 
-RUN mv /workspace/venv /venv && \
-    mv /workspace/stable-diffusion-webui /stable-diffusion-webui && \
+RUN mv /workspace/stable-diffusion-webui /stable-diffusion-webui && \
     mkdir /workspace/downloader && git clone https://github.com/jjangga0214/sd-models-downloader.git /workspace/downloader
 
 COPY --from=proxy relauncher.py webui-user.sh webui.sh /stable-diffusion-webui/
