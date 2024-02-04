@@ -1,14 +1,68 @@
-FROM runpod/pytorch:2.1.0-py3.10-cuda11.8.0-devel-ubuntu22.04
+FROM nvidia/cuda:11.8.0-devel-ubuntu22.04
 
 ARG PUBLIC_KEY
 
+ENV DEBIAN_FRONTEND noninteractive
+ENV SHELL=/bin/bash
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu
+ENV PATH="/workspace/venv/bin:$PATH"
 
+WORKDIR /workspace
+
+# Set up shell and update packages
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-RUN apt update \
-    && apt install sudo nano nvtop nginx wget -y \
-    && apt-get install libgoogle-perftools-dev -y \
-    && apt install libcairo2-dev pkg-config python3-dev -y
+# Copy the Python dependencies
+COPY --from=proxy requirements.txt .
+
+# Install system dependencies
+RUN apt update --yes && \
+    apt upgrade --yes && \
+    apt install --yes --no-install-recommends \
+    git openssh-server libglib2.0-0 libsm6 libgl1 libxrender1 libxext6 ffmpeg wget curl psmisc rsync vim nginx \
+    pkg-config libffi-dev libcairo2 libcairo2-dev libgoogle-perftools4 libtcmalloc-minimal4 apt-transport-https \
+    software-properties-common ca-certificates && \
+    update-ca-certificates
+
+RUN add-apt-repository ppa:deadsnakes/ppa && \
+    apt install python3.10-dev python3.10-venv -y --no-install-recommends && \
+    ln -s /usr/bin/python3.10 /usr/bin/python && \
+    rm /usr/bin/python3 && \
+    ln -s /usr/bin/python3.10 /usr/bin/python3 && \
+    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \python get-pip.py && \
+    pip install -U --no-cache-dir pip
+
+RUN mkdir /sd-models && mkdir /cn-models && \
+    wget https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.ckpt -O /sd-models/v1-5-pruned.ckpt && \
+    wget https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.ckpt -O /sd-models/v2-1_768-ema-pruned.ckpt && \
+    wget https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors -O /sd-models/sd_xl_base_1.0.safetensors && \
+    wget https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors -O /sd-models/sd_xl_refiner_1.0.safetensors && \
+    #wget https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_canny.pth -O /cn-models/control_v11p_sd15_canny.pth
+
+# Create a virtual environment
+RUN python -m venv /workspace/venv && \
+    pip install -U --no-cache-dir jupyterlab jupyterlab_widgets ipykernel ipywidgets
+
+# Install Automatic1111's WebUI
+RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git && \
+    cd stable-diffusion-webui && \
+    git checkout tags/${WEBUI_VERSION} && \
+    mv /workspace/requirements.txt ./requirements.txt && \
+    python -c "from launch import prepare_environment; prepare_environment()" --skip-torch-cuda-test
+
+COPY cache-sd-model.py /workspace/stable-diffusion-webui/
+RUN cd /workspace/stable-diffusion-webui/ && \
+    python cache-sd-model.py --use-cpu=all --ckpt /sd-models/sd_xl_base_1.0.safetensors
+
+RUN cd /workspace/stable-diffusion-webui && \
+    pip install torch torchvision torchaudio --force-reinstall --index-url https://download.pytorch.org/whl/cu118 && \
+    pip install xformers==0.0.22
+
+RUN mv /workspace/venv /venv && \
+    mv /workspace/stable-diffusion-webui /stable-diffusion-webui && \
+    mkdir /workspace/downloader && git clone https://github.com/jjangga0214/sd-models-downloader.git /workspace/downloader
+
+COPY --from=proxy relauncher.py webui-user.sh webui.sh /stable-diffusion-webui/
 
 RUN rm -rf /etc/nginx/ngix.conf \
     && rm -rf /etc/nginx/sites-enabled/default
@@ -16,20 +70,9 @@ RUN rm -rf /etc/nginx/ngix.conf \
 COPY --from=proxy nginx.conf /etc/nginx/nginx.conf
 COPY --from=proxy nginx-default /etc/nginx/sites-enabled/default
 
-RUN apt-get install -y ca-certificates curl gnupg \
-    && mkdir -p /etc/apt/keyrings \
-    && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
-    && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
-    && apt-get update
+COPY --from=proxy pre_start.sh /pre_start.sh
+COPY --from=proxy start.sh /
+RUN chmod +x /start.sh && chmod +x /pre_start.sh
 
-RUN apt-get install nodejs -y
-RUN npm install -g npm@9.8.0
-RUN npm install -g pm2@latest
-
-COPY --from=proxy post_start.sh /post_start.sh
-COPY --from=proxy webui-user.sh /webui-user.sh
-COPY --from=proxy webui.sh /webui.sh
-COPY --from=proxy error_catch_all.sh /error_catch_all.sh
-
-RUN chmod +x /post_start.sh
-CMD /start.sh
+SHELL ["/bin/bash", "--login", "-c"]
+CMD [ "/start.sh" ]
