@@ -1,19 +1,15 @@
 variable "RELEASE" {
-    default = "11.0.0"
-}
-
-variable "PUBLIC_KEY" {
-    default = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJEqaoZZg8VFmpTPpM8xdlmxKZMxg5icglE8oGYZG+ZQ the_dusky@icloud"
+    default = "1.7.0"
 }
 
 target "default" {
-  platforms = ["linux/amd64"]
   dockerfile = "Dockerfile"
-  tags = ["emprops/auto1111:image5"]
+  platforms = ["linux/amd64"]
+  tags = ["emprops/auto1111:web-ui-${RELEASE}-v1"]
   contexts = {
     proxy = "proxy"
   }
   args = {
-    PUBLIC_KEY = "${PUBLIC_KEY}"
+    WEBUI_VERSION = "v1.7.0"
   }
 }

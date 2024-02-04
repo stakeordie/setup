@@ -1,7 +1,5 @@
 FROM nvidia/cuda:11.8.0-devel-ubuntu22.04
 
-ARG PUBLIC_KEY
-
 ENV DEBIAN_FRONTEND noninteractive
 ENV SHELL=/bin/bash
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu
@@ -37,7 +35,7 @@ RUN mkdir /sd-models && mkdir /cn-models && \
     wget https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.ckpt -O /sd-models/v2-1_768-ema-pruned.ckpt && \
     wget https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors -O /sd-models/sd_xl_base_1.0.safetensors && \
     wget https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors -O /sd-models/sd_xl_refiner_1.0.safetensors && \
-    #wget https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_canny.pth -O /cn-models/control_v11p_sd15_canny.pth
+    wget https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_canny.pth -O /cn-models/control_v11p_sd15_canny.pth
 
 # Create a virtual environment
 RUN python -m venv /workspace/venv && \
@@ -49,6 +47,12 @@ RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git && \
     git checkout tags/${WEBUI_VERSION} && \
     mv /workspace/requirements.txt ./requirements.txt && \
     python -c "from launch import prepare_environment; prepare_environment()" --skip-torch-cuda-test
+
+# Install ControlNet
+RUN cd /workspace/stable-diffusion-webui && \
+    git clone https://github.com/Mikubill/sd-webui-controlnet.git extensions/sd-webui-controlnet && \
+    cd extensions/sd-webui-controlnet && \
+    pip install -r requirements.txt
 
 COPY cache-sd-model.py /workspace/stable-diffusion-webui/
 RUN cd /workspace/stable-diffusion-webui/ && \
@@ -64,11 +68,13 @@ RUN mv /workspace/venv /venv && \
 
 COPY --from=proxy relauncher.py webui-user.sh webui.sh /stable-diffusion-webui/
 
+# NGINX Proxy
 RUN rm -rf /etc/nginx/ngix.conf \
     && rm -rf /etc/nginx/sites-enabled/default
 
 COPY --from=proxy nginx.conf /etc/nginx/nginx.conf
 COPY --from=proxy nginx-default /etc/nginx/sites-enabled/default
+COPY README.md /usr/share/nginx/html/README.md
 
 COPY --from=proxy pre_start.sh /pre_start.sh
 COPY --from=proxy start.sh /
