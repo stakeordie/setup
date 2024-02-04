@@ -1,5 +1,7 @@
 FROM nvidia/cuda:11.8.0-devel-ubuntu22.04
 
+ARG WEBUI_VERSION
+
 ENV DEBIAN_FRONTEND noninteractive
 ENV SHELL=/bin/bash
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu
@@ -54,7 +56,7 @@ RUN cd /workspace/stable-diffusion-webui && \
     cd extensions/sd-webui-controlnet && \
     pip install -r requirements.txt
 
-COPY cache-sd-model.py /workspace/stable-diffusion-webui/
+COPY --from=proxy cache-sd-model.py /workspace/stable-diffusion-webui/
 RUN cd /workspace/stable-diffusion-webui/ && \
     python cache-sd-model.py --use-cpu=all --ckpt /sd-models/sd_xl_base_1.0.safetensors
 
