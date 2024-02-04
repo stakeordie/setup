@@ -1,16 +1,3 @@
-FROM alpine:3.12 as download
-
-RUN apk add --no-cache wget
-
-RUN mkdir /sd-models && \
-    mkdir /cn-models
-
-RUN wget -q https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.ckpt -O /sd-models/v1-5-pruned.ckpt
-RUN wget -q https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.ckpt -O /sd-models/v2-1_768-ema-pruned.ckpt
-RUN wget -q https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors -O /sd-models/sd_xl_base_1.0.safetensors
-RUN wget -q https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors -O /sd-models/sd_xl_refiner_1.0.safetensors
-RUN wget -q https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_canny.pth -O /cn-models/control_v11p_sd15_canny.pth
-
 FROM nvidia/cuda:11.8.0-devel-ubuntu22.04
 
 ARG WEBUI_VERSION
@@ -45,6 +32,15 @@ RUN add-apt-repository ppa:deadsnakes/ppa && \
     curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \python get-pip.py && \
     pip install -U --no-cache-dir pip
 
+RUN mkdir /sd-models && \
+    mkdir /cn-models && \
+    cd /sd-models && \
+    wget https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.ckpt -q --show-progress
+RUN wget https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.ckpt -O /sd-models/v2-1_768-ema-pruned.ckpt
+RUN wget https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors -O /sd-models/sd_xl_base_1.0.safetensors
+RUN wget https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors -O /sd-models/sd_xl_refiner_1.0.safetensors
+RUN wget https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_canny.pth -O /cn-models/control_v11p_sd15_canny.pth
+
 # Create a virtual environment
 RUN python -m venv /workspace/venv && \
     pip install -U --no-cache-dir jupyterlab jupyterlab_widgets ipykernel ipywidgets
@@ -63,16 +59,12 @@ RUN cd /workspace/stable-diffusion-webui && \
     pip install -r requirements.txt
 
 COPY --from=proxy cache-sd-model.py /workspace/stable-diffusion-webui/
+#RUN cd /workspace/stable-diffusion-webui/ && \
+ #   python cache-sd-model.py --use-cpu=all --ckpt /sd-models/v1-5-pruned.ckpt
 
-COPY --from=download /sd-models /sd-models
-COPY --from=download /cn-models /cn-models
-
-RUN cd /workspace/stable-diffusion-webui/ && \
-    python cache-sd-model.py --use-cpu=all --ckpt /sd-models/sd_xl_base_1.0.safetensors
-
-RUN cd /workspace/stable-diffusion-webui && \
-    pip install torch torchvision torchaudio --force-reinstall --index-url https://download.pytorch.org/whl/cu118 && \
-    pip install xformers==0.0.22
+#RUN cd /workspace/stable-diffusion-webui && \
+ #   pip install torch torchvision torchaudio --force-reinstall --index-url https://download.pytorch.org/whl/cu118 && \
+  #  pip install xformers==0.0.22
 
 RUN mv /workspace/venv /venv && \
     mv /workspace/stable-diffusion-webui /stable-diffusion-webui && \
@@ -90,7 +82,7 @@ COPY README.md /usr/share/nginx/html/README.md
 
 COPY --from=proxy pre_start.sh /pre_start.sh
 COPY --from=proxy start.sh /
-RUN chmod +x /start.sh && chmod +x /pre_start.sh
+RUN chmod +x /start.sh && chmod +x /pre_start.sh && chmod +x /stable-diffusion-webui/webui.sh
 
 SHELL ["/bin/bash", "--login", "-c"]
 CMD [ "/start.sh" ]

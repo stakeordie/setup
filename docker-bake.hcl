@@ -11,5 +11,7 @@ target "default" {
   }
   args = {
     WEBUI_VERSION = "v1.7.0"
+    HUGGING_USER = "sandy@stakeordie.com"
+    HUGGING_PASSWORD= "ZUM2drp4vqj3xbn!ezm"
   }
 }

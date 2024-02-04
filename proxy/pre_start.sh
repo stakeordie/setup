@@ -1,7 +1,7 @@
 echo "**** syncing venv to workspace, please wait. This could take a while on first startup! ****"
 rsync --remove-source-files -rlptDu --ignore-existing /venv/ /workspace/venv/
 
-apt-get install git-lfs && git lfs install \
+apt-get install nano git-lfs && git lfs install \
   && rm -rf /home/ubuntu/auto1111/models \
   && git clone https://github.com/stakeordie/sd_models.git /home/ubuntu/auto1111/models/ \
   && rm -rf /home/ubuntu/auto1111/webui.sh && rm -rf /home/ubuntu/auto1111/webui-user.sh \
