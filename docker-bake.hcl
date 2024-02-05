@@ -5,7 +5,7 @@ variable "RELEASE" {
 target "default" {
   dockerfile = "Dockerfile"
   platforms = ["linux/amd64"]
-  tags = ["emprops/auto1111:newtest"]
+  tags = ["emprops/auto1111:v1"]
   contexts = {
     proxy = "proxy"
   }
