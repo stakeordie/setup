@@ -6,7 +6,7 @@ import argparse
 from PIL import Image
 parser = argparse.ArgumentParser()
 
-parser.add_argument("-p", "--port", help="Instance Port", default="3100")
+parser.add_argument("-p", "--port", help="Instance Port", default="3130")
 parser.add_argument("--output-file-name", help="Name of output file. Example: my_output.png", default="output.png")
 parser.add_argument("--cfg-scale", help="CFG Scale (0 - Unlimited, 7.5 standard)", default="7")
 parser.add_argument("--height", help="Height in Pixels", default="1024")
@@ -47,3 +47,6 @@ r = response.json()
 
 image = Image.open(io.BytesIO(base64.b64decode(r['images'][0])))
 image.save(f'/root/setup/proxy/test/{args.output_file_name}')
+
+#example
+# python test.py -p 3130 --output-file-name output.png --cfg-scale 7 --height 1024 --width 1024 --prompt "a cut paper origami diorama. Perspective from above, godlike, tilt shift, the city is a toy. Looking down through clouds. Blimps fly below. A (broken down) ((crumbling)) empty high-rise city like New York. in winter, snow storm, cold, ice, deep freeze. it is the middle of the day, bright, sunshine	the sky is a has faint tinges of purple and green. A massive	((flying sea creature)) in the foreground on a section of the seawall that towers over everything. Water pours into the city beginning the flood that will be its certain demise." --negative-prompt "((photo)), ((photograph)), trees, nature, text, lines of text, frame, frames, border, title, words, "

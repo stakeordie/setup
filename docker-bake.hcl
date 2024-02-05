@@ -5,13 +5,13 @@ variable "RELEASE" {
 target "default" {
   dockerfile = "Dockerfile"
   platforms = ["linux/amd64"]
-  tags = ["emprops/auto1111:web-ui-${RELEASE}-v1"]
+  tags = ["emprops/auto1111:newtest"]
   contexts = {
     proxy = "proxy"
   }
   args = {
     WEBUI_VERSION = "v1.7.0"
-    HUGGING_USER = "sandy@stakeordie.com"
-    HUGGING_PASSWORD= "ZUM2drp4vqj3xbn!ezm"
+    PYTHON_VERSION = "3.10"
+    TORCH = "torch==2.1.0+cu118 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118"
   }
 }
