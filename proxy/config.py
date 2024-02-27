@@ -11,14 +11,14 @@ DEFAULT_FILEPATH = '/home/ubuntu/auto1111/config.json'
 
 DEFAULT_OUTDIRS = {
   "outdir_samples": "",
-  "outdir_txt2img_samples": "/output/txt2img",
-  "outdir_img2img_samples": "/output/img2img",
-  "outdir_extras_samples": "/output/extras",
+  "outdir_txt2img_samples": "/home/ubuntu/output/txt2img",
+  "outdir_img2img_samples": "/home/ubuntu/img2img",
+  "outdir_extras_samples": "/home/ubuntu/extras",
   "outdir_grids": "",
-  "outdir_txt2img_grids": "/output/txt2img-grids",
-  "outdir_img2img_grids": "/output/img2img-grids",
-  "outdir_save": "/output/saved",
-  "outdir_init_images": "/output/init-images",
+  "outdir_txt2img_grids": "/home/ubuntu/txt2img-grids",
+  "outdir_img2img_grids": "/home/ubuntu/img2img-grids",
+  "outdir_save": "/home/ubuntu/saved",
+  "outdir_init_images": "/home/ubuntu/init-images",
   "sd_checkpoints_limit": 4,
   "sd_checkpoints_keep_in_cpu": bool(0),
 }

@@ -67,6 +67,7 @@ add_ubuntu_user() {
 }
 
 configure_nginx() {
+    echo $GITACCESSKEY >> ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
     eval "$(ssh-agent -s)"
     ssh-add /root/.ssh/id_ed25519
     ssh-keyscan github.com > ~/.ssh/githubKey
@@ -89,6 +90,9 @@ install_pm2() {
     npm install -g pm2@latest
     runuser -l ubuntu -c 'pm2 status'
     cp /root/setup/proxy/error_catch_all.sh /home/ubuntu/.pm2/logs/error_catch_all.sh
+    cp /root/setup/proxy/.bash_aliases /home/ubuntu/.bash_aliases
+    chown ubuntu:ubuntu /home/ubuntu/.bash_aliases
+    runuser -l ubuntu -c "source /home/ubuntu/.bashrc"
 }
 
 a1111_options() {
