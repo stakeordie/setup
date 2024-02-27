@@ -67,10 +67,14 @@ add_ubuntu_user() {
 }
 
 configure_nginx() {
-    echo "Configuring Nginx..."
-    rm -rf /etc/nginx/ngix.conf && cp ./proxy/nginx.conf /etc/nginx/nginx.conf
-    rm -rf /etc/nginx/sites-enabled/default && cp ./proxy/nginx-default /etc/nginx/sites-enabled/default
-    service nginx restart
+    eval "$(ssh-agent -s)"
+    ssh-add /root/.ssh/id_ed25519
+    ssh-keyscan github.com > ~/.ssh/githubKey
+    ssh-keygen -lf ~/.ssh/githubKey
+    cat ~/.ssh/githubKey >> ~/.ssh/known_hosts
+    rm -rf /etc/nginx
+    git clone -b sd-node git@github.com:stakeordie/emprops-nginx-conf.git /etc/nginx
+    service nginx start
 }
 
 install_pm2() {
@@ -118,8 +122,7 @@ install_a1111() {
 
 download_models() {
     echo "Downloading Models"
-    mkdir -p /home/ubuntu/checkpoints/
-    cd /home/ubuntu/checkpoints/
+    cd /home/ubuntu/auto1111/models/Stable-diffusion
     for i in ${MODELS//,/ }
     do
         case $i in
@@ -134,10 +137,13 @@ download_models() {
                 wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors
                 ;;
             ALL)
-                wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.ckpt
-                wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.ckpt
-                wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
-                wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors
+                wget --no-verbose --show-progress --progress=bar:force:noscroll "https://civitai.com/api/download/models/288982?type=Model&format=SafeTensor&size=full&fp=fp16" -O JuggernautXL_v8Rundiffusion.safetensors && MODELS_TO_LOAD="JuggernautXL_v8Rundiffusion.safetensors,"
+                wget --no-verbose --show-progress --progress=bar:force:noscroll "https://civitai.com/api/download/models/223670?type=Model&format=SafeTensor&size=full&fp=fp16" -O epiCPhotoGasm.safetensors && MODELS_TO_LOAD+="epiCPhotoGasm.safetensors,"
+                wget --user $HUGGING_USER --password $HUGGING_PASSWORD --no-verbose --show-progress --progress=bar:force:noscroll https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.safetensors && MODELS_TO_LOAD+="v1-5-pruned.safetensors,"
+                wget --user $HUGGING_USER --password $HUGGING_PASSWORD  --no-verbose --show-progress --progress=bar:force:noscroll https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.safetensors && MODELS_TO_LOAD+="v2-1_768-ema-pruned.safetensors,"
+                wget --user $HUGGING_USER --password $HUGGING_PASSWORD --no-verbose --show-progress --progress=bar:force:noscroll https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0_0.9vae.safetensors && MODELS_TO_LOADS+="sd_xl_refiner_1.0_0.9vae.safetensors,"
+                wget --user $HUGGING_USER --password $HUGGING_PASSWORD --no-verbose --show-progress --progress=bar:force:noscroll https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0_0.9vae.safetensors && MODELS_TO_LOAD+="sd_xl_base_1.0_0.9vae.safetensors,"
+                # add Jugg
                 ;;
             4.0)
                 wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/sdxl-turbo/resolve/main/sd_xl_turbo_1.0_fp16.safetensors
@@ -186,12 +192,14 @@ start_a1111() {
                 ;;
             ALL)
                 echo "Copying Auto1111"
-                runuser -l ubuntu -c "ln -s /home/ubuntu/checkpoints/v1-5-pruned.ckpt /home/ubuntu/auto1111/models/Stable-diffusion/v1-5-pruned.ckpt"
-                runuser -l ubuntu -c "ln -s /home/ubuntu/checkpoints/v2-1_768-ema-pruned.ckpt /home/ubuntu/auto1111/models/Stable-diffusion/v2-1_768-ema-pruned.ckpt"
-                runuser -l ubuntu -c "ln -s /home/ubuntu/checkpoints/sd_xl_base_1.0.safetensors /home/ubuntu/auto1111/models/Stable-diffusion/sd_xl_base_1.0.safetensors"
-                runuser -l ubuntu -c "ln -s /home/ubuntu/checkpoints/sd_xl_refiner_1.0.safetensors /home/ubuntu/auto1111/models/Stable-diffusion/sd_xl_refiner_1.0.safetensors"
                 echo "Starting Auto1111 for SDXL"
+                runuser -l ubuntu -c "python /root/setup/proxy/config.py"
                 runuser -l ubuntu -c "cd /home/ubuntu/auto1111 && pm2 start --name auto1111_web \"./webui.sh -w -p 3130\""
+                echo "WAITING TO START UP BEFORE LOADING MODELS..."
+                sleep 60
+                IFS=, read -r -a models <<<"${MODELS}"
+                echo "Loading models: ${MODELS}"
+                for model in "${models[@]}"; do runuser -l ubuntu -c "echo $model && python /root/setup/proxy/loader.py -m $model"; done
                 ;;
             4.0)
                 echo "Copying Auto1111"
@@ -405,10 +413,10 @@ else
         a1111_options
         initialize
         add_ubuntu_user
-        configure_nginx
         install_pm2
         install_a1111
         start_a1111
+        configure_nginx
         ;;
     8)
         echo "exec: initialize, add_ubuntu_user, configure_nginx, install_pm2, install_auto1111, start_auto1111, and install_controlnet"

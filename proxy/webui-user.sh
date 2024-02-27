@@ -22,7 +22,7 @@ fi
 
 if [ -z "$gpu" ]
 then
-      gpu="0"
+      gpu=" "
 fi
 
 # Install directory without trailing slash
