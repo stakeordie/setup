@@ -177,7 +177,6 @@ start_a1111() {
         echo "Loading models: ${MODELS}"
         for model in "${models[@]}"; do runuser -l ubuntu -c "echo $model && python /home/ubuntu/config.py -m $model"; done
 
-    done
 }
 
 test_instances() {
