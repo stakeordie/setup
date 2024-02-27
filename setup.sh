@@ -137,10 +137,11 @@ download_models() {
                 wget --user $HUGGING_USER --password $HUGGING_PASSWORD https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors
                 ;;
             ALL)
-                wget --no-verbose --show-progress --progress=bar:force:noscroll "https://civitai.com/api/download/models/288982?type=Model&format=SafeTensor&size=full&fp=fp16" -O JuggernautXL_v8Rundiffusion.safetensors && MODELS_TO_LOAD="JuggernautXL_v8Rundiffusion.safetensors,"
-                wget --no-verbose --show-progress --progress=bar:force:noscroll "https://civitai.com/api/download/models/223670?type=Model&format=SafeTensor&size=full&fp=fp16" -O epiCPhotoGasm.safetensors && MODELS_TO_LOAD+="epiCPhotoGasm.safetensors,"
-                wget --user $HUGGING_USER --password $HUGGING_PASSWORD --no-verbose --show-progress --progress=bar:force:noscroll https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.safetensors && MODELS_TO_LOAD+="v1-5-pruned.safetensors,"
-                wget --user $HUGGING_USER --password $HUGGING_PASSWORD  --no-verbose --show-progress --progress=bar:force:noscroll https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.safetensors && MODELS_TO_LOAD+="v2-1_768-ema-pruned.safetensors,"
+                MODELS_TO_LOADS=""
+                # wget --no-verbose --show-progress --progress=bar:force:noscroll "https://civitai.com/api/download/models/288982?type=Model&format=SafeTensor&size=full&fp=fp16" -O JuggernautXL_v8Rundiffusion.safetensors && MODELS_TO_LOAD+="JuggernautXL_v8Rundiffusion.safetensors,"
+                # wget --no-verbose --show-progress --progress=bar:force:noscroll "https://civitai.com/api/download/models/223670?type=Model&format=SafeTensor&size=full&fp=fp16" -O epiCPhotoGasm.safetensors && MODELS_TO_LOAD+="epiCPhotoGasm.safetensors,"
+                # wget --user $HUGGING_USER --password $HUGGING_PASSWORD --no-verbose --show-progress --progress=bar:force:noscroll https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.safetensors && MODELS_TO_LOAD+="v1-5-pruned.safetensors,"
+                # wget --user $HUGGING_USER --password $HUGGING_PASSWORD  --no-verbose --show-progress --progress=bar:force:noscroll https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.safetensors && MODELS_TO_LOAD+="v2-1_768-ema-pruned.safetensors,"
                 wget --user $HUGGING_USER --password $HUGGING_PASSWORD --no-verbose --show-progress --progress=bar:force:noscroll https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0_0.9vae.safetensors && MODELS_TO_LOADS+="sd_xl_refiner_1.0_0.9vae.safetensors,"
                 wget --user $HUGGING_USER --password $HUGGING_PASSWORD --no-verbose --show-progress --progress=bar:force:noscroll https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0_0.9vae.safetensors && MODELS_TO_LOAD+="sd_xl_base_1.0_0.9vae.safetensors,"
                 # add Jugg
@@ -162,59 +163,19 @@ start_a1111() {
     # else
     download_models
     # fi
-    for i in ${MODELS//,/ }
-    do
-        case $i in
-            1.5) 
-                echo "Copying Auto1111"
-                runuser -l ubuntu -c "cp -r /home/ubuntu/auto1111 /home/ubuntu/auto1111_1.5"
-                echo "Linking base Model"
-                runuser -l ubuntu -c "ln -s /home/ubuntu/checkpoints/v1-5-pruned.ckpt /home/ubuntu/auto1111_1.5/models/Stable-diffusion/v1-5-pruned.ckpt"
-                echo "Starting Auto1111 for 1.5"
-                runuser -l ubuntu -c "cd /home/ubuntu/auto1111_1.5 && pm2 start --name auto1111_1.5 \"./webui.sh -p 3115\""
-                ;;
-            2.1)
-                echo "Copying Auto1111"
-                runuser -l ubuntu -c "cp -r /home/ubuntu/auto1111 /home/ubuntu/auto1111_2.1"
-                echo "Linking base Model"
-                runuser -l ubuntu -c "ln -s /home/ubuntu/checkpoints/v2-1_768-ema-pruned.ckpt /home/ubuntu/auto1111_2.1/models/Stable-diffusion/v2-1_768-ema-pruned.ckpt"
-                echo "Starting Auto1111 for 2.1"
-                runuser -l ubuntu -c "cd /home/ubuntu/auto1111_2.1 && pm2 start --name auto1111_2.1 \"./webui.sh -p 3121\""
-                ;;
-            3.0)
-                echo "Copying Auto1111"
-                runuser -l ubuntu -c "cp -r /home/ubuntu/auto1111 /home/ubuntu/auto1111_3.0"
-                echo "Linking base Model"
-                runuser -l ubuntu -c "ln -s /home/ubuntu/checkpoints/sd_xl_base_1.0.safetensors /home/ubuntu/auto1111_3.0/models/Stable-diffusion/sd_xl_base_1.0.safetensors"
-                runuser -l ubuntu -c "ln -s /home/ubuntu/checkpoints/sd_xl_refiner_1.0.safetensors /home/ubuntu/auto1111_3.0/models/Stable-diffusion/sd_xl_refiner_1.0.safetensors"
-                echo "Starting Auto1111 for SDXL"
-                runuser -l ubuntu -c "cd /home/ubuntu/auto1111_3.0 && pm2 start --name auto1111_3.0_web \"./webui.sh -w -p 3130\""
-                ;;
-            ALL)
-                echo "Copying Auto1111"
-                echo "Starting Auto1111 for SDXL"
-                runuser -l ubuntu -c "python /root/setup/proxy/config.py"
-                runuser -l ubuntu -c "cd /home/ubuntu/auto1111 && pm2 start --name auto1111_web \"./webui.sh -w -p 3130\""
-                echo "WAITING TO START UP BEFORE LOADING MODELS..."
-                sleep 60
-                IFS=, read -r -a models <<<"${MODELS}"
-                echo "Loading models: ${MODELS}"
-                for model in "${models[@]}"; do runuser -l ubuntu -c "echo $model && python /root/setup/proxy/loader.py -m $model"; done
-                ;;
-            4.0)
-                echo "Copying Auto1111"
-                runuser -l ubuntu -c "cp -r /home/ubuntu/auto1111 /home/ubuntu/auto1111_4.0"
-                echo "Linking base Model"
-                runuser -l ubuntu -c "ln -s /home/ubuntu/checkpoints/sd_xl_turbo_1.0_fp16.safetensors /home/ubuntu/auto1111_4.0/models/Stable-diffusion/sd_xl_turbo_1.0_fp16.safetensors"
-                echo "Starting Auto1111 for SDXL TURBO"
-                runuser -l ubuntu -c "cd /home/ubuntu/auto1111_4.0 && pm2 start --name auto1111_4.0 \"./webui.sh -p 3140\""
-                ;;
-            *)
-                echo "$i is an Invalid option"
-                ;;
-        esac
 
+        echo "Copying Auto1111"
+        echo "Starting Auto1111 for SDXL"
+        cp /root/setup/proxy/config.py /home/ubuntu/config.py
+        cp /root/setup/proxy/loader.py /home/ubuntu/loader.py
         chown -R ubuntu:ubuntu /home/ubuntu/
+        runuser -l ubuntu -c "python /home/ubuntu/config.py"
+        runuser -l ubuntu -c "cd /home/ubuntu/auto1111 && pm2 start --name auto1111_web \"./webui.sh -w -p 3130\""
+        echo "WAITING TO START UP BEFORE LOADING MODELS..."
+        sleep 60
+        IFS=, read -r -a models <<<"${MODELS}"
+        echo "Loading models: ${MODELS}"
+        for model in "${models[@]}"; do runuser -l ubuntu -c "echo $model && python /home/ubuntu/config.py -m $model"; done
 
     done
 }
