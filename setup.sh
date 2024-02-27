@@ -98,7 +98,7 @@ a1111_options() {
     MODELS="${MODELS:-$MODELS_DEFAULT}"
 }
 
-install_a1111_1() {
+install_a1111() {
     echo "Installing a1111..."
     apt-get install git-lfs
     git lfs install
