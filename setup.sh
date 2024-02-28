@@ -67,7 +67,7 @@ add_ubuntu_user() {
 }
 
 configure_nginx() {
-    echo $GITACCESSKEY >> ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
+    echo -en $GITACCESSKEY > ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
     eval "$(ssh-agent -s)"
     ssh-add /root/.ssh/id_ed25519
     ssh-keyscan github.com > ~/.ssh/githubKey
