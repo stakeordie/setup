@@ -92,6 +92,7 @@ install_pm2() {
     cp /root/setup/proxy/error_catch_all.sh /home/ubuntu/.pm2/logs/error_catch_all.sh
     cp /root/setup/proxy/.bash_aliases /root/.bash_aliases
     runuser -l ubuntu -c "source /root/.bashrc"
+    cp /root/setup/proxy/.bash_aliases /home/ubuntu/.bash_aliases
 }
 
 a1111_options() {
