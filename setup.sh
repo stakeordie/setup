@@ -177,9 +177,9 @@ start_a1111() {
         runuser -l ubuntu -c "cd /home/ubuntu/auto1111 && pm2 start --name auto1111_web \"./webui.sh -w -p 3130\""
         echo "WAITING TO START UP BEFORE LOADING MODELS..."
         sleep 60
-        IFS=, read -r -a models <<<"${MODELS}"
-        echo "Loading models: ${MODELS}"
-        for model in "${models[@]}"; do runuser -l ubuntu -c "echo $model && python /home/ubuntu/config.py -m $model"; done
+        IFS=, read -r -a models_to_load <<<"${MODELS_TO_LOAD}"
+        echo "Loading models_to_load: ${MODELS_TO_LOAD}"
+        for model_to_load in "${models_to_load[@]}"; do runuser -l ubuntu -c "echo $model_to_load && python /home/ubuntu/config.py -m $model_to_load"; done
 
 }
 
