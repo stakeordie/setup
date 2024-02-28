@@ -142,10 +142,10 @@ download_models() {
                 ;;
             ALL)
                 MODELS_TO_LOADS=""
-                # wget --no-verbose --show-progress --progress=bar:force:noscroll "https://civitai.com/api/download/models/288982?type=Model&format=SafeTensor&size=full&fp=fp16" -O JuggernautXL_v8Rundiffusion.safetensors && MODELS_TO_LOAD+="JuggernautXL_v8Rundiffusion.safetensors,"
-                # wget --no-verbose --show-progress --progress=bar:force:noscroll "https://civitai.com/api/download/models/223670?type=Model&format=SafeTensor&size=full&fp=fp16" -O epiCPhotoGasm.safetensors && MODELS_TO_LOAD+="epiCPhotoGasm.safetensors,"
-                # wget --user $HUGGING_USER --password $HUGGING_PASSWORD --no-verbose --show-progress --progress=bar:force:noscroll https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.safetensors && MODELS_TO_LOAD+="v1-5-pruned.safetensors,"
-                # wget --user $HUGGING_USER --password $HUGGING_PASSWORD  --no-verbose --show-progress --progress=bar:force:noscroll https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.safetensors && MODELS_TO_LOAD+="v2-1_768-ema-pruned.safetensors,"
+                wget --no-verbose --show-progress --progress=bar:force:noscroll "https://civitai.com/api/download/models/288982?type=Model&format=SafeTensor&size=full&fp=fp16" -O JuggernautXL_v8Rundiffusion.safetensors && MODELS_TO_LOAD+="JuggernautXL_v8Rundiffusion.safetensors,"
+                wget --no-verbose --show-progress --progress=bar:force:noscroll "https://civitai.com/api/download/models/223670?type=Model&format=SafeTensor&size=full&fp=fp16" -O epiCPhotoGasm.safetensors && MODELS_TO_LOAD+="epiCPhotoGasm.safetensors,"
+                wget --user $HUGGING_USER --password $HUGGING_PASSWORD --no-verbose --show-progress --progress=bar:force:noscroll https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.safetensors && MODELS_TO_LOAD+="v1-5-pruned.safetensors,"
+                wget --user $HUGGING_USER --password $HUGGING_PASSWORD  --no-verbose --show-progress --progress=bar:force:noscroll https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.safetensors && MODELS_TO_LOAD+="v2-1_768-ema-pruned.safetensors,"
                 wget --user $HUGGING_USER --password $HUGGING_PASSWORD --no-verbose --show-progress --progress=bar:force:noscroll https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0_0.9vae.safetensors && MODELS_TO_LOADS+="sd_xl_refiner_1.0_0.9vae.safetensors,"
                 wget --user $HUGGING_USER --password $HUGGING_PASSWORD --no-verbose --show-progress --progress=bar:force:noscroll https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0_0.9vae.safetensors && MODELS_TO_LOAD+="sd_xl_base_1.0_0.9vae.safetensors,"
                 # add Jugg
