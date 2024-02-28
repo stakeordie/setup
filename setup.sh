@@ -91,8 +91,9 @@ install_pm2() {
     runuser -l ubuntu -c 'pm2 status'
     cp /root/setup/proxy/error_catch_all.sh /home/ubuntu/.pm2/logs/error_catch_all.sh
     cp /root/setup/proxy/.bash_aliases /root/.bash_aliases
-    runuser -l ubuntu -c "source /root/.bashrc"
     cp /root/setup/proxy/.bash_aliases /home/ubuntu/.bash_aliases
+    runuser -l ubuntu -c "source /home/ubuntu/.bashrc"
+    source /root/.bashrc
 }
 
 a1111_options() {
