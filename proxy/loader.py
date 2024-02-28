@@ -6,7 +6,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument("-m", "--model", help="Model To Load", default="sd_xl_base_1.0")
+parser.add_argument("-m", "--model", help="Model To Load", default="sd_xl_base_1.0_0.9vae.safetensors")
 
 args = parser.parse_args()
 
