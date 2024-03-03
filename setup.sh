@@ -113,7 +113,7 @@ install_a1111() {
     cd /home/ubuntu/auto1111
     echo $1
     if [[ $1 = "legacy" ]]; then
-        git reset --hard 68f336bd994bed5442ad95bad6b6ad5564a5409a
+        git reset --hard cf2772fab0af5573da775e7437e6acdca424f26e
     fi
     cd ~
     rm -rf /home/ubuntu/auto1111/models && cp -r /home/ubuntu/models /home/ubuntu/auto1111/models
