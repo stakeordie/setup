@@ -109,12 +109,12 @@ install_a1111() {
     git lfs install
     runuser -l ubuntu -c 'git lfs install'
     git clone https://github.com/stakeordie/sd_models.git /home/ubuntu/models/
-    git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
+    git clone -b v1.7.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
     cd /home/ubuntu/auto1111
-    echo $1
-    if [[ $1 = "legacy" ]]; then
-        git reset --hard cf2772fab0af5573da775e7437e6acdca424f26e
-    fi
+    # echo $1
+    # if [[ $1 = "Legacy" ]]; then
+    #     git reset --hard cf2772fab0af5573da775e7437e6acdca424f26e
+    # fi
     cd ~
     rm -rf /home/ubuntu/auto1111/models && cp -r /home/ubuntu/models /home/ubuntu/auto1111/models
     rm -rf /home/ubuntu/auto1111/webui-user.sh && cp /root/setup/proxy/webui-user.sh /home/ubuntu/auto1111/webui-user.sh
@@ -279,7 +279,7 @@ fi
 
 if [[ -z $VERSION ]]; then
     VERSION_DEFAULT="LATEST"
-    read -p "Enter s for Single Function or m for multiple [$VERSION_DEFAULT/Legacy]: " VERSION
+    read -p "SELECT VERSION OF AUTO1111 [$VERSION_DEFAULT/Legacy]: " VERSION
     VERSION="${VERSION:-$VERSION_DEFAULT}"
     echo $VERSION
 fi
