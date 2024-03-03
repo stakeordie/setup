@@ -109,20 +109,21 @@ install_a1111() {
     git lfs install
     runuser -l ubuntu -c 'git lfs install'
     git clone https://github.com/stakeordie/sd_models.git /home/ubuntu/models/
-    git clone -b v1.7.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
+    git clone https://github.com/lllyasviel/stable-diffusion-webui-forge.git /home/ubuntu/auto1111
+    ##git clone -b v1.7.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
     cd /home/ubuntu/auto1111
     # echo $1
     # if [[ $1 = "Legacy" ]]; then
     #     git reset --hard cf2772fab0af5573da775e7437e6acdca424f26e
     # fi
-    cd ~
-    rm -rf /home/ubuntu/auto1111/models && cp -r /home/ubuntu/models /home/ubuntu/auto1111/models
-    rm -rf /home/ubuntu/auto1111/webui-user.sh && cp /root/setup/proxy/webui-user.sh /home/ubuntu/auto1111/webui-user.sh
-    rm -rf /home/ubuntu/auto1111/webui.sh && cp /root/setup/proxy/webui.sh /home/ubuntu/auto1111/webui.sh && chmod 755 /home/ubuntu/auto1111/webui.sh
-    echo "httpx==0.24.1" >> /home/ubuntu/auto1111/requirements.txt
-    echo "httpx==0.24.1" >> /home/ubuntu/auto1111/requirements_versions.txt
-    chown -R ubuntu:ubuntu /home/ubuntu
-    runuser -l ubuntu -c 'cd /home/ubuntu/.pm2/logs && pm2 start --name error_catch_all "./error_catch_all.sh"'
+    # cd ~
+    # rm -rf /home/ubuntu/auto1111/models && cp -r /home/ubuntu/models /home/ubuntu/auto1111/models
+    # rm -rf /home/ubuntu/auto1111/webui-user.sh && cp /root/setup/proxy/webui-user.sh /home/ubuntu/auto1111/webui-user.sh
+    # rm -rf /home/ubuntu/auto1111/webui.sh && cp /root/setup/proxy/webui.sh /home/ubuntu/auto1111/webui.sh && chmod 755 /home/ubuntu/auto1111/webui.sh
+    # echo "httpx==0.24.1" >> /home/ubuntu/auto1111/requirements.txt
+    # echo "httpx==0.24.1" >> /home/ubuntu/auto1111/requirements_versions.txt
+    # chown -R ubuntu:ubuntu /home/ubuntu
+    # runuser -l ubuntu -c 'cd /home/ubuntu/.pm2/logs && pm2 start --name error_catch_all "./error_catch_all.sh"'
 }
 
 download_models() {
