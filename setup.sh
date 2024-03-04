@@ -43,7 +43,15 @@ initialize() {
     apt update
     apt install sudo nano nvtop nginx -y
     apt-get install libgoogle-perftools-dev -y
-    apt install libcairo2-dev pkg-config python3-dev -y
+    apt install libcairo2-dev pkg-config make build-essential libssl-dev zlib1g-dev libbz2-dev \
+    libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils \
+    tk-dev libffi-dev liblzma-dev python-openssl git-y
+    curl https://pyenv.run | bash
+    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+    echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+    echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n eval "$(pyenv init -)"\nfi' >> ~/.bashrc
+    source ~/.bashrc
+    pyenv install 3.10.6 && pyenv global 3.10.6
 }
 
 add_ubuntu_user() {
