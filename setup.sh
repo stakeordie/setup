@@ -305,7 +305,8 @@ fi
 
 if [[ -z $RELEASE ]]; then
     RELEASE_DEFAULT="1.7"
-    read -p "SELECT RELEASE OF AUTO1111 [Default: $RELEASE_DEFAULT Other Options: (1.6, 1.8, etc)]: " VERSION
+    echo -n "SELECT RELEASE OF AUTO1111 [Default: $RELEASE_DEFAULT Other Options: (1.6, 1.8, etc)]: "
+    read RELEASE
     RELEASE="${RELEASE:-$RELEASE_DEFAULT}"
     echo $RELEASE
 fi
