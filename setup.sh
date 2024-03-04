@@ -43,10 +43,9 @@ initialize() {
     apt update -y
     apt install sudo nano nvtop nginx -y
     apt-get install libgoogle-perftools-dev -y
-    ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime \
-    DEBIAN_FRONTEND=noninteractive apt install libcairo2-dev pkg-config make build-essential libssl-dev zlib1g-dev libbz2-dev \
+    DEBIAN_FRONTEND=noninteractive apt install -y libcairo2-dev pkg-config make build-essential libssl-dev zlib1g-dev libbz2-dev \
     libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils \
-    tk-dev libffi-dev liblzma-dev -y
+    tk-dev libffi-dev liblzma-dev
     curl https://pyenv.run | bash
     echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
     echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
