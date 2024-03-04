@@ -43,7 +43,8 @@ initialize() {
     apt update -y
     apt install sudo nano nvtop nginx -y
     apt-get install libgoogle-perftools-dev -y
-    apt install libcairo2-dev pkg-config make build-essential libssl-dev zlib1g-dev libbz2-dev \
+    ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime \
+    DEBIAN_FRONTEND=noninteractive apt install libcairo2-dev pkg-config make build-essential libssl-dev zlib1g-dev libbz2-dev \
     libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils \
     tk-dev libffi-dev liblzma-dev -y
     curl https://pyenv.run | bash
