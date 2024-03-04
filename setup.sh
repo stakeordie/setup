@@ -76,6 +76,7 @@ configure_nginx() {
     rm -rf /etc/nginx
     git clone -b sd-node git@github.com:stakeordie/emprops-nginx-conf.git /etc/nginx
     service nginx start
+    service nginx restart
 }
 
 install_pm2() {
