@@ -50,7 +50,9 @@ initialize() {
     echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
     echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
     echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n eval "$(pyenv init -)"\nfi' >> ~/.bashrc
+    SLEEP 5
     source ~/.bashrc
+    exec "$SHELL"
     pyenv install 3.10.6 && pyenv global 3.10.6
 }
 
