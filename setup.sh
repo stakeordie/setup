@@ -110,38 +110,29 @@ install_a1111() {
     runuser -l ubuntu -c 'git lfs install'
     git clone https://github.com/stakeordie/sd_models.git /home/ubuntu/models/
     git clone https://github.com/lllyasviel/stable-diffusion-webui-forge.git /home/ubuntu/auto1111
-    for i in ${RELEASE//,/ }
-        do
-            case $i in
-            1.5) 
-                git clone -b v1.5.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
-                ;;
-            1.5.1) 
-                git clone -b v1.5.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
-                ;;
-            1.5.2) 
-                git clone -b v1.5.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
-                ;;  
-            1.6) 
-                git clone -b v1.6.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
-                ;;
-            1.7) 
-                git clone -b v1.7.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
-                ;;
-            1.8) 
-                git clone -b v1.8.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
-                ;;
-            *)
-                git clone https://github.com/lllyasviel/stable-diffusion-webui-forge.git /home/ubuntu/auto1111
-                ;;
-        esac
-    done
-    ##git clone -b v1.7.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
-    cd /home/ubuntu/auto1111
-    # echo $1
-    # if [[ $1 = "Legacy" ]]; then
-    #     git reset --hard cf2772fab0af5573da775e7437e6acdca424f26e
-    # fi
+    case $RELEASE in
+        1.5) 
+            git clone -b v1.5.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
+            ;;
+        1.5.1) 
+            git clone -b v1.5.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
+            ;;
+        1.5.2) 
+            git clone -b v1.5.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
+            ;;  
+        1.6) 
+            git clone -b v1.6.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
+            ;;
+        1.7) 
+            git clone -b v1.7.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
+            ;;
+        1.8) 
+            git clone -b v1.8.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
+            ;;
+        *)
+            git clone https://github.com/lllyasviel/stable-diffusion-webui-forge.git /home/ubuntu/auto1111
+            ;;
+    esac
     cd ~
     rm -rf /home/ubuntu/auto1111/models && cp -r /home/ubuntu/models /home/ubuntu/auto1111/models
     rm -rf /home/ubuntu/auto1111/webui-user.sh && cp /root/setup/proxy/webui-user.sh /home/ubuntu/auto1111/webui-user.sh
