@@ -109,7 +109,6 @@ install_a1111() {
     git lfs install
     runuser -l ubuntu -c 'git lfs install'
     git clone https://github.com/stakeordie/sd_models.git /home/ubuntu/models/
-    git clone https://github.com/lllyasviel/stable-diffusion-webui-forge.git /home/ubuntu/auto1111
     case $RELEASE in
         1.5) 
             git clone -b v1.5.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
@@ -193,7 +192,7 @@ start_a1111() {
         cp /root/setup/proxy/loader.py /home/ubuntu/loader.py
         chown -R ubuntu:ubuntu /home/ubuntu/
         runuser -l ubuntu -c "python /home/ubuntu/config.py"
-        runuser -l ubuntu -c "cd /home/ubuntu/auto1111 && pm2 start --name auto1111_web \"./webui.sh -w -p 3130\""
+        runuser -l ubuntu -c "cd /home/ubuntu/auto1111 && pm2 start --name auto1111_web \"./webui.sh -x -w -p 3130\""
         echo "WAITING TO START UP BEFORE LOADING MODELS..."
         sleep 60
         IFS=, read -r -a models_to_load <<<"${MODELS_TO_LOAD}"

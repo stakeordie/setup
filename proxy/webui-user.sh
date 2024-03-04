@@ -5,8 +5,10 @@
 
 if [ -z "$acc" ]
 then
-      acc="--opt-sdp-no-mem-attention"
+      acc="--xformers"
 fi
+
+ECHO $acc
 
 if [ -z "$webui" ]
 then

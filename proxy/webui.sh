@@ -33,6 +33,8 @@ then
       acc="--opt-sdp-no-mem-attention"
 fi
 
+ECHO $acc
+
 if [ -z "$port" ]
 then
       port="3000"
