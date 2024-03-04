@@ -135,6 +135,7 @@ install_a1111() {
     esac
     cd ~
     rm -rf /home/ubuntu/auto1111/models && cp -r /home/ubuntu/models /home/ubuntu/auto1111/models
+    rm -rf /home/ubuntu/auto1111/embeddings && cp /root/setup/proxy/embeddings /home/ubuntu/auto1111/embeddings
     rm -rf /home/ubuntu/auto1111/webui-user.sh && cp /root/setup/proxy/webui-user.sh /home/ubuntu/auto1111/webui-user.sh
     rm -rf /home/ubuntu/auto1111/webui.sh && cp /root/setup/proxy/webui.sh /home/ubuntu/auto1111/webui.sh && chmod 755 /home/ubuntu/auto1111/webui.sh
     echo "httpx==0.24.1" >> /home/ubuntu/auto1111/requirements.txt

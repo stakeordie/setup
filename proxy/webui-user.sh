@@ -56,7 +56,7 @@ python_cmd="python3.10"
 #export LAUNCH_SCRIPT="launch.py"
 
 # install command for torch A100
-export TORCH_COMMAND="pip install clean-fid ninja numba numpy rlpycairo reportlab torch==2.1.0+cu118 torchvision --force-reinstall --extra-index-url https://download.pytorch.org/whl/cu118"
+export TORCH_COMMAND="pip install clean-fid ninja numba numpy rlpycairo reportlab torch==2.0.1+cu118 torchvision --force-reinstall --extra-index-url https://download.pytorch.org/whl/cu118"
 
 
 # Requirements file to use for stable-diffusion-webui
