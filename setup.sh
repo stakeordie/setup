@@ -112,31 +112,31 @@ install_a1111() {
     git clone https://github.com/stakeordie/sd_models.git /home/ubuntu/models/
     case $RELEASE in
         1.5)
-            ECHO "1.5 YEY"
+            echo "1.5 YEY"
             git clone -b v1.5.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
             ;;
         1.5.1)
-            ECHO "1.5.1 YEY"
+            echo "1.5.1 YEY"
             git clone -b v1.5.1 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
             ;;
         1.5.2)
-            ECHO "1.5.2 YEY"
+            echo "1.5.2 YEY"
             git clone -b v1.5.2 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
             ;;  
         1.6)
-            ECHO "1.6 YEY"
+            echo "1.6 YEY"
             git clone -b v1.6.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
             ;;
-        1.7) 
-            ECHO "1.7 YEY"
+        1.7)
+            echo "1.7 YEY"
             git clone -b v1.7.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
             ;;
-        1.8) 
-            ECHO "1.8 YEY"
+        1.8)
+            echo "1.8 YEY"
             git clone -b v1.8.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
             ;;
         *)
-            ECHO "LATEST YEY"
+            echo "LATEST YEY"
             git clone https://github.com/lllyasviel/stable-diffusion-webui-forge.git /home/ubuntu/auto1111
             ;;
     esac
