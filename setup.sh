@@ -110,20 +110,46 @@ install_a1111() {
     runuser -l ubuntu -c 'git lfs install'
     git clone https://github.com/stakeordie/sd_models.git /home/ubuntu/models/
     git clone https://github.com/lllyasviel/stable-diffusion-webui-forge.git /home/ubuntu/auto1111
+    for i in ${RELEASE//,/ }
+        do
+            case $i in
+            1.5) 
+                git clone -b v1.5.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
+                ;;
+            1.5.1) 
+                git clone -b v1.5.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
+                ;;
+            1.5.2) 
+                git clone -b v1.5.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
+                ;;  
+            1.6) 
+                git clone -b v1.6.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
+                ;;
+            1.7) 
+                git clone -b v1.7.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
+                ;;
+            1.8) 
+                git clone -b v1.8.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
+                ;;
+            *)
+                git clone https://github.com/lllyasviel/stable-diffusion-webui-forge.git /home/ubuntu/auto1111
+                ;;
+        esac
+    done
     ##git clone -b v1.7.0 https://github.com/AUTOMATIC1111/stable-diffusion-webui /home/ubuntu/auto1111
     cd /home/ubuntu/auto1111
     # echo $1
     # if [[ $1 = "Legacy" ]]; then
     #     git reset --hard cf2772fab0af5573da775e7437e6acdca424f26e
     # fi
-    # cd ~
-    # rm -rf /home/ubuntu/auto1111/models && cp -r /home/ubuntu/models /home/ubuntu/auto1111/models
-    # rm -rf /home/ubuntu/auto1111/webui-user.sh && cp /root/setup/proxy/webui-user.sh /home/ubuntu/auto1111/webui-user.sh
-    # rm -rf /home/ubuntu/auto1111/webui.sh && cp /root/setup/proxy/webui.sh /home/ubuntu/auto1111/webui.sh && chmod 755 /home/ubuntu/auto1111/webui.sh
-    # echo "httpx==0.24.1" >> /home/ubuntu/auto1111/requirements.txt
-    # echo "httpx==0.24.1" >> /home/ubuntu/auto1111/requirements_versions.txt
-    # chown -R ubuntu:ubuntu /home/ubuntu
-    # runuser -l ubuntu -c 'cd /home/ubuntu/.pm2/logs && pm2 start --name error_catch_all "./error_catch_all.sh"'
+    cd ~
+    rm -rf /home/ubuntu/auto1111/models && cp -r /home/ubuntu/models /home/ubuntu/auto1111/models
+    rm -rf /home/ubuntu/auto1111/webui-user.sh && cp /root/setup/proxy/webui-user.sh /home/ubuntu/auto1111/webui-user.sh
+    rm -rf /home/ubuntu/auto1111/webui.sh && cp /root/setup/proxy/webui.sh /home/ubuntu/auto1111/webui.sh && chmod 755 /home/ubuntu/auto1111/webui.sh
+    echo "httpx==0.24.1" >> /home/ubuntu/auto1111/requirements.txt
+    echo "httpx==0.24.1" >> /home/ubuntu/auto1111/requirements_versions.txt
+    chown -R ubuntu:ubuntu /home/ubuntu
+    runuser -l ubuntu -c 'cd /home/ubuntu/.pm2/logs && pm2 start --name error_catch_all "./error_catch_all.sh"'
 }
 
 download_models() {
@@ -266,7 +292,7 @@ do
     case ${flag} in
         m) METHOD="${OPTARG}" ;;
         f) FUNCTION="${OPTARG}" ;;
-        v) VERSION="${OPTARG}" ;;
+        r) RELEASE="${OPTARG}" ;;
         *) break;; 
     esac
 done
@@ -278,11 +304,11 @@ if [[ -z $METHOD ]]; then
     echo $METHOD
 fi
 
-if [[ -z $VERSION ]]; then
-    VERSION_DEFAULT="LATEST"
-    read -p "SELECT VERSION OF AUTO1111 [$VERSION_DEFAULT/Legacy]: " VERSION
-    VERSION="${VERSION:-$VERSION_DEFAULT}"
-    echo $VERSION
+if [[ -z $RELEASE ]]; then
+    RELEASE_DEFAULT="1.7"
+    read -p "SELECT RELEASE OF AUTO1111 [Default: $RELEASE_DEFAULT Other Options: (1.6, 1.8, etc)]: " VERSION
+    RELEASE="${RELEASE:-$RELEASE_DEFAULT}"
+    echo $RELEASE
 fi
 
 if [[ -z $FUNCTION ]]; then
