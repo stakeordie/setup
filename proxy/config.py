@@ -20,7 +20,7 @@ DEFAULT_OUTDIRS = {
   "outdir_save": "/home/ubuntu/saved",
   "outdir_init_images": "/home/ubuntu/init-images",
   "sd_checkpoints_limit": 4,
-  "sd_checkpoints_keep_in_cpu": bool(0),
+  "sd_checkpoints_keep_in_cpu": bool(0)
 }
 RE_VALID_OUTDIR = re.compile(r"(^/output(/\.?[\w\-\_]+)+/?$)|(^\s?$)")
 
