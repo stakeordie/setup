@@ -156,7 +156,9 @@ install_a1111() {
     rm -rf /home/ubuntu/auto1111/webui-user.sh && cp /root/setup/proxy/webui-user.sh /home/ubuntu/auto1111/webui-user.sh
     rm -rf /home/ubuntu/auto1111/webui.sh && cp /root/setup/proxy/webui.sh /home/ubuntu/auto1111/webui.sh && chmod 755 /home/ubuntu/auto1111/webui.sh
     echo "httpx==0.24.1" >> /home/ubuntu/auto1111/requirements.txt
+    echo "xformers==0.0.20" >> /home/ubuntu/auto1111/requirements.txt
     echo "httpx==0.24.1" >> /home/ubuntu/auto1111/requirements_versions.txt
+    echo "xformers==0.0.20" >> /home/ubuntu/auto1111/requirements_versions.txt
     chown -R ubuntu:ubuntu /home/ubuntu
     runuser -l ubuntu -c 'cd /home/ubuntu/.pm2/logs && pm2 start --name error_catch_all "./error_catch_all.sh"'
 }
